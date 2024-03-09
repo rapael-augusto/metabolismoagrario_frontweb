@@ -1,8 +1,8 @@
 import buttonType from '@/types/buttonType';
 
-const Button: React.FC<buttonType> = ({texto, classe }) => {
+const Button: React.FC<buttonType> = ({texto, classe,onclick }) => {
     return (
-        <button className={classe}>
+        <button onClick={onclick} className={classe}>
             {texto}
         </button>
     );
