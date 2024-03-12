@@ -9,7 +9,7 @@
     position: relative;
     top: 0px;
     width: 100%;
-    margin: 0px;
+    margin: 0px 0px 15px 0px;
     height: 100px;
     border-bottom: 2px solid rgb(60, 60, 151);
     display: flex;
@@ -56,11 +56,11 @@
 .footer-box{
     background-color: rgb(60, 60, 151);
     color: white;
-    position: fixed;
+    position: relative;
     bottom: 0px;
     width: 100%;
-    margin: 0px;
-    height: 120px;
+    margin: 40px 0 0 0px;
+    height: 100px;
     border: 1px solid black;
     display: flex;
 }

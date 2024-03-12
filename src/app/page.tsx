@@ -6,12 +6,14 @@ import Button from "@/components/forms/button";
 import InputDefault from "@/components/forms/inputDefault";
 import '../styles/form/form.css'
 import '../styles/home/login.css'
-import { Login } from "@/services/login";
 import { useState } from "react";
+import Auth from "@/services/auth";
 
 //pagina de login 
 
 const Home = () => {
+  const auth = new Auth
+
   const [email,setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -23,9 +25,9 @@ const Home = () => {
         email: email,
         password: password,
       };
-      
-      const response: any = await Login(dadosLogin);
-      const {status, message} = response;
+
+    const response: any = await auth.login(dadosLogin);
+    const {status, message} = response;
       
     //redirect / tratamento de erro
     const token = sessionStorage.getItem('@token')
@@ -46,7 +48,7 @@ const Home = () => {
       <form className="formBody-login">
 
         <div className="form-input-box">
-           <h2 className="tittle-login">Bem-Vindo</h2>
+           <h2 className="tittle-login">Entrar</h2>
         </div>
 
         <InputDefault 
