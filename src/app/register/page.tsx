@@ -6,15 +6,34 @@ import Button from "@/components/forms/button";
 import InputDefault from "@/components/forms/inputDefault";
 import '../../styles/form/form.css'
 import '../../styles/home/login.css'
+import Auth from "@/services/auth";
 
 const registerComp = () => {
+    const auth = new Auth
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const cadastroEvento = async (e: React.FormEvent) => {
         e.preventDefault()
-        console.log('cadastro evento')
+
+        //requisicao
+        const dadosCadastro = {
+            name: name,
+            email: email,
+            password: password,
+        };
+
+        const response: any = await auth.cadastro(dadosCadastro);
+        const {status, message} = response;
+        
+        if(status == 1){
+            //exibir mensagem de sucesso e redirecionar 
+        }else {
+            //exibir mensagem de erro
+            console.error(message)
+        }
+
     }
 
     return (

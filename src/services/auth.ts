@@ -1,9 +1,6 @@
 
 import { loginData,cadastroData } from "@/types/authType";
 import Axios from "./api";
-
-
-
 class Auth {
 
     async login(dados:loginData) {
@@ -21,10 +18,16 @@ class Auth {
     }
 
     async cadastro(dados: cadastroData){
-        
+        let retornoReq;
+
+        await Axios.post('/users',dados).then(response => {
+            retornoReq = {status: 1, message: 'Usuario criado !'}
+        }).catch(e =>{
+            retornoReq = {status: -1, message:e.response.data.message }
+        })
+
+        return retornoReq
     }
-
-
 }
 
 export default Auth
