@@ -1,14 +1,20 @@
+"use client";
+
+
 import SecurityComp from "@/components/auth/security";
 import Layout from "@/components/layout/layout";
 
-const Croocs = () => {
-    return ( 
+const Home = () => {
+
+    return (
         <SecurityComp>
-            <Layout>
-                PAGINA Croocs
-            </Layout>
+             <Layout>
+                 [HOME VIEW]
+             </Layout>
         </SecurityComp>
     );
+    
+    
 }
  
-export default Croocs;
+export default Home;
