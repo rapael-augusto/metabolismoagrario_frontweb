@@ -1,0 +1,15 @@
+a{
+    text-decoration: none;
+    color: black;
+}
+
+
+.modulo-box{
+    width: 280px;
+    height: 150px;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 20px 0 20px;
+}
