@@ -11,10 +11,10 @@ const Home = () => {
         <SecurityComp>
             <Layout>
                 <div className="homepage-box">
-                    <Modulo URL="/croocs" text="Croocs module" />
-                    <Modulo URL="/croocs" text="Croocs module" />
-                    <Modulo URL="/croocs" text="Croocs module" />
-                    <Modulo URL="/croocs" text="Croocs module" />
+                    <Modulo URL="/crops" text="crops module" />
+                    <Modulo URL="/crops" text="crops module" />
+                    <Modulo URL="/crops" text="crops module" />
+                    <Modulo URL="/crops" text="crops module" />
                 </div>
             </Layout>
         </SecurityComp>

@@ -1,0 +1,50 @@
+.cropsPage{
+    width: 100%;
+    height: 70vh;
+  
+}
+.titulo-crops{
+    text-align: center;
+}
+.list-crops{
+    
+    margin: 30px auto;
+    width: 80%;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header-list{
+    border-bottom: 1px solid black;
+}
+.content-list{
+    height: 30px;
+    border: 1px solid black;
+    margin-top: 5px;
+}
+
+.header-list,
+.content-list{
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 5px;
+}
+.header-col-name,.result-col-name{
+    width: 200px;
+    
+}
+.header-col-cientific-name,
+.result-col-cientific-name{
+    width: 500px;
+
+}  
+
+.header-col-acoes,
+.result-col-acoes{
+    flex-grow: 1;
+    
+}
