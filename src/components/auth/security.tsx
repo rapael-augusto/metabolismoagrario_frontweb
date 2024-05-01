@@ -16,7 +16,9 @@ const SecurityComp: React.FC<any> = ({ children }) => {
         }else{
             setComponente(children)
         }
+        
     },[])
+
 
     return (
         <>

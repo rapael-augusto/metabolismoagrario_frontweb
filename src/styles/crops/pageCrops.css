@@ -6,8 +6,14 @@
 .titulo-crops{
     text-align: center;
 }
+.container-button-crops{
+    margin: 5px auto;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
 .list-crops{
-    
     margin: 30px auto;
     width: 80%;
     height: 60vh;
