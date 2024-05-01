@@ -41,7 +41,7 @@ const Crops = () => {
 
                 <div className="list-crops">
                     <div className="container-button-crops">
-                        <a href="/cropsCreate">Criar Crops</a>
+                        <a href="/criarCrops">Criar Crops</a>
                     </div>
 
                     <div className="header-list">
