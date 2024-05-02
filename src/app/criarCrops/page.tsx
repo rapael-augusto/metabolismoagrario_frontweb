@@ -8,13 +8,40 @@ import InputDefault from "@/components/forms/inputDefault";
 import { useState } from "react";
 import Button from "@/components/forms/button";
 
+import { cropsService } from "@/services/crops";
+import { redirect } from "next/navigation";
+
+
+type responseCropsCreate = {
+    status: number
+    mensagem: string
+}
+
+
 const CriarCrops = () => {
     const [name, setName] = useState('')
-    const [CientificName, setCientificName] = useState('')
+    const [scientificName, setScientificName] = useState('')
+    const [response, setResponse ] = useState<1 | -1>(-1)
+
 
     const cadastroCrops = async (e: React.FormEvent) =>{
         e.preventDefault()
-        console.log('cadastro crop logica')
+
+        let session = sessionStorage.getItem('@token')
+        let service = new cropsService(session)
+
+        let respostaRequisicao: any | responseCropsCreate = await service.create({
+            name: name,
+            scientificName: scientificName
+        })
+
+        const {status , mensagem } = respostaRequisicao
+        setResponse(status)
+    }
+
+    
+    if(response == 1 ){
+        redirect('/crops')
     }
 
     return (
@@ -39,8 +66,8 @@ const CriarCrops = () => {
                             classe="form-input-box"
                             label="Cientific Name"
                             placeholder="Cientific Name crop"
-                            value={CientificName}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCientificName((e.target as HTMLInputElement).value)}
+                            value={scientificName}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setScientificName((e.target as HTMLInputElement).value)}
                             type={'text'}
                         />
                         
