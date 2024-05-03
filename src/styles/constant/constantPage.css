@@ -1,0 +1,30 @@
+
+.list-constants{
+    margin: 30px auto;
+    width: 100%;
+    min-height: 60vh;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header-col-type, 
+.result-col-type{
+    width: 300px;
+    
+}
+.header-col-reference, 
+.result-col-reference{
+    width: 470px;
+
+} 
+.header-col-value, 
+.result-col-value{
+    width: 80px;
+}
+
+.header-col-acoes-constant, 
+.result-col-acoes-constant{
+    flex-grow: 1;
+}

@@ -59,19 +59,22 @@ const Crops = () => {
                     {
                         dados.map((e: dataCropsType) => (
                             <div key={e.id} className="content-list">
-                                <div className="header-col-name">
+                                <div className="result-col-name">
                                     {e.name}
                                 </div>
                                 <div className="result-col-cientific-name">
                                     {e.scientificName}
                                 </div>
                                 <div className="result-col-acoes">
-                                    <Image
-                                        src={"/visualizar.svg"}
-                                        alt="Editar"
-                                        width={20}
-                                        height={20}
-                                    />
+                                    <a href={`/constant/${e.id}`}>
+                                        <Image
+                                            src={"/visualizar.svg"}
+                                            alt="visualizar"
+                                            width={20}
+                                            height={20}
+                                        />
+                                    </a>
+
                                     <Image
                                         src={"/edit.svg"}
                                         alt="Editar"
@@ -80,7 +83,7 @@ const Crops = () => {
                                     />
                                     <Image
                                         src={"/excluir.svg"}
-                                        alt="Editar"
+                                        alt="excluir"
                                         width={20}
                                         height={20}
                                     />
