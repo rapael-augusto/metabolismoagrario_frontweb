@@ -38,7 +38,7 @@ const registerComp = () => {
 
     return (
         <Layout>
-            <div className="feedback-error" >mensagem de erro aqui</div>
+            {/* <div className="feedback-error" >mensagem de erro aqui</div> */}
 
             <form className="formBody-login">
                 <div className="form-input-box">

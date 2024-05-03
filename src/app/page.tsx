@@ -42,7 +42,7 @@ const Home = () => {
     return (
       <Layout>
   
-        <div className="feedback-error" >mensagem de erro aqui</div>
+        {/* <div className="feedback-error" >mensagem de erro aqui</div> */}
   
         <form className="formBody-login">
   
