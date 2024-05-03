@@ -4,7 +4,8 @@
     width: 99.6vw;
     min-height: 99vh;
     height: max-content;
-    margin: -7px;
+    margin: -20px;
+    overflow-x: hidden;
 }
 .header-box{
     position: relative;

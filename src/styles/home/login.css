@@ -6,7 +6,8 @@
     border: 1px solid rgba(0, 0, 0, 0.267);
     border-radius: 10px;
     width: 300px;
-    height: 270px;
+    min-height: 270px;
+    height: min-content;
     margin: 0 auto;
     padding: 0px 10px 30px 10px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
