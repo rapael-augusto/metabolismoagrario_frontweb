@@ -6,6 +6,13 @@ type CropsParams = {
     scientificName: string
 }
 
+interface paramsEntradaConstant {
+    type: string
+    reference: string
+    value: number 
+    comment: string
+}
+
 export class cropsService {
     private token: string | null
 
@@ -53,6 +60,24 @@ export class cropsService {
                 return response.data.crop
             })
 
+        }
+
+    }
+
+    async createConstantOfCrop(idCrop: string, params: paramsEntradaConstant) {
+        if (this.token) {
+
+            let constants = {constants: [params]} 
+    
+            return await Axios.post(`/constants/${idCrop}`,constants,{
+                headers:{
+                    Authorization: `Bearer ${this.token}`
+                }
+            }).then((response)=>{
+                return {status: 1, mensagem: 'Constante Criada !'}
+            }).catch((error)=>{
+                return {status: -1, mensagem: error.response.data.message[0]}
+            })
         }
 
     }

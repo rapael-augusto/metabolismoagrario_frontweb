@@ -54,7 +54,7 @@ const constant = ({ params }: Props) => {
 
                 <div className="list-constants">
                     <div className="container-button-crops">
-                        <a href="/criarConstant">Criar Constant</a>
+                        <a href={`/criarConstant/${params.id}`}>Criar Constant</a>
                     </div>
 
                     <div className="header-list">
