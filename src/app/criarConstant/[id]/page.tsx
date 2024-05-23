@@ -17,13 +17,6 @@ interface Props {
     params: { id: string }
 }
 
-interface paramsEntradaConstant {
-    type: string
-    reference: string
-    value: string
-    comment: string
-}
-
 type responseType = {
     status: number
     mensagem: string

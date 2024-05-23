@@ -67,3 +67,41 @@
     display: flex;
 }
 
+/* feedback css*/
+
+.success{
+    color: #155724;
+    background-color: #d4edda;
+}
+.warning{
+    color: #956445;
+    background-color: #fff3cd;
+}
+.danger{
+    color: #881c24;
+    background-color: #f8d7da;
+}
+.hide {
+    display: none;
+}
+
+.alert-box{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 80%;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    width: max-content;
+    padding: 5px 5px 5px 10px;
+    margin: 0 auto ;
+}
+
+.alert-box span{
+    height: 100%;
+    margin: 0px 10px 0px 0px ;
+}
+
+.icone-fechar{
+    cursor: pointer;
+}

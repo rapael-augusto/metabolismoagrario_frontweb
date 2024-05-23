@@ -1,4 +1,5 @@
 import '../../styles/layout/layout.css'
+import Alert from './alert';
 
 const Layout: React.FC<any> = ({children}) => {
   return (
@@ -14,6 +15,7 @@ const Layout: React.FC<any> = ({children}) => {
             </ul>
         </div>
       </header>
+      <Alert />
       {children}
       <footer className="footer-box" >
           <div className='footer-logo-box'>

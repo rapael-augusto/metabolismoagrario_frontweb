@@ -36,6 +36,10 @@ export class cropsService {
     }
 
     async create(params: CropsParams) {
+        
+        //validacao
+        const {name, scientificName} = params
+
 
         if (this.token) {
             return await Axios.post('/crops', params, {
@@ -43,11 +47,11 @@ export class cropsService {
                     Authorization: `Bearer ${this.token}`
                 }
             }).then((s) => {
+                sessionStorage.setItem('mensagem', `{"mensagem":"Cultura cadastrada com sucesso !","tipo":"success"}`)
                 return { status: 1, mensagem: 'Crop created' }
             }).catch((e) => {
                 return { status: -1, mensagem: e.response.data.message[0] }
             })
-
         }
 
     }
@@ -74,7 +78,8 @@ export class cropsService {
                     Authorization: `Bearer ${this.token}`
                 }
             }).then((response)=>{
-                return {status: 1, mensagem: 'Constante Criada !'}
+                sessionStorage.setItem('mensagem', `{"mensagem":"Constante criada com sucesso !","tipo":"success"}`)
+                return {status: 1, mensagem: 'Constante Criada com sucesso !'}
             }).catch((error)=>{
                 return {status: -1, mensagem: error.response.data.message[0]}
             })

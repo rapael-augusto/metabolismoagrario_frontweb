@@ -10,7 +10,7 @@ import Button from "@/components/forms/button";
 
 import { cropsService } from "@/services/crops";
 import { redirect } from "next/navigation";
-
+import { useRouter } from 'next/navigation'
 
 type responseCropsCreate = {
     status: number
@@ -19,28 +19,42 @@ type responseCropsCreate = {
 
 
 const CriarCrops = () => {
+    const router = useRouter()
     const [name, setName] = useState('')
     const [scientificName, setScientificName] = useState('')
-    const [response, setResponse ] = useState<1 | -1>(-1)
+    const [response, setResponse] = useState<1 | -1>(-1)
 
 
-    const cadastroCrops = async (e: React.FormEvent) =>{
+    const cadastroCrops = async (e: React.FormEvent) => {
+        const mensagemSpan = document.getElementById("mensagem_span")
+        const boxAlerta = document.getElementById("box_alerta")
+
+        
         e.preventDefault()
 
-        let session = sessionStorage.getItem('@token')
-        let service = new cropsService(session)
+        if(!name){        
+            sessionStorage.setItem('mensagem', `{"mensagem":"Nome é um campo obrigatório para cadastrar uma cultura !","tipo":"danger"}`)
+            location.reload()
+        }else if(!scientificName){
+            sessionStorage.setItem('mensagem', `{"mensagem":"Nome científico é um campo obrigatório para cadastrar uma cultura !","tipo":"danger"}`)
+            location.reload()
+        }else{
+            let session = sessionStorage.getItem('@token')
+            let service = new cropsService(session)
+    
+            let respostaRequisicao: any | responseCropsCreate = await service.create({
+                name: name,
+                scientificName: scientificName
+            })
+            
+            const { status, mensagem } = respostaRequisicao
+            setResponse(status)
+        }
 
-        let respostaRequisicao: any | responseCropsCreate = await service.create({
-            name: name,
-            scientificName: scientificName
-        })
-
-        const {status , mensagem } = respostaRequisicao
-        setResponse(status)
     }
 
-    
-    if(response == 1 ){
+
+    if (response == 1) {
         redirect('/crops')
     }
 
@@ -70,7 +84,7 @@ const CriarCrops = () => {
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setScientificName((e.target as HTMLInputElement).value)}
                             type={'text'}
                         />
-                        
+
                         <br />
                         <div className="form-input-box">
                             <Button texto={'Create'} classe={'button-home'} onclick={cadastroCrops} />
