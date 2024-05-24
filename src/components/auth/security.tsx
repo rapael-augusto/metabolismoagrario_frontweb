@@ -12,6 +12,7 @@ const SecurityComp: React.FC<any> = ({ children }) => {
         const token = sessionStorage.getItem('@token')
 
         if(!token){
+            sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`)
             redirect('/')
         }else{
             setComponente(children)

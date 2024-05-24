@@ -28,10 +28,10 @@ const Crops = () => {
                 setDados(s)
             })
         } else {
+            sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`)
             redirect('/')
         }
     }, [])
-
 
     return (
         <Layout>

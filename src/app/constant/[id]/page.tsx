@@ -41,6 +41,7 @@ const constant = ({ params }: Props) => {
 
 
         } else {
+            sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`)
             redirect('/')
         }
 

@@ -9,9 +9,11 @@ class Auth {
         await Axios.post('/sessions',dados).then(response =>{       
             sessionStorage.setItem('@token',response.data.accessToken)
             sessionStorage.setItem('@refreshToken',response.data.refreshToken)
-            sessionStorage.setItem('mensagem', `{"mensagem":"bem vindo bem vindo bem vindo bem vindo bem vindo bem vindo bem vindo bem vindo","tipo":"success"}`)
+            sessionStorage.setItem('mensagem', `{"mensagem":"bem vindo !","tipo":"success"}`)
             retornoReq = {status: 1, message: 'logado'}
         }).catch(e =>{
+            sessionStorage.setItem('mensagem', `{"mensagem":"Credenciais inválidas !","tipo":"danger"}`)
+            location.reload()
             retornoReq = {status: -1, message:e.response.data.message } 
         })
 

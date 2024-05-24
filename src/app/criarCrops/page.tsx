@@ -5,48 +5,52 @@ import "../../styles/crops/pageCrops.css"
 import "../../styles/form/form.css"
 import '../../styles/home/login.css'
 import InputDefault from "@/components/forms/inputDefault";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/forms/button";
 
 import { cropsService } from "@/services/crops";
 import { redirect } from "next/navigation";
-import { useRouter } from 'next/navigation'
+
+
 
 type responseCropsCreate = {
     status: number
     mensagem: string
 }
 
-
 const CriarCrops = () => {
-    const router = useRouter()
+
     const [name, setName] = useState('')
     const [scientificName, setScientificName] = useState('')
     const [response, setResponse] = useState<1 | -1>(-1)
 
+    useEffect(() => {
+        let session = sessionStorage.getItem('@token')
+
+        if (!session) {
+            sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`)
+            redirect('/')
+        } 
+    }, [])
 
     const cadastroCrops = async (e: React.FormEvent) => {
-        const mensagemSpan = document.getElementById("mensagem_span")
-        const boxAlerta = document.getElementById("box_alerta")
-
-        
         e.preventDefault()
 
-        if(!name){        
+        if (!name) {
             sessionStorage.setItem('mensagem', `{"mensagem":"Nome é um campo obrigatório para cadastrar uma cultura !","tipo":"danger"}`)
             location.reload()
-        }else if(!scientificName){
+        } else if (!scientificName) {
             sessionStorage.setItem('mensagem', `{"mensagem":"Nome científico é um campo obrigatório para cadastrar uma cultura !","tipo":"danger"}`)
             location.reload()
-        }else{
+        } else {
             let session = sessionStorage.getItem('@token')
             let service = new cropsService(session)
-    
+
             let respostaRequisicao: any | responseCropsCreate = await service.create({
                 name: name,
                 scientificName: scientificName
             })
-            
+
             const { status, mensagem } = respostaRequisicao
             setResponse(status)
         }

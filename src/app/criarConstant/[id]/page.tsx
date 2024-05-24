@@ -28,7 +28,7 @@ const CriarConstant = ({ params }: Props) => {
     const [value, setValue] = useState('')
     const [comment, setComment] = useState('')
     const [token, setToken] = useState<string | null>('')
-    const [response,setResponse] = useState('')
+    const [response, setResponse] = useState('')
 
     useEffect(() => {
         let session = sessionStorage.getItem('@token')
@@ -36,6 +36,7 @@ const CriarConstant = ({ params }: Props) => {
         if (session) {
             setToken(session)
         } else {
+            sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`)
             redirect('/')
         }
     }, [])
@@ -44,21 +45,28 @@ const CriarConstant = ({ params }: Props) => {
     const cadastroConstant = async (e: React.FormEvent) => {
         e.preventDefault()
 
-        let service = new cropsService(token)
+        if (!type) {
+            sessionStorage.setItem('mensagem', `{"mensagem":"Tipo é um campo obrigatório para cadastrar uma constante !","tipo":"danger"}`)
+            location.reload()
+        } else if (!value) {
+            sessionStorage.setItem('mensagem', `{"mensagem":"Valor é um campo obrigatório para cadastrar uma constante !","tipo":"danger"}`)
+            location.reload()
+        } else {
+            let service = new cropsService(token)
+            let responseConstants: any | responseType = await service.createConstantOfCrop(params.id, {
+                type: type,
+                comment: comment,
+                reference: reference,
+                value: parseFloat(value),
+            })
 
-        let responseConstants : any | responseType = await service.createConstantOfCrop(params.id, {
-            type: type,
-            comment: comment,
-            reference: reference,
-            value: parseFloat(value),
-        })
-        
-        setResponse(responseConstants.status)
+            setResponse(responseConstants.status)
+        }
 
     }
 
-    
-    if(response == '1'){
+    if (response == '1') {
+        sessionStorage.setItem('mensagem', `{"mensagem":"Cultura cadastrada com sucesso !","tipo":"success"}`)
         window.location.href = `/constant/${params.id}`
     }
 
@@ -75,7 +83,7 @@ const CriarConstant = ({ params }: Props) => {
                             <label htmlFor="">
                                 Type
                             </label>
-                            <select onChange={(e)=>{ setType(e.target.value)}}>
+                            <select onChange={(e) => { setType(e.target.value) }}>
                                 <option value="empty"></option>
                                 <option value="HARVEST_INDEX">HARVEST_INDEX</option>
                                 <option value="AERIAL_RESIDUE_INDEX">AERIAL_RESIDUE_INDEX</option>
