@@ -1,7 +1,21 @@
+import UserOpt from './userOptions';
+import { useEffect, useState } from 'react';
 import '../../styles/layout/layout.css'
 import Alert from './alert';
 
+
 const Layout: React.FC<any> = ({children}) => {
+  const [sessao,setSessao] = useState <string | any>('') 
+  const [userName,setUserName] = useState <string | any>('')
+
+  useEffect(()=>{
+    let token = sessionStorage.getItem('@token')
+    let user = sessionStorage.getItem('user')
+
+    setSessao(token)
+    setUserName(user)
+  },[])
+  
   return (
     <div className='layout-box'>
       <header className="header-box">
@@ -9,9 +23,8 @@ const Layout: React.FC<any> = ({children}) => {
             [LOGO APP]
         </div>
         <div className='header-menu-box'>
-            <ul className='menu-box'>
-              <li>Início</li>
-              <li>Sobre</li>
+            <ul className='menu-box'> 
+              <UserOpt token={sessao} userLogado={userName} />
             </ul>
         </div>
       </header>

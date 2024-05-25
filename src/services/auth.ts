@@ -10,6 +10,8 @@ class Auth {
             sessionStorage.setItem('@token',response.data.accessToken)
             sessionStorage.setItem('@refreshToken',response.data.refreshToken)
             sessionStorage.setItem('mensagem', `{"mensagem":"bem vindo !","tipo":"success"}`)
+            sessionStorage.setItem('user',response.data.user.name )
+
             retornoReq = {status: 1, message: 'logado'}
         }).catch(e =>{
             sessionStorage.setItem('mensagem', `{"mensagem":"Credenciais inválidas !","tipo":"danger"}`)
