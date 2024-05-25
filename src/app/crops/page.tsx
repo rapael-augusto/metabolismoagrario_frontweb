@@ -13,6 +13,7 @@ interface dataCropsType {
     id: string,
     name: string,
     scientificName: string,
+    climate: string
     updatedAt: string
 }
 
@@ -24,8 +25,17 @@ const Crops = () => {
         if (session != null) {
 
             const crops = new cropsService(session)
-            crops.list().then((s) => {
-                setDados(s)
+            crops.list().then((response) => {
+                let climas = Object.keys(response)
+                let cropsAgrupadas: dataCropsType | any = []
+
+                climas.forEach((clima) => {
+                    if (response[clima].length != 0) {
+                        cropsAgrupadas.push(...response[clima])
+                    }
+                })
+
+                setDados(cropsAgrupadas)
             })
         } else {
             sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`)
@@ -52,6 +62,9 @@ const Crops = () => {
                         <div className="header-col-cientific-name">
                             Cientific Name
                         </div>
+                        <div className="header-col-climate">
+                            Climate
+                        </div>
                         <div className="header-col-acoes">
                             acoes
                         </div>
@@ -64,6 +77,9 @@ const Crops = () => {
                                 </div>
                                 <div className="result-col-cientific-name">
                                     {e.scientificName}
+                                </div>
+                                <div className="header-col-climate">
+                                    {e.climate}
                                 </div>
                                 <div className="result-col-acoes">
                                     <a href={`/constant/${e.id}`}>

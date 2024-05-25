@@ -4,6 +4,7 @@ import Axios from "./api";
 type CropsParams = {
     name: string
     scientificName: string
+    climate : string
 }
 
 interface paramsEntradaConstant {
@@ -37,10 +38,6 @@ export class cropsService {
 
     async create(params: CropsParams) {
         
-        //validacao
-        const {name, scientificName} = params
-
-
         if (this.token) {
             return await Axios.post('/crops', params, {
                 headers: {
