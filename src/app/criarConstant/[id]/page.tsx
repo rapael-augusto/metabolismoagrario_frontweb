@@ -11,7 +11,7 @@ import Button from "@/components/forms/button";
 import { useEffect, useState } from "react";
 import { cropsService } from "@/services/crops";
 import { redirect } from "next/navigation";
-import { useRouter } from 'next/router'
+import NavButton from "@/components/layout/navigationButton";
 
 interface Props {
     params: { id: string }
@@ -128,6 +128,7 @@ const CriarConstant = ({ params }: Props) => {
 
                         <div className="form-input-box">
                             <Button texto={'Create'} classe={'button-home'} onclick={cadastroConstant} />
+                            <NavButton Url={`/constant/${params.id}`} page="form" text="Voltar" type="voltar" />
                         </div>
 
                     </form>

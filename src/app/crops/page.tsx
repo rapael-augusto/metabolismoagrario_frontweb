@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 // import {edit.svg} from "../../assets/images/edit.svg"
+import NavButton from "@/components/layout/navigationButton";
 
 interface dataCropsType {
     createdAt: string,
@@ -66,24 +67,27 @@ const Crops = () => {
 
                 <div className="list-crops">
                     <div className="container-button-crops">
+                        <NavButton Url="/home" text={"Voltar"} type="voltar" page="list" />
+                        <div>
+                            <select defaultValue={""} className="filtro_crops" onChange={(e) => { filtroCrops(e.target.value) }}>
+                                <option disabled hidden value="">Filtrar por clima</option>
+                                <option value="All">Todos os climas</option>
+                                <option value="TropicalRainforest">TropicalRainforest</option>
+                                <option value="Tropical">Tropical</option>
+                                <option value="Subtropical">Subtropical</option>
+                                <option value="Desert">Desert</option>
+                                <option value="Temperate">Temperate</option>
+                                <option value="Mediterranean">Mediterranean</option>
+                                <option value="SemiArid">SemiArid</option>
+                                <option value="Subpolar">Subpolar</option>
+                                <option value="MountainCold">MountainCold</option>
+                                <option value="Polar">Polar</option>
+                            </select>
 
-                        <select className="filtro_crops" onChange={(e) => { filtroCrops(e.target.value) }}>
-                            <option disabled selected hidden>Filtrar por clima</option>
-                            <option value="All">Todos</option>
-                            <option value="TropicalRainforest">TropicalRainforest</option>
-                            <option value="Tropical">Tropical</option>
-                            <option value="Subtropical">Subtropical</option>
-                            <option value="Desert">Desert</option>
-                            <option value="Temperate">Temperate</option>
-                            <option value="Mediterranean">Mediterranean</option>
-                            <option value="SemiArid">SemiArid</option>
-                            <option value="Subpolar">Subpolar</option>
-                            <option value="MountainCold">MountainCold</option>
-                            <option value="Polar">Polar</option>
-                        </select>
+                        
+                            <NavButton Url="/criarCrops" text={"Cadastrar Cultura"} type="cadastrar" page="list" />
+                        </div>
 
-
-                        <a href="/criarCrops">Criar Crops</a>
                     </div>
 
                     <div className="header-list">

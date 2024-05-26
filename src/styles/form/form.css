@@ -5,8 +5,10 @@
     margin: 4px auto;
 }
 
-.button-default {
-    background-color: rgb(34, 156, 55);
-    color: white;
-    border: none;
+.footer-form{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    margin: 4px auto;
+    background-color: red;
 }

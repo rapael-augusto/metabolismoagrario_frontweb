@@ -1,0 +1,43 @@
+.navButton-cadastrar-list,
+.navButton-voltar-list{
+    border: 1px solid transparent;
+    border-radius: 5px;
+    font-size: 14px;
+    padding: 3px 12px;
+    color: white;
+    font-weight: bold;
+    transition: all ease .4s;
+    cursor: pointer;
+}
+
+.navButton-voltar-list {
+    background-color: rgba(255, 0, 0, 0.703);
+}
+
+.navButton-voltar-list:hover{
+    background-color: red;
+}
+
+.navButton-cadastrar-list {
+    background-color: rgba(42, 177, 42, 0.699);
+}
+
+.navButton-cadastrar-list:hover {
+    background-color: rgba(42, 177, 42);
+}
+
+/* padrao para formularios */
+.navButton-voltar-form{
+    background-color: rgba(255, 0, 0, 0.703);
+    color: white;
+    border: none;
+    font-size: 14px;
+    padding: 3px 0px;
+    margin: 3px 0;
+    width: 100%;
+    transition: all ease .4s;
+}
+
+.navButton-voltar-form:hover{
+    background-color: red;
+}

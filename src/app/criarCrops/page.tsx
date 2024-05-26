@@ -8,8 +8,10 @@ import InputDefault from "@/components/forms/inputDefault";
 import { useEffect, useState } from "react";
 import Button from "@/components/forms/button";
 
+
 import { cropsService } from "@/services/crops";
 import { redirect } from "next/navigation";
+import NavButton from "@/components/layout/navigationButton";
 
 
 
@@ -116,6 +118,7 @@ const CriarCrops = () => {
                         <br />
                         <div className="form-input-box">
                             <Button texto={'Create'} classe={'button-home'} onclick={cadastroCrops} />
+                            <NavButton Url="/crops" page="form" text="Voltar" type="voltar" />
                         </div>
 
                     </form>

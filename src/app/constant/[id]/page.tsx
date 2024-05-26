@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 import { cropsService } from "@/services/crops";
 import Image from "next/image";
+import NavButton from "@/components/layout/navigationButton";
 
 interface Props {
     params: { id: string }
@@ -55,7 +56,8 @@ const constant = ({ params }: Props) => {
 
                 <div className="list-constants">
                     <div className="container-button-crops">
-                        <a href={`/criarConstant/${params.id}`}>Criar Constant</a>
+                        <NavButton Url={"/crops"} page="list" text="Voltar" type="voltar" />
+                        <NavButton Url={`/criarConstant/${params.id}`} page="list" text="Cadastrar Constante" type="cadastrar" />
                     </div>
 
                     <div className="header-list">

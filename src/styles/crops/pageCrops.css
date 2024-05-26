@@ -12,7 +12,7 @@
     width: 90%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 .filtro_crops{
     margin: 0 15px 0 0;
