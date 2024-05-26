@@ -18,7 +18,8 @@ interface dataCropsType {
 }
 
 const Crops = () => {
-    const [dados, setDados] = useState<dataCropsType[] | any>([])
+    const [dados, setDados] = useState<dataCropsType[] | any>([]) //state para nao perder todos os dados 
+    const [dadosTemp, setDadosTemp] = useState<dataCropsType[] | any>([]) //state auxiliar para setar filtro
 
     useEffect(() => {
         let session = sessionStorage.getItem('@token')
@@ -36,12 +37,26 @@ const Crops = () => {
                 })
 
                 setDados(cropsAgrupadas)
+                setDadosTemp(cropsAgrupadas)
             })
         } else {
             sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`)
             redirect('/')
         }
+
     }, [])
+
+    function filtroCrops(e: any) {
+
+        if (e == 'All') {
+            setDadosTemp(dados)
+        } else {
+            setDadosTemp(dados)
+            setDadosTemp(dados.filter((crop: dataCropsType) => crop.climate == e))
+        }
+    }
+
+
 
     return (
         <Layout>
@@ -51,6 +66,23 @@ const Crops = () => {
 
                 <div className="list-crops">
                     <div className="container-button-crops">
+
+                        <select className="filtro_crops" onChange={(e) => { filtroCrops(e.target.value) }}>
+                            <option disabled selected hidden>Filtrar por clima</option>
+                            <option value="All">Todos</option>
+                            <option value="TropicalRainforest">TropicalRainforest</option>
+                            <option value="Tropical">Tropical</option>
+                            <option value="Subtropical">Subtropical</option>
+                            <option value="Desert">Desert</option>
+                            <option value="Temperate">Temperate</option>
+                            <option value="Mediterranean">Mediterranean</option>
+                            <option value="SemiArid">SemiArid</option>
+                            <option value="Subpolar">Subpolar</option>
+                            <option value="MountainCold">MountainCold</option>
+                            <option value="Polar">Polar</option>
+                        </select>
+
+
                         <a href="/criarCrops">Criar Crops</a>
                     </div>
 
@@ -70,7 +102,7 @@ const Crops = () => {
                         </div>
                     </div>
                     {
-                        dados.map((e: dataCropsType) => (
+                        dadosTemp.map((e: dataCropsType) => (
                             <div key={e.id} className="content-list">
                                 <div className="result-col-name">
                                     {e.name}
