@@ -22,6 +22,19 @@ const Crops = () => {
     const [dados, setDados] = useState<dataCropsType[] | any>([]) //state para nao perder todos os dados 
     const [dadosTemp, setDadosTemp] = useState<dataCropsType[] | any>([]) //state auxiliar para setar filtro
 
+    const TraducaoClimas: any = {
+        "TropicalRainforest": "Floresta tropical",
+        "Tropical": "Tropical",
+        "Subtropical": "Subtropical",
+        "Desert": "Deserto",
+        "Temperate": "Temperado",
+        "Mediterranean": "Mediterrâneo",
+        "SemiArid": "Semi-árido",
+        "Subpolar": "Subpolar",
+        "MountainCold": "Frio da montanha",
+        "Polar": "Polar",
+    }
+
     useEffect(() => {
         let session = sessionStorage.getItem('@token')
         if (session != null) {
@@ -62,7 +75,7 @@ const Crops = () => {
     return (
         <Layout>
             <div className="cropsPage">
-                <h2 className="titulo-crops" >Crops list</h2>
+                <h2 className="titulo-crops" >Lista de culturas</h2>
 
 
                 <div className="list-crops">
@@ -72,19 +85,18 @@ const Crops = () => {
                             <select defaultValue={""} className="filtro_crops" onChange={(e) => { filtroCrops(e.target.value) }}>
                                 <option disabled hidden value="">Filtrar por clima</option>
                                 <option value="All">Todos os climas</option>
-                                <option value="TropicalRainforest">TropicalRainforest</option>
-                                <option value="Tropical">Tropical</option>
-                                <option value="Subtropical">Subtropical</option>
-                                <option value="Desert">Desert</option>
-                                <option value="Temperate">Temperate</option>
-                                <option value="Mediterranean">Mediterranean</option>
-                                <option value="SemiArid">SemiArid</option>
-                                <option value="Subpolar">Subpolar</option>
-                                <option value="MountainCold">MountainCold</option>
-                                <option value="Polar">Polar</option>
+                                <option value="TropicalRainforest">Floresta tropical</option>  
+                                <option value="Tropical">Tropical</option>  
+                                <option value="Subtropical">Subtropical</option>  
+                                <option value="Desert">Deserto</option>  
+                                <option value="Temperate">Temperado</option>  
+                                <option value="Mediterranean">Mediterrâneo</option>  
+                                <option value="SemiArid">Semi-árido</option>  
+                                <option value="Subpolar">Subpolar</option>  
+                                <option value="MountainCold">Frio da montanha</option>  
+                                <option value="Polar">Polar</option> 
                             </select>
 
-                        
                             <NavButton Url="/criarCrops" text={"Cadastrar Cultura"} type="cadastrar" page="list" />
                         </div>
 
@@ -93,16 +105,16 @@ const Crops = () => {
                     <div className="header-list">
 
                         <div className="header-col-name">
-                            Name
+                            Nome
                         </div>
                         <div className="header-col-cientific-name">
-                            Cientific Name
+                            Nome científico 
                         </div>
                         <div className="header-col-climate">
-                            Climate
+                            Clima
                         </div>
                         <div className="header-col-acoes">
-                            acoes
+                            Ações
                         </div>
                     </div>
                     {
@@ -115,7 +127,7 @@ const Crops = () => {
                                     {e.scientificName}
                                 </div>
                                 <div className="header-col-climate">
-                                    {e.climate}
+                                    {TraducaoClimas[e.climate]}
                                 </div>
                                 <div className="result-col-acoes">
                                     <a href={`/constant/${e.id}`}>

@@ -76,32 +76,30 @@ const CriarConstant = ({ params }: Props) => {
                 <div className="list-crops">
                     <form className="formBody-login">
                         <div className="form-input-box">
-                            <h2 className="tittle-login">Constant Create</h2>
+                            <h2 className="tittle-login">Cadastrar constante</h2>
                         </div>
 
                         <div className="form-input-box">
                             <label htmlFor="">
-                                Type
+                                Tipo
                             </label>
                             <select onChange={(e) => { setType(e.target.value) }}>
                                 <option value="empty"></option>
-                                <option value="HARVEST_INDEX">HARVEST_INDEX</option>
-                                <option value="AERIAL_RESIDUE_INDEX">AERIAL_RESIDUE_INDEX</option>
-                                <option value="PRODUCT_RESIDUE_INDEX">PRODUCT_RESIDUE_INDEX</option>
-                                <option value="PRODUCT_DRY_MATTER_FACTOR">PRODUCT_DRY_MATTER_FACTOR</option>
-                                <option value="RESIDUE_DRY_MATTER_FACTOR">RESIDUE_DRY_MATTER_FACTOR</option>
-                                <option value="BELOWGROUND_INDEX">BELOWGROUND_INDEX</option>
-                                <option value="WEED_AERIAL_FACTOR">WEED_AERIAL_FACTOR</option>
-                                <option value="WEED_BELOWGROUND_INDEX">WEED_BELOWGROUND_INDEX</option>
+                                <option value="HARVEST_INDEX">ÍNDICE DE COLHEITA</option>
+                                <option value="AERIAL_RESIDUE_INDEX">ÍNDICE DE RESÍDUOS AÉREOS</option>
+                                <option value="PRODUCT_RESIDUE_INDEX">ÍNDICE DE RESÍDUOS DO PRODUTO</option>
+                                <option value="PRODUCT_DRY_MATTER_FACTOR">FATOR DE MATÉRIA SECA DO PRODUTO</option>
+                                <option value="RESIDUE_DRY_MATTER_FACTOR">FATOR DE MATÉRIA SECA DE RESÍDUO</option>
+                                <option value="BELOWGROUND_INDEX">ÍNDICE ABAIXO</option>
+                                <option value="WEED_AERIAL_FACTOR">FATOR AÉREO DE ERVAS DANINHAS</option>
+                                <option value="WEED_BELOWGROUND_INDEX">ÍNDICE DE ERVAS ABAIXO DO SOLO</option>
                             </select>
                         </div>
 
-
-
                         <InputDefault
                             classe="form-input-box"
-                            label="Reference"
-                            placeholder="reference"
+                            label="Referência"
+                            placeholder="Referência"
                             value={reference}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setReference((e.target as HTMLInputElement).value)}
                             type={'text'}
@@ -109,8 +107,8 @@ const CriarConstant = ({ params }: Props) => {
 
                         <InputDefault
                             classe="form-input-box"
-                            label="Value"
-                            placeholder="value of Constant"
+                            label="Valor"
+                            placeholder="Valor da Constante"
                             value={value}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue((e.target as HTMLInputElement).value)}
                             type={'text'}
@@ -119,15 +117,15 @@ const CriarConstant = ({ params }: Props) => {
                         {/* trocar por um textarea */}
                         <InputDefault
                             classe="form-input-box"
-                            label="comment"
-                            placeholder="comment"
+                            label="Comentário"
+                            placeholder="Comentário"
                             value={comment}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setComment((e.target as HTMLInputElement).value)}
                             type={'text'}
                         />
 
                         <div className="form-input-box">
-                            <Button texto={'Create'} classe={'button-home'} onclick={cadastroConstant} />
+                            <Button texto={'Cadastrar'} classe={'button-home'} onclick={cadastroConstant} />
                             <NavButton Url={`/constant/${params.id}`} page="form" text="Voltar" type="voltar" />
                         </div>
 

@@ -75,13 +75,13 @@ const CriarCrops = () => {
                 <div className="list-crops">
                     <form className="formBody-login">
                         <div className="form-input-box">
-                            <h2 className="tittle-login">Crops Create</h2>
+                            <h2 className="tittle-login">Cadastrar cultura</h2>
                         </div>
 
                         <InputDefault
                             classe="form-input-box"
-                            label="Name"
-                            placeholder="Name crop"
+                            label="Nome"
+                            placeholder="Nome"
                             value={name}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName((e.target as HTMLInputElement).value)}
                             type={'text'}
@@ -89,8 +89,8 @@ const CriarCrops = () => {
 
                         <InputDefault
                             classe="form-input-box"
-                            label="Cientific Name"
-                            placeholder="Cientific Name crop"
+                            label="Nome Científico"
+                            placeholder="Nome Científico"
                             value={scientificName}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setScientificName((e.target as HTMLInputElement).value)}
                             type={'text'}
@@ -98,26 +98,26 @@ const CriarCrops = () => {
 
                         <div className="form-input-box">
                             <label htmlFor="">
-                                Climate
+                                Clima
                             </label>
                             <select onChange={(e) => { setClimate(e.target.value) }}>
                                 <option value="empty"></option>
-                                <option value="TropicalRainforest">TropicalRainforest</option>  
+                                <option value="TropicalRainforest">Floresta tropical</option>  
                                 <option value="Tropical">Tropical</option>  
                                 <option value="Subtropical">Subtropical</option>  
-                                <option value="Desert">Desert</option>  
-                                <option value="Temperate">Temperate</option>  
-                                <option value="Mediterranean">Mediterranean</option>  
-                                <option value="SemiArid">SemiArid</option>  
+                                <option value="Desert">Deserto</option>  
+                                <option value="Temperate">Temperado</option>  
+                                <option value="Mediterranean">Mediterrâneo</option>  
+                                <option value="SemiArid">Semi-árido</option>  
                                 <option value="Subpolar">Subpolar</option>  
-                                <option value="MountainCold">MountainCold</option>  
+                                <option value="MountainCold">Frio da montanha</option>  
                                 <option value="Polar">Polar</option> 
                             </select>
                         </div>
 
                         <br />
                         <div className="form-input-box">
-                            <Button texto={'Create'} classe={'button-home'} onclick={cadastroCrops} />
+                            <Button texto={'Cadastrar'} classe={'button-home'} onclick={cadastroCrops} />
                             <NavButton Url="/crops" page="form" text="Voltar" type="voltar" />
                         </div>
 

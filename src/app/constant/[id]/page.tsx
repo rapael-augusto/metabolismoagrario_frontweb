@@ -27,7 +27,20 @@ interface dadosConstants {
 
 const constant = ({ params }: Props) => {
     const [dados, setDados] = useState<dadosConstants[] | any>([])
-    const [titulo,setTitulo] = useState<string | any>('') 
+    const [titulo, setTitulo] = useState<string | any>('')
+
+    const constantesTraducao : any = {
+        'HARVEST_INDEX': "ÍNDICE DE COLHEITA" ,
+        'AERIAL_RESIDUE_INDEX': "ÍNDICE DE RESÍDUOS AÉREOS",
+        'PRODUCT_RESIDUE_INDEX' : "ÍNDICE DE RESÍDUOS DO PRODUTO",
+        'PRODUCT_DRY_MATTER_FACTOR': "FATOR DE MATÉRIA SECA DO PRODUTO",
+        'RESIDUE_DRY_MATTER_FACTOR': "FATOR DE MATÉRIA SECA DE RESÍDUO",
+        'BELOWGROUND_INDEX': "ÍNDICE ABAIXO",
+        'WEED_AERIAL_FACTOR': "FATOR AÉREO DE ERVAS DANINHAS",
+        'WEED_BELOWGROUND_INDEX': "ÍNDICE DE ERVAS ABAIXO DO SOLO",
+    }
+
+    
 
     useEffect(() => {
         let session = sessionStorage.getItem('@token')
@@ -51,7 +64,7 @@ const constant = ({ params }: Props) => {
     return (
         <Layout>
             <div className="cropsPage">
-                <h2 className="titulo-crops" >Constants of {titulo}</h2>
+                <h2 className="titulo-crops" >Constantes de {titulo}</h2>
 
 
                 <div className="list-constants">
@@ -66,14 +79,14 @@ const constant = ({ params }: Props) => {
                             Tipo
                         </div>
                         <div className="header-col-reference">
-                            Referencia
+                            Referência
                         </div>
                         <div className="header-col-value">
-                            valor
+                            Valor
                         </div>
 
                         <div className="header-col-acoes-constant">
-                            acoes
+                            Ações
                         </div>
 
                     </div>
@@ -81,7 +94,7 @@ const constant = ({ params }: Props) => {
                         dados.map((e: dadosConstants) => (
                             <div key={e.id} className="content-list">
                                 <div className="result-col-type">
-                                    {e.type}
+                                    {constantesTraducao[e.type]}      
                                 </div>
 
                                 <div className="result-col-reference">
