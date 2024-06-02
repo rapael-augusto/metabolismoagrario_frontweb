@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import Layout from "@/components/layout/layout";
 import Button from "@/components/forms/button";
 import InputDefault from "@/components/forms/inputDefault";

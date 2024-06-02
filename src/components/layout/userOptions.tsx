@@ -39,7 +39,6 @@ const UserOpt: React.FC<userSession> = ({ token, userLogado }) => {
             <div className={`componente-dropdown ${dropdownOpen == true ? 'active' : 'inactive'} ${token ? '' : 'd-none'}`}>
                 <ul>
                     <Link className='link' href={"/home"}><li>Início</li></Link>
-                    <Link className='link' href={"/usersList"}><li>Usuários</li></Link>
                     <li className='link' onClick={logout}>
                         Sair
                     </li>

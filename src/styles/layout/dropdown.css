@@ -1,9 +1,8 @@
 .componente-dropdown{
-    padding: 4px;
-    height: max-content;
-    max-height: 100px;
+    padding: 5px;
     width: 100px;
-    margin: 150px 0px 0px 0px;
+    max-height: 50px;
+    margin: 90px 0px 0px 0px;
     position: absolute;
     border: 1px solid rgba(0, 0, 0, 0.397);
     background-color: white;
@@ -15,6 +14,7 @@
 }
 
 .componente-dropdown ul {
+    width: 80%;
     height: 100%;
     display: flex;
     flex-direction: column;
