@@ -8,6 +8,7 @@ import '../../styles/form/form.css'
 import '../../styles/home/login.css'
 import Auth from "@/services/auth";
 import { redirect } from "next/navigation";
+import NavButton from "@/components/layout/navigationButton";
 
 const registerComp = () => {
 
@@ -86,6 +87,7 @@ const registerComp = () => {
 
                 <div className="form-input-box">
                     <Button texto={'Cadastrar'} classe={'button-home'} onclick={cadastroEvento} />
+                    <NavButton Url="/usersList" page="form" text="Voltar" type="voltar" />
                 </div>
             </form>
         </Layout>

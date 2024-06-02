@@ -33,6 +33,16 @@ class Auth {
 
         return retornoReq
     }
+
+    async UsersList(token: string){
+        return await Axios.get('/users',{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        }).then((response) =>{
+            return response.data
+        })
+    }
 }
 
 export default Auth

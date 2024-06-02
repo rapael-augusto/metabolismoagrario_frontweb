@@ -13,6 +13,7 @@ const Home = () => {
             <Layout>
                 <div className="homepage-box">
                     <Modulo URL="/crops" text="Culturas" imageUrl="/culturasIcon.png" />
+                    <Modulo URL="/usersList" text="Usuários" imageUrl="/userIcon.svg" />
                 </div>
             </Layout>
         </SecurityComp>

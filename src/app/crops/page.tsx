@@ -6,7 +6,6 @@ import { cropsService } from "@/services/crops";
 import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 import Image from "next/image";
-// import {edit.svg} from "../../assets/images/edit.svg"
 import NavButton from "@/components/layout/navigationButton";
 
 interface dataCropsType {
