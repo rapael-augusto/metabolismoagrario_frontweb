@@ -74,10 +74,6 @@ const Home = () => {
           />
 
           <div className="form-input-box">
-            <span className="criar-conta">Não possui conta ? <Link href={'/register'}>Criar conta</Link> </span>
-          </div>
-
-          <div className="form-input-box">
             <span></span>
           </div>
 

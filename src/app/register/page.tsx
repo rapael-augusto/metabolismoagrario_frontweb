@@ -1,14 +1,26 @@
 'use client';
 
 import Layout from "@/components/layout/layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/forms/button";
 import InputDefault from "@/components/forms/inputDefault";
 import '../../styles/form/form.css'
 import '../../styles/home/login.css'
 import Auth from "@/services/auth";
+import { redirect } from "next/navigation";
 
 const registerComp = () => {
+
+    useEffect(()=>{
+        const token = sessionStorage.getItem('@token')
+
+        if(!token){
+            sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`)
+            redirect('/')
+        }
+        
+    },[])
+
     const auth = new Auth
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
