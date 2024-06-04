@@ -2,6 +2,7 @@
 
 import Layout from "@/components/layout/layout";
 import "../../styles/crops/pageCrops.css"
+import "../../styles/userList/userList.css"
 import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 import NavButton from "@/components/layout/navigationButton";
@@ -46,10 +47,10 @@ const UsersList = () => {
 
                     <div className="header-list">
 
-                        <div className="header-col-name">
+                        <div className="header-col-nameUser">
                             Nome
                         </div>
-                        <div className="header-col-cientific-name">
+                        <div className="header-col-email">
                             E-mail
                         </div>
                         <div className="header-col-climate">
@@ -62,10 +63,10 @@ const UsersList = () => {
                     {
                         dados.map((user: DataUserType) => (
                             <div key={user.id} className="content-list">
-                                <div className="result-col-name">
+                                <div className="result-col-nameUser">
                                     {user.name}
                                 </div>
-                                <div className="result-col-cientific-name">
+                                <div className="result-col-email">
                                     {user.email}
                                 </div>
                                 <div className="header-col-climate">
