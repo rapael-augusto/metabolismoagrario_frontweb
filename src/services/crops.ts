@@ -1,18 +1,5 @@
-import axios from "axios";
+import { CropsParams,paramsEntradaConstant } from "@/types/cropsTypes";
 import Axios from "./api";
-
-type CropsParams = {
-    name: string
-    scientificName: string
-    climate : string
-}
-
-interface paramsEntradaConstant {
-    type: string
-    reference: string
-    value: number 
-    comment: string
-}
 
 export class cropsService {
     private token: string | null

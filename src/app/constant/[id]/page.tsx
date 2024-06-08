@@ -91,46 +91,46 @@ const constant = ({ params }: Props) => {
 
                     </div>
                     {
-                        dados.map((e: dadosConstants) => (
-                            <div key={e.id} className="content-list">
-                                <div className="result-col-type">
-                                    {constantesTraducao[e.type]}      
-                                </div>
+                        // dados.map((e: dadosConstants) => (
+                        //     <div key={e.id} className="content-list">
+                        //         <div className="result-col-type">
+                        //             {constantesTraducao[e.type]}      
+                        //         </div>
 
-                                <div className="result-col-reference">
-                                    {e.reference}
-                                </div>
+                        //         <div className="result-col-reference">
+                        //             {e.reference}
+                        //         </div>
 
-                                <div className="result-col-value">
-                                    {e.value}
-                                </div>
+                        //         <div className="result-col-value">
+                        //             {e.value}
+                        //         </div>
 
-                                <div className="result-col-acoes-constant">
+                        //         <div className="result-col-acoes-constant">
 
-                                    <Image
-                                        src={"/visualizar.svg"}
-                                        alt="visualizar"
-                                        width={20}
-                                        height={20}
-                                    />
+                        //             <Image
+                        //                 src={"/visualizar.svg"}
+                        //                 alt="visualizar"
+                        //                 width={20}
+                        //                 height={20}
+                        //             />
 
 
-                                    <Image
-                                        src={"/edit.svg"}
-                                        alt="Editar"
-                                        width={20}
-                                        height={20}
-                                    />
-                                    <Image
-                                        src={"/excluir.svg"}
-                                        alt="excluir"
-                                        width={20}
-                                        height={20}
-                                    />
-                                </div>
+                        //             <Image
+                        //                 src={"/edit.svg"}
+                        //                 alt="Editar"
+                        //                 width={20}
+                        //                 height={20}
+                        //             />
+                        //             <Image
+                        //                 src={"/excluir.svg"}
+                        //                 alt="excluir"
+                        //                 width={20}
+                        //                 height={20}
+                        //             />
+                        //         </div>
 
-                            </div>
-                        ))
+                        //     </div>
+                        // ))
                     }
 
 
