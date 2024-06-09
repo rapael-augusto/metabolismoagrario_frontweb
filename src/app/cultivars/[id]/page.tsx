@@ -8,15 +8,10 @@ import { redirect } from "next/navigation";
 import { cropsService } from "@/services/crops";
 import Image from "next/image";
 import NavButton from "@/components/layout/navigationButton";
+import { cultivarsData } from "@/types/cultivarTypes";
 
 interface Props {
     params: { id: string }
-}
-
-type cultivarsData = {
-    id: string
-    cropId: string
-    name: string
 }
 
 const Cultivars = ({ params }: Props) => {
@@ -50,7 +45,7 @@ const Cultivars = ({ params }: Props) => {
                 <div className="list-cultivars">
                     <div className="container-button-crops">
                         <NavButton Url={"/crops"} page="list" text="Voltar" type="voltar" />
-                        <NavButton Url={`/criarCultivar/${params.id}`} page="list" text="Cadastrar Constante" type="cadastrar" />
+                        <NavButton Url={`/criarCultivar/${params.id}`} page="list" text="Cadastrar Cultivar" type="cadastrar" />
                     </div>
 
                     <div className="header-list">

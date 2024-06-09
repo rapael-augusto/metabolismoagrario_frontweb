@@ -1,5 +1,6 @@
 import { CropsParams,paramsEntradaConstant } from "@/types/cropsTypes";
 import Axios from "./api";
+import { CultivarParams } from "@/types/cultivarTypes";
 
 export class cropsService {
     private token: string | null
@@ -50,6 +51,21 @@ export class cropsService {
 
         }
 
+    }
+
+    async createCultivar(idCrop:string,params: CultivarParams){
+        if (this.token) {
+            return await Axios.post(`/cultivars/${idCrop}`,params,{
+                headers:{
+                    Authorization: `Bearer ${this.token}`
+                }
+            }).then((response)=>{
+                sessionStorage.setItem('mensagem', `{"mensagem":"Cultivar cadastrada com sucesso !","tipo":"success"}`)
+                return { status: 1, mensagem: 'Cultivar cadastrada com sucesso !'}
+             }).catch((e) => {
+                return { status: -1, mensagem: e.response.data.message[0] }
+            })
+        }
     }
 
     async createConstantOfCrop(idCrop: string, params: paramsEntradaConstant) {
