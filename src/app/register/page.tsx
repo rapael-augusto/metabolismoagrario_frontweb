@@ -20,6 +20,10 @@ const registerComp = () => {
     const [respostaRequisicao,setResposta] = useState <string>('')
     const [session,setSession] = useState <string|null>('')
 
+    const handleRoleChange = (value: string) => {
+        setRole(value);
+      };
+
     const options = [
         { value: "ADMIN", label: "Administrador" },
         { value: "OPERATOR", label: "Operador" },
@@ -121,7 +125,7 @@ const registerComp = () => {
                     </select>
                 </div>
 
-                <Select label="Tipo de usuário teste" options={options} onChange={(value) => setRole(value)}/>
+                <Select label="Tipo de usuário teste" options={options} onChange={handleRoleChange}/>
 
                 <InputDefault
                     type={'password'}

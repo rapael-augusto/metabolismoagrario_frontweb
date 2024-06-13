@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import "../../styles/form/form.css"
+import "../../styles/layout/select.css"
 
 interface SelectProps {
   label: string;
   options: { value: string; label: string }[];
-  onChange?: (value: string) => void;
+  onChange: (value: string) => void;
 }
 
 const Select: React.FC<SelectProps> = ({ label, options, onChange }) => {
@@ -13,9 +13,7 @@ const Select: React.FC<SelectProps> = ({ label, options, onChange }) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setSelectedValue(value);
-    if (onChange) {
-      onChange(value);
-    }
+    onChange(value);
   };
 
   return (
@@ -34,8 +32,6 @@ const Select: React.FC<SelectProps> = ({ label, options, onChange }) => {
           </option>
         ))}
       
-
-
       </select>
   
     </div>
