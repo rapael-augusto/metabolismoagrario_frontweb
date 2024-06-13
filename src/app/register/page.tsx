@@ -9,6 +9,7 @@ import '../../styles/home/login.css'
 import Auth from "@/services/auth";
 import { redirect } from "next/navigation";
 import NavButton from "@/components/layout/navigationButton";
+import Select from "@/components/layout/customSelect";
 
 const registerComp = () => {
     const auth = new Auth
@@ -18,6 +19,11 @@ const registerComp = () => {
     const [password, setPassword] = useState('')
     const [respostaRequisicao,setResposta] = useState <string>('')
     const [session,setSession] = useState <string|null>('')
+
+    const options = [
+        { value: "ADMIN", label: "Administrador" },
+        { value: "OPERATOR", label: "Operador" },
+    ]
 
     useEffect(() => {
         const token = sessionStorage.getItem('@token')
@@ -115,7 +121,7 @@ const registerComp = () => {
                     </select>
                 </div>
 
-
+                <Select label="Tipo de usuário teste" options={options} onChange={(value) => setRole(value)}/>
 
                 <InputDefault
                     type={'password'}
