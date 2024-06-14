@@ -48,7 +48,7 @@ const constant = ({ params }: Props) => {
         if (session) {
             const service = new cropsService(session)
 
-            service.findOne(params.id).then((response) => {
+            service.findOneCultivar(params.id).then((response) => {
                 setDados(response.constants)
                 setTitulo(response.name)
             })

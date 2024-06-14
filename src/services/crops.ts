@@ -53,6 +53,20 @@ export class cropsService {
 
     }
 
+    async findOneCultivar(id: string)  {
+        if (this.token) {
+            return await Axios.get(`/cultivars/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${this.token}`
+                }
+            }).then((response) => {
+                return response.data
+            }).catch((e) => {
+                return { status: -1, mensagem: e.response.data.message[0] }
+            })
+        }
+    }
+
     async createCultivar(idCrop:string,params: CultivarParams){
         if (this.token) {
             return await Axios.post(`/cultivars/${idCrop}`,params,{
