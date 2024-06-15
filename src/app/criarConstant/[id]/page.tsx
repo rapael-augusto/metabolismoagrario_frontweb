@@ -128,7 +128,7 @@ const CriarConstant = ({ params }: Props) => {
             location.reload()
         } else {
             let service = new cropsService(token)
-            let responseConstants: any | responseType = await service.createConstantOfCrop(params.id, {
+            let responseConstants: any | responseType = await service.createConstantOfCultivar(params.id, {
                 type: type,
                 comment: comment,
                 reference: reference,

@@ -26,8 +26,9 @@ interface dadosConstants {
 
 
 const constant = ({ params }: Props) => {
-    const [dados, setDados] = useState<dadosConstants[] | any>([])
+    const [dados, setDados] = useState<dadosConstants[]>([])
     const [titulo, setTitulo] = useState<string | any>('')
+    const [cropId,setCropId] = useState<string | any>('')
 
     const constantesTraducao : any = {
         'HARVEST_INDEX': "ÍNDICE DE COLHEITA" ,
@@ -40,8 +41,6 @@ const constant = ({ params }: Props) => {
         'WEED_BELOWGROUND_INDEX': "ÍNDICE DE ERVAS ABAIXO DO SOLO",
     }
 
-    
-
     useEffect(() => {
         let session = sessionStorage.getItem('@token')
 
@@ -49,6 +48,7 @@ const constant = ({ params }: Props) => {
             const service = new cropsService(session)
 
             service.findOneCultivar(params.id).then((response) => {
+                setCropId(response.cropId)
                 setDados(response.constants)
                 setTitulo(response.name)
             })
@@ -69,7 +69,7 @@ const constant = ({ params }: Props) => {
 
                 <div className="list-constants">
                     <div className="container-button-crops">
-                        <NavButton Url={"/crops"} page="list" text="Voltar" type="voltar" />
+                        <NavButton Url={`/cultivars/${cropId}`} page="list" text="Voltar" type="voltar" />
                         <NavButton Url={`/criarConstant/${params.id}`} page="list" text="Cadastrar Constante" type="cadastrar" />
                     </div>
 
@@ -91,49 +91,46 @@ const constant = ({ params }: Props) => {
 
                     </div>
                     {
-                        // dados.map((e: dadosConstants) => (
-                        //     <div key={e.id} className="content-list">
-                        //         <div className="result-col-type">
-                        //             {constantesTraducao[e.type]}      
-                        //         </div>
+                        dados.map((e: dadosConstants) => (
+                            <div key={e.id} className="content-list">
+                                <div className="result-col-type">
+                                    {constantesTraducao[e.type]}      
+                                </div>
 
-                        //         <div className="result-col-reference">
-                        //             {e.reference}
-                        //         </div>
+                                <div className="result-col-reference">
+                                    {e.reference}
+                                </div>
 
-                        //         <div className="result-col-value">
-                        //             {e.value}
-                        //         </div>
+                                <div className="result-col-value">
+                                    {e.value}
+                                </div>
 
-                        //         <div className="result-col-acoes-constant">
+                                <div className="result-col-acoes-constant">
 
-                        //             <Image
-                        //                 src={"/visualizar.svg"}
-                        //                 alt="visualizar"
-                        //                 width={20}
-                        //                 height={20}
-                        //             />
+                                    <Image
+                                        src={"/visualizar.svg"}
+                                        alt="visualizar"
+                                        width={20}
+                                        height={20}
+                                    />
 
+                                    <Image
+                                        src={"/edit.svg"}
+                                        alt="Editar"
+                                        width={20}
+                                        height={20}
+                                    />
+                                    <Image
+                                        src={"/excluir.svg"}
+                                        alt="excluir"
+                                        width={20}
+                                        height={20}
+                                    />
+                                </div>
 
-                        //             <Image
-                        //                 src={"/edit.svg"}
-                        //                 alt="Editar"
-                        //                 width={20}
-                        //                 height={20}
-                        //             />
-                        //             <Image
-                        //                 src={"/excluir.svg"}
-                        //                 alt="excluir"
-                        //                 width={20}
-                        //                 height={20}
-                        //             />
-                        //         </div>
-
-                        //     </div>
-                        // ))
+                            </div>
+                        ))
                     }
-
-
                 </div>
             </div>
 

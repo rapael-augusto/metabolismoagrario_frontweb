@@ -82,12 +82,9 @@ export class cropsService {
         }
     }
 
-    async createConstantOfCrop(idCrop: string, params: paramsEntradaConstant) {
+    async createConstantOfCultivar(idCrop: string, params: paramsEntradaConstant) {
         if (this.token) {
-
-            let constants = {constants: [params]} 
-    
-            return await Axios.post(`/constants/${idCrop}`,constants,{
+            return await Axios.post(`/constants/${idCrop}`,params,{
                 headers:{
                     Authorization: `Bearer ${this.token}`
                 }
