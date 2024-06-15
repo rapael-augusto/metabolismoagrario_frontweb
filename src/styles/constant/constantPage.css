@@ -16,12 +16,33 @@
 }
 .header-col-reference, 
 .result-col-reference{
-    width: 470px;
-
+    width: 210px;
 } 
+.header-col-climate, 
+.result-col-climate{
+    width: 140px;
+} 
+.header-col-biome, 
+.result-col-biome{
+    width: 90px;
+} 
+.header-col-country, 
+.result-col-country{
+    width: 90px;
+} 
+
+.header-col-irrigation, 
+.result-col-irrigation{
+    width: 80px;
+} 
+.header-col-cultivationSystem, 
+.result-col-cultivationSystem{
+    width: 150px;
+} 
+
 .header-col-value, 
 .result-col-value{
-    width: 80px;
+    width: 70px;
 }
 
 .header-col-acoes-constant, 

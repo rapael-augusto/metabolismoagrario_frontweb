@@ -8,39 +8,63 @@ import { redirect } from "next/navigation";
 import { cropsService } from "@/services/crops";
 import Image from "next/image";
 import NavButton from "@/components/layout/navigationButton";
-
 interface Props {
     params: { id: string }
 }
-
 interface dadosConstants {
     comment: string
     createdAt: string
     cropId: string
     id: string
     reference: string
+    climate: string
+    biome: string
+    country: string
     type: string
     updatedAt: string
     value: number
+    irrigation: "Irrigation" | "Dry"
+    cultivationSystem: "Conventional" | "Organic" | "Agroecological"
 }
-
 
 const constant = ({ params }: Props) => {
     const [dados, setDados] = useState<dadosConstants[]>([])
     const [titulo, setTitulo] = useState<string | any>('')
-    const [cropId,setCropId] = useState<string | any>('')
+    const [cropId, setCropId] = useState<string | any>('')
 
-    const constantesTraducao : any = {
-        'HARVEST_INDEX': "ÍNDICE DE COLHEITA" ,
+    //TRADUÇÕES
+    const traducaoConstantes: any = {
+        'HARVEST_INDEX': "ÍNDICE DE COLHEITA",
         'AERIAL_RESIDUE_INDEX': "ÍNDICE DE RESÍDUOS AÉREOS",
-        'PRODUCT_RESIDUE_INDEX' : "ÍNDICE DE RESÍDUOS DO PRODUTO",
+        'PRODUCT_RESIDUE_INDEX': "ÍNDICE DE RESÍDUOS DO PRODUTO",
         'PRODUCT_DRY_MATTER_FACTOR': "FATOR DE MATÉRIA SECA DO PRODUTO",
         'RESIDUE_DRY_MATTER_FACTOR': "FATOR DE MATÉRIA SECA DE RESÍDUO",
         'BELOWGROUND_INDEX': "ÍNDICE ABAIXO",
         'WEED_AERIAL_FACTOR': "FATOR AÉREO DE ERVAS DANINHAS",
         'WEED_BELOWGROUND_INDEX': "ÍNDICE DE ERVAS ABAIXO DO SOLO",
     }
-
+    const traducaoClimas: any = {
+        "TropicalRainforest": "Floresta tropical",
+        "Tropical": "Tropical",
+        "Subtropical": "Subtropical",
+        "Desert": "Deserto",
+        "Temperate": "Temperado",
+        "Mediterranean": "Mediterrâneo",
+        "SemiArid": "Semi-árido",
+        "Subpolar": "Subpolar",
+        "MountainCold": "Frio da montanha",
+        "Polar": "Polar",
+    }
+    const traducaoIrrigacao: any = {
+        "Irrigation": "Irrigado",
+        "Dry": "Seco"
+    }
+    const traducaoSistemaCultivo: any = {
+        "Organic": "Orgânico",
+        "Conventional": "Convencional",
+        "Agroecological": "Agroecológico",
+    }
+    //AUTENTICACAO
     useEffect(() => {
         let session = sessionStorage.getItem('@token')
 
@@ -61,6 +85,7 @@ const constant = ({ params }: Props) => {
 
     }, [])
 
+    //VIEW
     return (
         <Layout>
             <div className="cropsPage">
@@ -84,6 +109,21 @@ const constant = ({ params }: Props) => {
                         <div className="header-col-value">
                             Valor
                         </div>
+                        <div className="header-col-climate">
+                            Clima
+                        </div>
+                        <div className="header-col-biome">
+                            Bioma
+                        </div>
+                        <div className="header-col-country">
+                            País
+                        </div>
+                        <div className="header-col-irrigation">
+                            Irrigação
+                        </div>
+                        <div className="header-col-cultivationSystem">
+                            Sistema de cultivo
+                        </div>
 
                         <div className="header-col-acoes-constant">
                             Ações
@@ -92,9 +132,10 @@ const constant = ({ params }: Props) => {
                     </div>
                     {
                         dados.map((e: dadosConstants) => (
+
                             <div key={e.id} className="content-list">
                                 <div className="result-col-type">
-                                    {constantesTraducao[e.type]}      
+                                    {traducaoConstantes[e.type]}
                                 </div>
 
                                 <div className="result-col-reference">
@@ -103,6 +144,21 @@ const constant = ({ params }: Props) => {
 
                                 <div className="result-col-value">
                                     {e.value}
+                                </div>
+                                <div className="result-col-climate">
+                                    {traducaoClimas[e.climate]}
+                                </div>
+                                <div className="result-col-biome">
+                                    {e.biome}
+                                </div>
+                                <div className="result-col-country">
+                                    {e.country}
+                                </div>
+                                <div className="result-col-irrigation">
+                                    {traducaoIrrigacao[e.irrigation]}
+                                </div>
+                                <div className="result-col-cultivationSystem">
+                                    {traducaoSistemaCultivo[e.cultivationSystem]}
                                 </div>
 
                                 <div className="result-col-acoes-constant">

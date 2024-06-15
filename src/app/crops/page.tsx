@@ -12,19 +12,6 @@ import { dataCropsType } from "@/types/cropsTypes";
 const Crops = () => {
     const [dados, setDados] = useState<dataCropsType[] | any>([])
 
-    // const TraducaoClimas: any = {
-    //     "TropicalRainforest": "Floresta tropical",
-    //     "Tropical": "Tropical",
-    //     "Subtropical": "Subtropical",
-    //     "Desert": "Deserto",
-    //     "Temperate": "Temperado",
-    //     "Mediterranean": "Mediterrâneo",
-    //     "SemiArid": "Semi-árido",
-    //     "Subpolar": "Subpolar",
-    //     "MountainCold": "Frio da montanha",
-    //     "Polar": "Polar",
-    // }
-
     useEffect(() => {
         let session = sessionStorage.getItem('@token')
         if (session != null) {
