@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { cropsService } from "@/services/crops";
 import { redirect } from "next/navigation";
 import NavButton from "@/components/layout/navigationButton";
+import Select from "@/components/layout/customSelect";
 
 interface Props {
     params: { id: string }
@@ -29,6 +30,62 @@ const CriarConstant = ({ params }: Props) => {
     const [comment, setComment] = useState('')
     const [token, setToken] = useState<string | null>('')
     const [response, setResponse] = useState('')
+    const [climate, setClimate] = useState('')
+    const [biome, setBiome] = useState('')
+    const [irrigation, setIrrigation] = useState('')
+    const [cultivationSystem, setCultivationSysten] = useState('')
+    const [country, setCountry] = useState('')
+    
+    const typeOptions = [
+        { value: "HARVEST_INDEX", label: "ÍNDICE DE COLHEITA" },
+        { value: "AERIAL_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUOS AÉREOS" },
+        { value: "PRODUCT_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUOS DO PRODUTO" },
+        { value: "PRODUCT_DRY_MATTER_FACTOR", label: "FATOR DE MATÉRIA SECA DO PRODUTO" },
+        { value: "RESIDUE_DRY_MATTER_FACTOR", label: "FATOR DE MATÉRIA SECA DE RESÍDUO" },
+        { value: "BELOWGROUND_INDEX", label: "ÍNDICE ABAIXO" },
+        { value: "WEED_AERIAL_FACTOR", label: "FATOR AÉREO DE ERVAS DANINHAS" },
+        { value: "WEED_BELOWGROUND_INDEX", label: "ÍNDICE DE ERVAS ABAIXO DO SOLO" },
+    ]
+
+    const climateOptions = [
+        { value: "Tropical", label: "Tropical" },
+        { value: "Subtropical", label: "Subtropical" },
+        { value: "Desert", label: "Deserto" },
+        { value: "Temperate", label: "Temperado" },
+        { value: "Mediterranean", label: "Mediterrâneo" },
+        { value: "SemiArid", label: "Semiárido" },
+        { value: "Subpolar", label: "Frio" },
+        { value: "MountainCold", label: "Frio da montanha" },
+        { value: "Polar", label: "Polar" },
+        ]
+        
+    const irrigationOptions = [
+        { value: "Irrigation", label: "Irrigação" },
+        { value: "Dry", label: "Seco" },
+    ]
+            
+    const cultivationSystemOptions = [
+        { value: "Conventional", label: "Convencional" },
+        { value: "Organic", label: "Orgânico" },
+        { value: "Agroecological", label: "Agroecológico" },
+    ]
+                
+          
+    const handleTypeChange = (value: string) => {
+        setType(value)
+    }
+
+    const handleClimateChange = (value: string) => {
+        setClimate(value)
+    }
+
+    const handleIrrigationChange = (value: string) => {
+        setIrrigation(value)
+    }
+
+    const handleCultivationSystemChange = (value: string) => {
+        setCultivationSysten(value)
+    }
 
     useEffect(() => {
         let session = sessionStorage.getItem('@token')
@@ -46,10 +103,28 @@ const CriarConstant = ({ params }: Props) => {
         e.preventDefault()
 
         if (!type) {
-            sessionStorage.setItem('mensagem', `{"mensagem":"Tipo é um campo obrigatório para cadastrar uma constante !","tipo":"danger"}`)
+            sessionStorage.setItem('mensagem', `{"mensagem":"Tipo é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
             location.reload()
         } else if (!value) {
-            sessionStorage.setItem('mensagem', `{"mensagem":"Valor é um campo obrigatório para cadastrar uma constante !","tipo":"danger"}`)
+            sessionStorage.setItem('mensagem', `{"mensagem":"Valor é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
+            location.reload()
+        } else if (!climate){
+            sessionStorage.setItem('mensagem', `{"mensagem":"Clima é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
+            location.reload()
+        } else if (!biome){
+            sessionStorage.setItem('mensagem', `{"mensagem":"Bioma é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
+            location.reload()
+        } else if (!irrigation){
+            sessionStorage.setItem('mensagem', `{"mensagem":"Irrigação é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
+            location.reload()
+        } else if (!country){
+            sessionStorage.setItem('mensagem', `{"mensagem":"País é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
+            location.reload()
+        } else if (!cultivationSystem){
+            sessionStorage.setItem('mensagem', `{"mensagem":"Sistema de cultivo é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
+            location.reload()
+        } else if (!reference){
+            sessionStorage.setItem('mensagem', `{"mensagem":"Referência é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
             location.reload()
         } else {
             let service = new cropsService(token)
@@ -57,16 +132,23 @@ const CriarConstant = ({ params }: Props) => {
                 type: type,
                 comment: comment,
                 reference: reference,
-                value: parseFloat(value),
+                value: typeof value === 'string' ? parseFloat(value) : value,
+                biome: biome,
+                climate: climate, 
+                irrigation: irrigation, 
+                country: country, 
+                cultivationSystem: cultivationSystem
             })
 
+            console.log(responseConstants)
             setResponse(responseConstants.status)
         }
 
     }
+    
 
     if (response == '1') {
-        sessionStorage.setItem('mensagem', `{"mensagem":"Cultura cadastrada com sucesso !","tipo":"success"}`)
+        sessionStorage.setItem('mensagem', `{"mensagem":"Constante cadastrada com sucesso !","tipo":"success"}`)
         window.location.href = `/constant/${params.id}`
     }
 
@@ -79,22 +161,7 @@ const CriarConstant = ({ params }: Props) => {
                             <h2 className="tittle-login">Cadastrar constante</h2>
                         </div>
 
-                        <div className="form-input-box">
-                            <label htmlFor="">
-                                Tipo
-                            </label>
-                            <select onChange={(e) => { setType(e.target.value) }}>
-                                <option value="empty"></option>
-                                <option value="HARVEST_INDEX">ÍNDICE DE COLHEITA</option>
-                                <option value="AERIAL_RESIDUE_INDEX">ÍNDICE DE RESÍDUOS AÉREOS</option>
-                                <option value="PRODUCT_RESIDUE_INDEX">ÍNDICE DE RESÍDUOS DO PRODUTO</option>
-                                <option value="PRODUCT_DRY_MATTER_FACTOR">FATOR DE MATÉRIA SECA DO PRODUTO</option>
-                                <option value="RESIDUE_DRY_MATTER_FACTOR">FATOR DE MATÉRIA SECA DE RESÍDUO</option>
-                                <option value="BELOWGROUND_INDEX">ÍNDICE ABAIXO</option>
-                                <option value="WEED_AERIAL_FACTOR">FATOR AÉREO DE ERVAS DANINHAS</option>
-                                <option value="WEED_BELOWGROUND_INDEX">ÍNDICE DE ERVAS ABAIXO DO SOLO</option>
-                            </select>
-                        </div>
+                        <Select label="Tipo" options={typeOptions} onChange={handleTypeChange}/>
 
                         <InputDefault
                             classe="form-input-box"
@@ -109,7 +176,7 @@ const CriarConstant = ({ params }: Props) => {
                             classe="form-input-box"
                             label="Valor"
                             placeholder="Valor da Constante"
-                            value={value}
+                            value={value} 
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue((e.target as HTMLInputElement).value)}
                             type={'text'}
                         />
@@ -121,6 +188,31 @@ const CriarConstant = ({ params }: Props) => {
                             placeholder="Comentário"
                             value={comment}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setComment((e.target as HTMLInputElement).value)}
+                            type={'text'}
+                        />
+
+                        <Select label="Clima" options={climateOptions} onChange={handleClimateChange}/>
+
+                        <Select label="Irrigação" options={irrigationOptions} onChange={handleIrrigationChange}/>
+
+                        <Select label="Sistema de cultivo" options={cultivationSystemOptions} onChange={handleCultivationSystemChange}/>
+
+
+                        <InputDefault
+                            classe="form-input-box"
+                            label="Bioma"
+                            placeholder="Bioma"
+                            value={biome}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBiome((e.target as HTMLInputElement).value)}
+                            type={'text'}
+                        />
+
+                        <InputDefault
+                            classe="form-input-box"
+                            label="País"
+                            placeholder="País"
+                            value={country}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCountry((e.target as HTMLInputElement).value)}
                             type={'text'}
                         />
 

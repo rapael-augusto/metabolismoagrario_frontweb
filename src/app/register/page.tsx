@@ -114,18 +114,7 @@ const registerComp = () => {
                     value={email}
                 />
 
-                <div className="form-input-box">
-                    <label htmlFor="">
-                        Tipo de usuário
-                    </label>
-                    <select onChange={(e) => { setRole(e.target.value) }}>
-                        <option value="empty"></option>
-                        <option value="ADMIN">Administrador</option>
-                        <option value="OPERATOR">Operador</option>
-                    </select>
-                </div>
-
-                <Select label="Tipo de usuário teste" options={options} onChange={handleRoleChange}/>
+                <Select label="Tipo de usuário" options={options} onChange={handleRoleChange}/>
 
                 <InputDefault
                     type={'password'}
