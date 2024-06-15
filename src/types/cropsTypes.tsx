@@ -8,6 +8,11 @@ export type paramsEntradaConstant = {
     reference: string
     value: number 
     comment: string
+    climate: string
+    biome: string
+    irrigation: string
+    country: string 
+    cultivationSystem: string
 }
 
 export type responseCropsCreate = {
