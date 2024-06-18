@@ -57,7 +57,7 @@ const CriarConstant = ({ params }: Props) => {
         { value: "Subpolar", label: "Frio" },
         { value: "MountainCold", label: "Frio da montanha" },
         { value: "Polar", label: "Polar" },
-        ]
+    ]
         
     const irrigationOptions = [
         { value: "Irrigation", label: "Irrigação" },

@@ -31,6 +31,7 @@ interface dadosConstants {
 
 const constant = ({ params }: Props) => {
     const [dados, setDados] = useState<dadosConstants[]>([])
+    const [dadosTemp, setDadosTemp] = useState<dadosConstants[]>([]) //state temporario para trabalhar com filtros
     const [titulo, setTitulo] = useState<string | any>('')
     const [cropId, setCropId] = useState<string | any>('')
 
@@ -38,9 +39,24 @@ const constant = ({ params }: Props) => {
     //set opts
 
     const irrigationOptions = [
+        { value: "all", label: "todos" },
         { value: "Irrigation", label: "Irrigação" },
         { value: "Dry", label: "Seco" },
     ]
+
+    const climateOptions = [
+        { value: "all", label: "todos" },
+        { value: "Tropical", label: "Tropical" },
+        { value: "Subtropical", label: "Subtropical" },
+        { value: "Desert", label: "Deserto" },
+        { value: "Temperate", label: "Temperado" },
+        { value: "Mediterranean", label: "Mediterrâneo" },
+        { value: "SemiArid", label: "Semiárido" },
+        { value: "Subpolar", label: "Frio" },
+        { value: "MountainCold", label: "Frio da montanha" },
+        { value: "Polar", label: "Polar" },
+    ]
+
 
     //TRADUÇÕES
     const traducaoConstantes: any = {
@@ -84,6 +100,7 @@ const constant = ({ params }: Props) => {
             service.findOneCultivar(params.id).then((response) => {
                 setCropId(response.cropId)
                 setDados(response.constants)
+                setDadosTemp(response.constants)
                 setTitulo(response.name)
             })
 
@@ -95,9 +112,23 @@ const constant = ({ params }: Props) => {
 
     }, [])
 
-    function filtrarPorIrrigação(){
-        console.log('testando filtro')
+    function filtrarPorIrrigação(value : string) {
+        if(value != "all"){
+            setDadosTemp(dados.filter((e:dadosConstants) => e.irrigation == value))
+        }else{
+            setDadosTemp(dados)
+        }
     }
+
+    function filtrarPorClima(value : string) {
+        if(value != "all"){
+            setDadosTemp(dados.filter((e:dadosConstants) => e.climate == value))
+        }else{
+            setDadosTemp(dados)
+        }
+    }
+
+
 
     //VIEW
     return (
@@ -109,7 +140,13 @@ const constant = ({ params }: Props) => {
                 <div className="list-constants">
 
                     <div className="container-filtros">
-                        <Select type="filter" options={irrigationOptions} onChange={filtrarPorIrrigação} placeholder="filtrar por irrigação" />
+                        <div>
+                            <Select type="filter" options={irrigationOptions} onChange={filtrarPorIrrigação} placeholder="Filtrar por irrigação" />
+                        </div>
+                        <div>
+                            <Select type="filter" options={climateOptions} onChange={filtrarPorClima} placeholder="Filtrar por clima" />
+                        </div>
+          
                     </div>
 
                     <div className="container-button-crops">
@@ -150,7 +187,7 @@ const constant = ({ params }: Props) => {
 
                     </div>
                     {
-                        dados.map((e: dadosConstants) => (
+                        dadosTemp.map((e: dadosConstants) => (
 
                             <div key={e.id} className="content-list">
                                 <div className="result-col-type">
