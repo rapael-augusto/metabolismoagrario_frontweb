@@ -35,17 +35,19 @@ const constant = ({ params }: Props) => {
     const [titulo, setTitulo] = useState<string | any>('')
     const [cropId, setCropId] = useState<string | any>('')
 
+    const [irrigacao, setIrrigacao] = useState<string>('all')
+    const [clima, setClima] = useState<string>('all')
 
     //set opts
 
     const irrigationOptions = [
-        { value: "all", label: "todos" },
-        { value: "Irrigation", label: "Irrigação" },
-        { value: "Dry", label: "Seco" },
+        { value: "all", label: "Todos" },
+        { value: "Irrigation", label: "Irrigado" },
+        { value: "Dry", label: "Sequeiro" },
     ]
 
     const climateOptions = [
-        { value: "all", label: "todos" },
+        { value: "all", label: "Todos" },
         { value: "Tropical", label: "Tropical" },
         { value: "Subtropical", label: "Subtropical" },
         { value: "Desert", label: "Deserto" },
@@ -61,13 +63,13 @@ const constant = ({ params }: Props) => {
     //TRADUÇÕES
     const traducaoConstantes: any = {
         'HARVEST_INDEX': "ÍNDICE DE COLHEITA",
-        'AERIAL_RESIDUE_INDEX': "ÍNDICE DE RESÍDUOS AÉREOS",
-        'PRODUCT_RESIDUE_INDEX': "ÍNDICE DE RESÍDUOS DO PRODUTO",
-        'PRODUCT_DRY_MATTER_FACTOR': "FATOR DE MATÉRIA SECA DO PRODUTO",
-        'RESIDUE_DRY_MATTER_FACTOR': "FATOR DE MATÉRIA SECA DE RESÍDUO",
-        'BELOWGROUND_INDEX': "ÍNDICE ABAIXO",
-        'WEED_AERIAL_FACTOR': "FATOR AÉREO DE ERVAS DANINHAS",
-        'WEED_BELOWGROUND_INDEX': "ÍNDICE DE ERVAS ABAIXO DO SOLO",
+        'AERIAL_RESIDUE_INDEX': "ÍNDICE DE RESÍDUO DA PARTE AÉREA",
+        'PRODUCT_RESIDUE_INDEX': "ÍNDICE DE RESÍDUO DO PRODUTO",
+        'PRODUCT_DRY_MATTER_FACTOR': "TEOR DA MATÉRIA SECA COLHIDA",
+        'RESIDUE_DRY_MATTER_FACTOR': "TEOR DA MATÉRIA SECA RESÍDUO",
+        'BELOWGROUND_INDEX': "ÍNDICE DE RAIZ",
+        'WEED_AERIAL_FACTOR': "FATOR DE CONVERSÃO PARA ESTIMAR A BIOMASSA AÉREA DAS ADVENTÍCIAS",
+        'WEED_BELOWGROUND_INDEX': "ÍNDICE DE RAIZ ADVENTÍCIAS",
     }
     const traducaoClimas: any = {
         "TropicalRainforest": "Floresta tropical",
@@ -83,13 +85,14 @@ const constant = ({ params }: Props) => {
     }
     const traducaoIrrigacao: any = {
         "Irrigation": "Irrigado",
-        "Dry": "Seco"
+        "Dry": "Sequeiro"
     }
     const traducaoSistemaCultivo: any = {
         "Organic": "Orgânico",
         "Conventional": "Convencional",
         "Agroecological": "Agroecológico",
     }
+
     //AUTENTICACAO
     useEffect(() => {
         let session = sessionStorage.getItem('@token')
@@ -111,25 +114,22 @@ const constant = ({ params }: Props) => {
         }
 
     }, [])
+    
+    useEffect(() => {
+        let dadosFiltrados = dados
 
-    function filtrarPorIrrigação(value : string) {
-        if(value != "all"){
-            setDadosTemp(dados.filter((e:dadosConstants) => e.irrigation == value))
-        }else{
-            setDadosTemp(dados)
+        if(irrigacao != "all"){
+            dadosFiltrados = dadosFiltrados.filter((e:dadosConstants) => e.irrigation == irrigacao)
         }
-    }
 
-    function filtrarPorClima(value : string) {
-        if(value != "all"){
-            setDadosTemp(dados.filter((e:dadosConstants) => e.climate == value))
-        }else{
-            setDadosTemp(dados)
+        if(clima != "all"){
+            dadosFiltrados = dadosFiltrados.filter((e:dadosConstants) => e.climate == clima)
         }
-    }
 
+        setDadosTemp(dadosFiltrados)
 
-
+    }, [irrigacao, clima, dados])
+    
     //VIEW
     return (
         <Layout>
@@ -141,10 +141,10 @@ const constant = ({ params }: Props) => {
 
                     <div className="container-filtros">
                         <div>
-                            <Select type="filter" options={irrigationOptions} onChange={filtrarPorIrrigação} placeholder="Filtrar por irrigação" />
+                            <Select type="filter" options={irrigationOptions} onChange={(value) => setIrrigacao(value)} placeholder="Filtrar por irrigação" />
                         </div>
                         <div>
-                            <Select type="filter" options={climateOptions} onChange={filtrarPorClima} placeholder="Filtrar por clima" />
+                            <Select type="filter" options={climateOptions} onChange={(value) => setClima(value)} placeholder="Filtrar por clima" />
                         </div>
           
                     </div>
