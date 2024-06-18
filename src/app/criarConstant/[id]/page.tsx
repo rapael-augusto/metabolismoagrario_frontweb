@@ -38,13 +38,13 @@ const CriarConstant = ({ params }: Props) => {
     
     const typeOptions = [
         { value: "HARVEST_INDEX", label: "ÍNDICE DE COLHEITA" },
-        { value: "AERIAL_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUOS AÉREOS" },
-        { value: "PRODUCT_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUOS DO PRODUTO" },
-        { value: "PRODUCT_DRY_MATTER_FACTOR", label: "FATOR DE MATÉRIA SECA DO PRODUTO" },
-        { value: "RESIDUE_DRY_MATTER_FACTOR", label: "FATOR DE MATÉRIA SECA DE RESÍDUO" },
-        { value: "BELOWGROUND_INDEX", label: "ÍNDICE ABAIXO" },
-        { value: "WEED_AERIAL_FACTOR", label: "FATOR AÉREO DE ERVAS DANINHAS" },
-        { value: "WEED_BELOWGROUND_INDEX", label: "ÍNDICE DE ERVAS ABAIXO DO SOLO" },
+        { value: "AERIAL_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUO DA PARTE AÉREA"},
+        { value: "PRODUCT_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUO DO PRODUTO" },
+        { value: "PRODUCT_DRY_MATTER_FACTOR", label: "TEOR DA MATÉRIA SECA COLHIDA"},
+        { value: "RESIDUE_DRY_MATTER_FACTOR", label: "TEOR DA MATÉRIA SECA RESÍDUO" },
+        { value: "BELOWGROUND_INDEX", label: "ÍNDICE DE RAIZ" },
+        { value: "WEED_AERIAL_FACTOR", label: "FATOR DE CONVERSÃO PARA ESTIMAR A BIOMASSA AÉREA DAS ADVENTÍCIAS" },
+        { value: "WEED_BELOWGROUND_INDEX", label: "ÍNDICE DE RAIZ ADVENTÍCIAS" },
     ]
 
     const climateOptions = [
@@ -60,8 +60,8 @@ const CriarConstant = ({ params }: Props) => {
     ]
         
     const irrigationOptions = [
-        { value: "Irrigation", label: "Irrigação" },
-        { value: "Dry", label: "Seco" },
+        { value: "Irrigation", label: "Irrigado" },
+        { value: "Dry", label: "Sequeiro" },
     ]
             
     const cultivationSystemOptions = [

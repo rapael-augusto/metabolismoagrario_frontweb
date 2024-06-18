@@ -39,13 +39,13 @@ const constant = ({ params }: Props) => {
     //set opts
 
     const irrigationOptions = [
-        { value: "all", label: "todos" },
-        { value: "Irrigation", label: "Irrigação" },
-        { value: "Dry", label: "Seco" },
+        { value: "all", label: "Todos" },
+        { value: "Irrigation", label: "Irrigado" },
+        { value: "Dry", label: "Sequeiro" },
     ]
 
     const climateOptions = [
-        { value: "all", label: "todos" },
+        { value: "all", label: "Todos" },
         { value: "Tropical", label: "Tropical" },
         { value: "Subtropical", label: "Subtropical" },
         { value: "Desert", label: "Deserto" },
@@ -61,13 +61,13 @@ const constant = ({ params }: Props) => {
     //TRADUÇÕES
     const traducaoConstantes: any = {
         'HARVEST_INDEX': "ÍNDICE DE COLHEITA",
-        'AERIAL_RESIDUE_INDEX': "ÍNDICE DE RESÍDUOS AÉREOS",
-        'PRODUCT_RESIDUE_INDEX': "ÍNDICE DE RESÍDUOS DO PRODUTO",
-        'PRODUCT_DRY_MATTER_FACTOR': "FATOR DE MATÉRIA SECA DO PRODUTO",
-        'RESIDUE_DRY_MATTER_FACTOR': "FATOR DE MATÉRIA SECA DE RESÍDUO",
-        'BELOWGROUND_INDEX': "ÍNDICE ABAIXO",
-        'WEED_AERIAL_FACTOR': "FATOR AÉREO DE ERVAS DANINHAS",
-        'WEED_BELOWGROUND_INDEX': "ÍNDICE DE ERVAS ABAIXO DO SOLO",
+        'AERIAL_RESIDUE_INDEX': "ÍNDICE DE RESÍDUO DA PARTE AÉREA",
+        'PRODUCT_RESIDUE_INDEX': "ÍNDICE DE RESÍDUO DO PRODUTO",
+        'PRODUCT_DRY_MATTER_FACTOR': "TEOR DA MATÉRIA SECA COLHIDA",
+        'RESIDUE_DRY_MATTER_FACTOR': "TEOR DA MATÉRIA SECA RESÍDUO",
+        'BELOWGROUND_INDEX': "ÍNDICE DE RAIZ",
+        'WEED_AERIAL_FACTOR': "FATOR DE CONVERSÃO PARA ESTIMAR A BIOMASSA AÉREA DAS ADVENTÍCIAS",
+        'WEED_BELOWGROUND_INDEX': "ÍNDICE DE RAIZ ADVENTÍCIAS",
     }
     const traducaoClimas: any = {
         "TropicalRainforest": "Floresta tropical",
@@ -83,7 +83,7 @@ const constant = ({ params }: Props) => {
     }
     const traducaoIrrigacao: any = {
         "Irrigation": "Irrigado",
-        "Dry": "Seco"
+        "Dry": "Sequeiro"
     }
     const traducaoSistemaCultivo: any = {
         "Organic": "Orgânico",
