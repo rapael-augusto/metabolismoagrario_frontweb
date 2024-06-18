@@ -35,6 +35,8 @@ const constant = ({ params }: Props) => {
     const [titulo, setTitulo] = useState<string | any>('')
     const [cropId, setCropId] = useState<string | any>('')
 
+    const [irrigacao, setIrrigacao] = useState<string>('all')
+    const [clima, setClima] = useState<string>('all')
 
     //set opts
 
@@ -90,6 +92,7 @@ const constant = ({ params }: Props) => {
         "Conventional": "Convencional",
         "Agroecological": "Agroecológico",
     }
+
     //AUTENTICACAO
     useEffect(() => {
         let session = sessionStorage.getItem('@token')
@@ -111,25 +114,22 @@ const constant = ({ params }: Props) => {
         }
 
     }, [])
+    
+    useEffect(() => {
+        let dadosFiltrados = dados
 
-    function filtrarPorIrrigação(value : string) {
-        if(value != "all"){
-            setDadosTemp(dados.filter((e:dadosConstants) => e.irrigation == value))
-        }else{
-            setDadosTemp(dados)
+        if(irrigacao != "all"){
+            dadosFiltrados = dadosFiltrados.filter((e:dadosConstants) => e.irrigation == irrigacao)
         }
-    }
 
-    function filtrarPorClima(value : string) {
-        if(value != "all"){
-            setDadosTemp(dados.filter((e:dadosConstants) => e.climate == value))
-        }else{
-            setDadosTemp(dados)
+        if(clima != "all"){
+            dadosFiltrados = dadosFiltrados.filter((e:dadosConstants) => e.climate == clima)
         }
-    }
 
+        setDadosTemp(dadosFiltrados)
 
-
+    }, [irrigacao, clima, dados])
+    
     //VIEW
     return (
         <Layout>
@@ -141,10 +141,10 @@ const constant = ({ params }: Props) => {
 
                     <div className="container-filtros">
                         <div>
-                            <Select type="filter" options={irrigationOptions} onChange={filtrarPorIrrigação} placeholder="Filtrar por irrigação" />
+                            <Select type="filter" options={irrigationOptions} onChange={(value) => setIrrigacao(value)} placeholder="Filtrar por irrigação" />
                         </div>
                         <div>
-                            <Select type="filter" options={climateOptions} onChange={filtrarPorClima} placeholder="Filtrar por clima" />
+                            <Select type="filter" options={climateOptions} onChange={(value) => setClima(value)} placeholder="Filtrar por clima" />
                         </div>
           
                     </div>
