@@ -4,3 +4,7 @@
   width: 80%;
   margin: 4px auto;
 }
+
+.filter-select {
+  width: max-content;
+}

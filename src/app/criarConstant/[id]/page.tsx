@@ -161,7 +161,7 @@ const CriarConstant = ({ params }: Props) => {
                             <h2 className="tittle-login">Cadastrar constante</h2>
                         </div>
 
-                        <Select label="Tipo" options={typeOptions} onChange={handleTypeChange}/>
+                        <Select type="form" label="Tipo" options={typeOptions} onChange={handleTypeChange}/>
 
                         <InputDefault
                             classe="form-input-box"
@@ -191,11 +191,11 @@ const CriarConstant = ({ params }: Props) => {
                             type={'text'}
                         />
 
-                        <Select label="Clima" options={climateOptions} onChange={handleClimateChange}/>
+                        <Select type="form" label="Clima" options={climateOptions} onChange={handleClimateChange}/>
 
-                        <Select label="Irrigação" options={irrigationOptions} onChange={handleIrrigationChange}/>
+                        <Select type="form" label="Irrigação" options={irrigationOptions} onChange={handleIrrigationChange}/>
 
-                        <Select label="Sistema de cultivo" options={cultivationSystemOptions} onChange={handleCultivationSystemChange}/>
+                        <Select type="form" label="Sistema de cultivo" options={cultivationSystemOptions} onChange={handleCultivationSystemChange}/>
 
 
                         <InputDefault

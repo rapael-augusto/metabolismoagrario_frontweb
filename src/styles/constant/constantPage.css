@@ -49,3 +49,12 @@
 .result-col-acoes-constant{
     flex-grow: 1;
 }
+
+.container-filtros {
+    border: 1px solid black;
+    margin: 5px auto;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}

@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import "../../styles/layout/select.css"
 
 interface SelectProps {
-  label: string;
+  label?: string;
+  type: "form" | "filter";
+  placeholder?: string;
   options: { value: string; label: string }[];
   onChange: (value: string) => void;
 }
 
-const Select: React.FC<SelectProps> = ({ label, options, onChange }) => {
+const Select: React.FC<SelectProps> = ({ label, options, onChange, placeholder, type }) => {
   const [selectedValue, setSelectedValue] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -17,23 +19,23 @@ const Select: React.FC<SelectProps> = ({ label, options, onChange }) => {
   };
 
   return (
-  
-  <div className="form-select">
+
+    <div className={`${type}-select`}>
 
       <label htmlFor="select">{label}</label>
-      
+
       <select value={selectedValue} onChange={handleChange}>
-      
-        <option value="empty"></option>
+
+        <option hidden value="empty">{placeholder}</option>
 
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>
         ))}
-      
+
       </select>
-  
+
     </div>
   );
 };

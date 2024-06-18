@@ -8,6 +8,8 @@ import { redirect } from "next/navigation";
 import { cropsService } from "@/services/crops";
 import Image from "next/image";
 import NavButton from "@/components/layout/navigationButton";
+import Select from "@/components/layout/customSelect";
+
 interface Props {
     params: { id: string }
 }
@@ -31,6 +33,14 @@ const constant = ({ params }: Props) => {
     const [dados, setDados] = useState<dadosConstants[]>([])
     const [titulo, setTitulo] = useState<string | any>('')
     const [cropId, setCropId] = useState<string | any>('')
+
+
+    //set opts
+
+    const irrigationOptions = [
+        { value: "Irrigation", label: "Irrigação" },
+        { value: "Dry", label: "Seco" },
+    ]
 
     //TRADUÇÕES
     const traducaoConstantes: any = {
@@ -85,6 +95,10 @@ const constant = ({ params }: Props) => {
 
     }, [])
 
+    function filtrarPorIrrigação(){
+        console.log('testando filtro')
+    }
+
     //VIEW
     return (
         <Layout>
@@ -93,6 +107,11 @@ const constant = ({ params }: Props) => {
 
 
                 <div className="list-constants">
+
+                    <div className="container-filtros">
+                        <Select type="filter" options={irrigationOptions} onChange={filtrarPorIrrigação} placeholder="filtrar por irrigação" />
+                    </div>
+
                     <div className="container-button-crops">
                         <NavButton Url={`/cultivars/${cropId}`} page="list" text="Voltar" type="voltar" />
                         <NavButton Url={`/criarConstant/${params.id}`} page="list" text="Cadastrar Constante" type="cadastrar" />
