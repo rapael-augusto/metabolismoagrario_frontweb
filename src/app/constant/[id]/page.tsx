@@ -37,6 +37,8 @@ const constant = ({ params }: Props) => {
 
     const [irrigacao, setIrrigacao] = useState<string>('all')
     const [clima, setClima] = useState<string>('all')
+    const [tipo, setTipo] = useState<string>('all')
+    const [sistemaCultivo, setSistemaCultivo] = useState<string>('all')
 
     //set opts
 
@@ -59,6 +61,24 @@ const constant = ({ params }: Props) => {
         { value: "Polar", label: "Polar" },
     ]
 
+    const typeOptions = [
+        { value: "all", label: "Todos" },
+        { value: "HARVEST_INDEX", label: "ÍNDICE DE COLHEITA" },
+        { value: "AERIAL_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUO DA PARTE AÉREA"},
+        { value: "PRODUCT_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUO DO PRODUTO" },
+        { value: "PRODUCT_DRY_MATTER_FACTOR", label: "TEOR DA MATÉRIA SECA COLHIDA"},
+        { value: "RESIDUE_DRY_MATTER_FACTOR", label: "TEOR DA MATÉRIA SECA RESÍDUO" },
+        { value: "BELOWGROUND_INDEX", label: "ÍNDICE DE RAIZ" },
+        { value: "WEED_AERIAL_FACTOR", label: "FATOR DE CONVERSÃO PARA ESTIMAR A BIOMASSA AÉREA DAS ADVENTÍCIAS" },
+        { value: "WEED_BELOWGROUND_INDEX", label: "ÍNDICE DE RAIZ ADVENTÍCIAS" },
+    ]
+
+    const cultivationSystemOptions = [
+        { value: "all", label: "Todos" },
+        { value: "Conventional", label: "Convencional" },
+        { value: "Organic", label: "Orgânico" },
+        { value: "Agroecological", label: "Agroecológico" },
+    ]
 
     //TRADUÇÕES
     const traducaoConstantes: any = {
@@ -126,9 +146,17 @@ const constant = ({ params }: Props) => {
             dadosFiltrados = dadosFiltrados.filter((e:dadosConstants) => e.climate == clima)
         }
 
+        if(tipo != "all"){
+            dadosFiltrados = dadosFiltrados.filter((e:dadosConstants) => e.type == tipo)
+        }
+
+        if(sistemaCultivo != "all"){
+            dadosFiltrados = dadosFiltrados.filter((e:dadosConstants) => e.cultivationSystem == sistemaCultivo)
+        }
+
         setDadosTemp(dadosFiltrados)
 
-    }, [irrigacao, clima, dados])
+    }, [irrigacao, clima, tipo, sistemaCultivo, dados])
     
     //VIEW
     return (
@@ -145,6 +173,12 @@ const constant = ({ params }: Props) => {
                         </div>
                         <div>
                             <Select type="filter" options={climateOptions} onChange={(value) => setClima(value)} placeholder="Filtrar por clima" />
+                        </div>
+                        <div>
+                            <Select type="filter" options={cultivationSystemOptions} onChange={(value) => setSistemaCultivo(value)} placeholder="Filtrar por sistema de cultivo"/>
+                        </div>
+                        <div>
+                            <Select type="filter" options={typeOptions} onChange={(value) => setTipo(value)} placeholder="Filtrar por tipo"/>
                         </div>
           
                     </div>
