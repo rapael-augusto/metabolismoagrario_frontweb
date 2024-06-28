@@ -35,6 +35,7 @@ const CriarConstant = ({ params }: Props) => {
     const [irrigation, setIrrigation] = useState('')
     const [cultivationSystem, setCultivationSysten] = useState('')
     const [country, setCountry] = useState('')
+    const [soil, setSoil] = useState('')
     
     const typeOptions = [
         { value: "HARVEST_INDEX", label: "ÍNDICE DE COLHEITA" },
@@ -49,14 +50,12 @@ const CriarConstant = ({ params }: Props) => {
 
     const climateOptions = [
         { value: "Tropical", label: "Tropical" },
-        { value: "Subtropical", label: "Subtropical" },
-        { value: "Desert", label: "Deserto" },
-        { value: "Temperate", label: "Temperado" },
-        { value: "Mediterranean", label: "Mediterrâneo" },
-        { value: "SemiArid", label: "Semiárido" },
-        { value: "Subpolar", label: "Frio" },
-        { value: "MountainCold", label: "Frio da montanha" },
-        { value: "Polar", label: "Polar" },
+        { value: "Seco", label: "Seco" },
+        { value: "Semiárido", label: "Semiárido" },
+        { value: "Temperado", label: "Temperado" },
+        { value: "Frio", label: "Frio" },
+        { value: "Mediterrâneo", label: "Mediterrâneo" },
+        { value: "Montanha", label: "Montanha" },
     ]
         
     const irrigationOptions = [
@@ -65,9 +64,32 @@ const CriarConstant = ({ params }: Props) => {
     ]
             
     const cultivationSystemOptions = [
+        { value: "Agroecological", label: "Agroecológico" },
         { value: "Conventional", label: "Convencional" },
         { value: "Organic", label: "Orgânico" },
-        { value: "Agroecological", label: "Agroecológico" },
+    ]
+
+    const biomeOptions = [
+        { value: "Amazônia", label: "Amazônia" },
+        { value: "Biomas de Montanha", label: "Biomas de Montanha" },
+        { value: "Cerrado", label: "Cerrado" },
+        { value: "Caatinga", label: "Caatinga" },
+        { value: "Desertos", label: "Desertos" },
+        { value: "Floresta Temperada", label: "Floresta Temperada" },
+        { value: "Floresta Tropical", label: "Floresta Tropical" },
+        { value: "Floresta Mediterrânea", label: "Floresta Mediterrânea" },
+        { value: "Mata Atlântica", label: "Mata Atlântica" },
+        { value: "Pampa", label: "Pampa" },
+        { value: "Pradarias", label: "Pradarias" },
+        { value: "Savanas", label: "Savanas" },
+        { value: "Taiga", label: "Taiga" },
+        { value: "Tundra", label: "Tundra" },
+    ]
+
+    const soilOptions = [
+        { value: "Clayey", label: "Argiloso" },
+        { value: "Sandy", label: "Arenoso" },
+        { value: "SandyClay", label: "Arenoargiloso" },
     ]
                 
           
@@ -86,6 +108,15 @@ const CriarConstant = ({ params }: Props) => {
     const handleCultivationSystemChange = (value: string) => {
         setCultivationSysten(value)
     }
+
+    const handleBiomeChange = (value: string) => {
+        setBiome(value)
+    }
+
+    const handleSoilChange = (value: string) => {
+        setSoil(value)
+    }
+
 
     useEffect(() => {
         let session = sessionStorage.getItem('@token')
@@ -148,7 +179,7 @@ const CriarConstant = ({ params }: Props) => {
     
 
     if (response == '1') {
-        sessionStorage.setItem('mensagem', `{"mensagem":"Constante cadastrada com sucesso !","tipo":"success"}`)
+        sessionStorage.setItem('mensagem', `{"mensagem":"Fator de conversão cadastrado com sucesso !","tipo":"success"}`)
         window.location.href = `/constant/${params.id}`
     }
 
@@ -158,19 +189,10 @@ const CriarConstant = ({ params }: Props) => {
                 <div className="list-crops">
                     <form className="formBody-login">
                         <div className="form-input-box">
-                            <h2 className="tittle-login">Cadastrar constante</h2>
+                            <h2 className="tittle-login">Cadastrar fator de conversão</h2>
                         </div>
 
                         <Select type="form" label="Tipo" options={typeOptions} onChange={handleTypeChange}/>
-
-                        <InputDefault
-                            classe="form-input-box"
-                            label="Referência"
-                            placeholder="Referência"
-                            value={reference}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setReference((e.target as HTMLInputElement).value)}
-                            type={'text'}
-                        />
 
                         <InputDefault
                             classe="form-input-box"
@@ -181,31 +203,9 @@ const CriarConstant = ({ params }: Props) => {
                             type={'text'}
                         />
 
-                        {/* trocar por um textarea */}
-                        <InputDefault
-                            classe="form-input-box"
-                            label="Comentário"
-                            placeholder="Comentário"
-                            value={comment}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setComment((e.target as HTMLInputElement).value)}
-                            type={'text'}
-                        />
+                        <Select type="form" label="Clima" options={climateOptions} onChange={handleClimateChange}/>     
 
-                        <Select type="form" label="Clima" options={climateOptions} onChange={handleClimateChange}/>
-
-                        <Select type="form" label="Irrigação" options={irrigationOptions} onChange={handleIrrigationChange}/>
-
-                        <Select type="form" label="Sistema de cultivo" options={cultivationSystemOptions} onChange={handleCultivationSystemChange}/>
-
-
-                        <InputDefault
-                            classe="form-input-box"
-                            label="Bioma"
-                            placeholder="Bioma"
-                            value={biome}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBiome((e.target as HTMLInputElement).value)}
-                            type={'text'}
-                        />
+                        <Select type="form" label="Bioma" options={biomeOptions} onChange={handleBiomeChange}/>  
 
                         <InputDefault
                             classe="form-input-box"
@@ -213,6 +213,33 @@ const CriarConstant = ({ params }: Props) => {
                             placeholder="País"
                             value={country}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCountry((e.target as HTMLInputElement).value)}
+                            type={'text'}
+                        />
+
+                        <Select type="form" label="Sistema de cultivo" options={cultivationSystemOptions} onChange={handleCultivationSystemChange}/>
+
+                        {/* SOLO */}
+
+                        <Select type="form" label="Solo" options={soilOptions} onChange={handleSoilChange}/>
+
+                        <Select type="form" label="Irrigação" options={irrigationOptions} onChange={handleIrrigationChange}/>
+
+                        <InputDefault
+                            classe="form-input-box"
+                            label="Referência"
+                            placeholder="Referência"
+                            value={reference}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setReference((e.target as HTMLInputElement).value)}
+                            type={'text'}
+                        />
+
+                        {/* trocar por um textarea */}
+                        <InputDefault
+                            classe="form-input-box"
+                            label="Observações"
+                            placeholder="Observações"
+                            value={comment}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setComment((e.target as HTMLInputElement).value)}
                             type={'text'}
                         />
 

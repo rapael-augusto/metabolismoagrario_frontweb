@@ -21,6 +21,7 @@ interface dadosConstants {
     reference: string
     climate: string
     biome: string
+    soil: string
     country: string
     type: string
     updatedAt: string
@@ -50,15 +51,15 @@ const constant = ({ params }: Props) => {
 
     const climateOptions = [
         { value: "all", label: "Todos" },
-        { value: "Tropical", label: "Tropical" },
-        { value: "Subtropical", label: "Subtropical" },
         { value: "Desert", label: "Deserto" },
-        { value: "Temperate", label: "Temperado" },
-        { value: "Mediterranean", label: "Mediterrâneo" },
-        { value: "SemiArid", label: "Semiárido" },
         { value: "Subpolar", label: "Frio" },
         { value: "MountainCold", label: "Frio da montanha" },
+        { value: "Mediterranean", label: "Mediterrâneo" },
         { value: "Polar", label: "Polar" },
+        { value: "SemiArid", label: "Semiárido" },
+        { value: "Subtropical", label: "Subtropical" },
+        { value: "Temperate", label: "Temperado" },
+        { value: "Tropical", label: "Tropical" },
     ]
 
     const typeOptions = [
@@ -75,9 +76,9 @@ const constant = ({ params }: Props) => {
 
     const cultivationSystemOptions = [
         { value: "all", label: "Todos" },
+        { value: "Agroecological", label: "Agroecológico" },
         { value: "Conventional", label: "Convencional" },
         { value: "Organic", label: "Orgânico" },
-        { value: "Agroecological", label: "Agroecológico" },
     ]
 
     //TRADUÇÕES
@@ -111,6 +112,11 @@ const constant = ({ params }: Props) => {
         "Organic": "Orgânico",
         "Conventional": "Convencional",
         "Agroecological": "Agroecológico",
+    }
+    const traducaoBioma: any = {
+        "Clayey": "Argiloso",
+        "Sandy": "Arenoso",
+        "SandyClay": "Arenoargiloso",
     }
 
     //AUTENTICACAO
@@ -162,7 +168,7 @@ const constant = ({ params }: Props) => {
     return (
         <Layout>
             <div className="cropsPage">
-                <h2 className="titulo-crops" >Constantes de {titulo}</h2>
+                <h2 className="titulo-crops" >Fatores de conversão de {titulo}</h2>
 
 
                 <div className="list-constants">
@@ -185,7 +191,7 @@ const constant = ({ params }: Props) => {
 
                     <div className="container-button-crops">
                         <NavButton Url={`/cultivars/${cropId}`} page="list" text="Voltar" type="voltar" />
-                        <NavButton Url={`/criarConstant/${params.id}`} page="list" text="Cadastrar Constante" type="cadastrar" />
+                        <NavButton Url={`/criarConstant/${params.id}`} page="list" text="Cadastrar fator de conversão" type="cadastrar" />
                     </div>
 
                     <div className="header-list">
@@ -193,11 +199,11 @@ const constant = ({ params }: Props) => {
                         <div className="header-col-type">
                             Tipo
                         </div>
-                        <div className="header-col-reference">
-                            Referência
-                        </div>
                         <div className="header-col-value">
                             Valor
+                        </div>
+                        <div className="header-col-reference">
+                            Referência
                         </div>
                         <div className="header-col-climate">
                             Clima
@@ -214,6 +220,9 @@ const constant = ({ params }: Props) => {
                         <div className="header-col-cultivationSystem">
                             Sistema de cultivo
                         </div>
+                        <div className="header-col-soil">
+                            Solo
+                        </div>
 
                         <div className="header-col-acoes-constant">
                             Ações
@@ -228,13 +237,15 @@ const constant = ({ params }: Props) => {
                                     {traducaoConstantes[e.type]}
                                 </div>
 
+                                <div className="result-col-value">
+                                    {e.value}
+                                </div>
+
                                 <div className="result-col-reference">
                                     {e.reference}
                                 </div>
 
-                                <div className="result-col-value">
-                                    {e.value}
-                                </div>
+                                
                                 <div className="result-col-climate">
                                     {traducaoClimas[e.climate]}
                                 </div>
@@ -249,6 +260,9 @@ const constant = ({ params }: Props) => {
                                 </div>
                                 <div className="result-col-cultivationSystem">
                                     {traducaoSistemaCultivo[e.cultivationSystem]}
+                                </div>
+                                <div className="result-col-soil">
+                                    {traducaoBioma[e.soil]}
                                 </div>
 
                                 <div className="result-col-acoes-constant">
