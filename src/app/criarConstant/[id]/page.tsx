@@ -13,6 +13,7 @@ import { cropsService } from "@/services/crops";
 import { redirect } from "next/navigation";
 import NavButton from "@/components/layout/navigationButton";
 import Select from "@/components/layout/customSelect";
+import { useRouter } from "next/navigation";
 
 interface Props {
     params: { id: string }
@@ -36,6 +37,7 @@ const CriarConstant = ({ params }: Props) => {
     const [cultivationSystem, setCultivationSysten] = useState('')
     const [country, setCountry] = useState('')
     const [soil, setSoil] = useState('')
+    const router = useRouter()
     
     const typeOptions = [
         { value: "HARVEST_INDEX", label: "ÍNDICE DE COLHEITA" },
@@ -49,7 +51,7 @@ const CriarConstant = ({ params }: Props) => {
     ]
 
     const climateOptions = [
-        { value: "Tropical", label: "Tropical" },
+        { value: "NaoInformado", label: "Não definido" },
         { value: "Seco", label: "Seco" },
         { value: "Semiárido", label: "Semiárido" },
         { value: "Temperado", label: "Temperado" },
@@ -59,17 +61,19 @@ const CriarConstant = ({ params }: Props) => {
     ]
         
     const irrigationOptions = [
+        { value: "NaoInformado", label: "Não definido" },
         { value: "Irrigation", label: "Irrigado" },
         { value: "Dry", label: "Sequeiro" },
     ]
             
     const cultivationSystemOptions = [
-        { value: "Agroecological", label: "Agroecológico" },
+        { value: "NaoInformado", label: "Não definido" },
         { value: "Conventional", label: "Convencional" },
         { value: "Organic", label: "Orgânico" },
     ]
 
     const biomeOptions = [
+        { value: "NaoInformado", label: "Não definido" },
         { value: "Amazônia", label: "Amazônia" },
         { value: "Biomas de Montanha", label: "Biomas de Montanha" },
         { value: "Cerrado", label: "Cerrado" },
@@ -87,6 +91,7 @@ const CriarConstant = ({ params }: Props) => {
     ]
 
     const soilOptions = [
+        { value: "NaoInformado", label: "Não definido" },
         { value: "Clayey", label: "Argiloso" },
         { value: "Sandy", label: "Arenoso" },
         { value: "SandyClay", label: "Arenoargiloso" },
@@ -159,17 +164,23 @@ const CriarConstant = ({ params }: Props) => {
             location.reload()
         } else {
             let service = new cropsService(token)
-            let responseConstants: any | responseType = await service.createConstantOfCultivar(params.id, {
+            
+            let paramsData: any = {
                 type: type,
                 comment: comment,
                 reference: reference,
                 value: typeof value === 'string' ? parseFloat(value) : value,
-                biome: biome,
-                climate: climate, 
-                irrigation: irrigation, 
-                country: country, 
-                cultivationSystem: cultivationSystem
-            })
+                biome: biome !== 'NaoInformado' ? biome : undefined,
+                climate: climate !== 'NaoInformado' ? climate : undefined,
+                irrigation: irrigation !== 'NaoInformado' ? irrigation : undefined,
+                country: country,
+                cultivationSystem: cultivationSystem !== 'NaoInformado' ? cultivationSystem : undefined,
+                soil: soil !== 'NaoInformado' ? soil : undefined
+            };
+
+            Object.keys(paramsData).forEach(key => paramsData[key] === undefined && delete paramsData[key])
+
+            let responseConstants: any | responseType = await service.createConstantOfCultivar(params.id, paramsData)
 
             console.log(responseConstants)
             setResponse(responseConstants.status)
@@ -180,7 +191,8 @@ const CriarConstant = ({ params }: Props) => {
 
     if (response == '1') {
         sessionStorage.setItem('mensagem', `{"mensagem":"Fator de conversão cadastrado com sucesso !","tipo":"success"}`)
-        window.location.href = `/constant/${params.id}`
+        // window.location.href = `/constant/${params.id}`
+        router.push(`/constant/${params.id}`)
     }
 
     return (
