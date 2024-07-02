@@ -40,6 +40,7 @@ const constant = ({ params }: Props) => {
     const [clima, setClima] = useState<string>('all')
     const [tipo, setTipo] = useState<string>('all')
     const [sistemaCultivo, setSistemaCultivo] = useState<string>('all')
+    const [solo, setSolo] = useState<string>('all')
 
     //set opts
 
@@ -50,16 +51,13 @@ const constant = ({ params }: Props) => {
     ]
 
     const climateOptions = [
-        { value: "all", label: "Todos" },
-        { value: "Desert", label: "Deserto" },
-        { value: "Subpolar", label: "Frio" },
-        { value: "MountainCold", label: "Frio da montanha" },
-        { value: "Mediterranean", label: "Mediterrâneo" },
-        { value: "Polar", label: "Polar" },
-        { value: "SemiArid", label: "Semiárido" },
-        { value: "Subtropical", label: "Subtropical" },
-        { value: "Temperate", label: "Temperado" },
-        { value: "Tropical", label: "Tropical" },
+        { value: "NaoInformado", label: "Não informado" },
+        { value: "Seco", label: "Seco" },
+        { value: "Semiárido", label: "Semiárido" },
+        { value: "Temperado", label: "Temperado" },
+        { value: "Frio", label: "Frio" },
+        { value: "Mediterrâneo", label: "Mediterrâneo" },
+        { value: "Montanha", label: "Montanha" },
     ]
 
     const typeOptions = [
@@ -81,6 +79,13 @@ const constant = ({ params }: Props) => {
         { value: "Organic", label: "Orgânico" },
     ]
 
+    const soilOptions = [
+        { value: "all", label: "Todos" },
+        { value: "Clayey", label: "Argiloso" },
+        { value: "Sandy", label: "Arenoso" },
+        { value: "SandyClay", label: "Arenoargiloso" },
+    ]
+
     //TRADUÇÕES
     const traducaoConstantes: any = {
         'HARVEST_INDEX': "ÍNDICE DE COLHEITA",
@@ -92,18 +97,6 @@ const constant = ({ params }: Props) => {
         'WEED_AERIAL_FACTOR': "FATOR DE CONVERSÃO PARA ESTIMAR A BIOMASSA AÉREA DAS ADVENTÍCIAS",
         'WEED_BELOWGROUND_INDEX': "ÍNDICE DE RAIZ ADVENTÍCIAS",
     }
-    const traducaoClimas: any = {
-        "TropicalRainforest": "Floresta tropical",
-        "Tropical": "Tropical",
-        "Subtropical": "Subtropical",
-        "Desert": "Deserto",
-        "Temperate": "Temperado",
-        "Mediterranean": "Mediterrâneo",
-        "SemiArid": "Semi-árido",
-        "Subpolar": "Subpolar",
-        "MountainCold": "Frio da montanha",
-        "Polar": "Polar",
-    }
     const traducaoIrrigacao: any = {
         "Irrigation": "Irrigado",
         "Dry": "Sequeiro"
@@ -113,7 +106,7 @@ const constant = ({ params }: Props) => {
         "Conventional": "Convencional",
         "Agroecological": "Agroecológico",
     }
-    const traducaoBioma: any = {
+    const traducaoSolo: any = {
         "Clayey": "Argiloso",
         "Sandy": "Arenoso",
         "SandyClay": "Arenoargiloso",
@@ -160,10 +153,15 @@ const constant = ({ params }: Props) => {
             dadosFiltrados = dadosFiltrados.filter((e:dadosConstants) => e.cultivationSystem == sistemaCultivo)
         }
 
+        if(solo != "all"){
+            dadosFiltrados = dadosFiltrados.filter((e:dadosConstants) => e.soil == solo)
+        }
+
         setDadosTemp(dadosFiltrados)
 
-    }, [irrigacao, clima, tipo, sistemaCultivo, dados])
+    }, [irrigacao, clima, tipo, sistemaCultivo, dados, solo])
     
+
     //VIEW
     return (
         <Layout>
@@ -186,6 +184,9 @@ const constant = ({ params }: Props) => {
                         <div>
                             <Select type="filter" options={typeOptions} onChange={(value) => setTipo(value)} placeholder="Filtrar por tipo"/>
                         </div>
+                        <div>
+                            <Select type="filter" options={soilOptions} onChange={(value) => setSolo(value)} placeholder="Filtrar por solo"/>
+                        </div>
           
                     </div>
 
@@ -195,6 +196,7 @@ const constant = ({ params }: Props) => {
                     </div>
 
                     <div className="header-list">
+                        Dados
 
                         <div className="header-col-type">
                             Tipo
@@ -231,8 +233,8 @@ const constant = ({ params }: Props) => {
                     </div>
                     {
                         dadosTemp.map((e: dadosConstants) => (
-
                             <div key={e.id} className="content-list">
+                            
                                 <div className="result-col-type">
                                     {traducaoConstantes[e.type]}
                                 </div>
@@ -247,22 +249,22 @@ const constant = ({ params }: Props) => {
 
                                 
                                 <div className="result-col-climate">
-                                    {traducaoClimas[e.climate]}
+                                    {e.climate ? e.climate : "Não definido"}
                                 </div>
                                 <div className="result-col-biome">
-                                    {e.biome}
+                                    {e.biome ? e.biome : "Não definido"}
                                 </div>
                                 <div className="result-col-country">
                                     {e.country}
                                 </div>
                                 <div className="result-col-irrigation">
-                                    {traducaoIrrigacao[e.irrigation]}
+                                    {traducaoIrrigacao[e.irrigation] ? traducaoIrrigacao[e.irrigation] : "Não definido"}
                                 </div>
                                 <div className="result-col-cultivationSystem">
-                                    {traducaoSistemaCultivo[e.cultivationSystem]}
+                                    {traducaoSistemaCultivo[e.cultivationSystem] ? traducaoSistemaCultivo[e.cultivationSystem] : "Não definido"}
                                 </div>
                                 <div className="result-col-soil">
-                                    {traducaoBioma[e.soil]}
+                                    {traducaoSolo[e.soil] ? traducaoSolo[e.soil] : "Não definido"}
                                 </div>
 
                                 <div className="result-col-acoes-constant">
