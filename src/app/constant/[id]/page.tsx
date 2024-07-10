@@ -9,6 +9,8 @@ import { cropsService } from "@/services/crops";
 import Image from "next/image";
 import NavButton from "@/components/layout/navigationButton";
 import Select from "@/components/layout/customSelect";
+import { typeFilterOptions, climateFilterOptions, soilFilterOptions, cultivationSystemFilterOptions, irrigationFilterOptions  } from "@/utils/constantFilterOptions";
+import { typeTranslation, irrigationTranslation, cultivationSystemTranslation, soilTranslation } from "@/utils/translationsOptions";
 
 interface Props {
     params: { id: string }
@@ -35,81 +37,32 @@ const constant = ({ params }: Props) => {
     const [dadosTemp, setDadosTemp] = useState<dadosConstants[]>([]) //state temporario para trabalhar com filtros
     const [titulo, setTitulo] = useState<string | any>('')
     const [cropId, setCropId] = useState<string | any>('')
-
     const [irrigacao, setIrrigacao] = useState<string>('all')
     const [clima, setClima] = useState<string>('all')
     const [tipo, setTipo] = useState<string>('all')
     const [sistemaCultivo, setSistemaCultivo] = useState<string>('all')
     const [solo, setSolo] = useState<string>('all')
 
-    //set opts
 
-    const irrigationOptions = [
-        { value: "all", label: "Todos" },
-        { value: "Irrigation", label: "Irrigado" },
-        { value: "Dry", label: "Sequeiro" },
-    ]
+    const handleDeleteConstant = async (id: string) => {
+        
+        let session = sessionStorage.getItem('@token')
+        
+        if (session != null) {
+            const constant = new cropsService(session)
 
-    const climateOptions = [
-        { value: "NaoInformado", label: "Não informado" },
-        { value: "Seco", label: "Seco" },
-        { value: "Semiárido", label: "Semiárido" },
-        { value: "Temperado", label: "Temperado" },
-        { value: "Frio", label: "Frio" },
-        { value: "Mediterrâneo", label: "Mediterrâneo" },
-        { value: "Montanha", label: "Montanha" },
-    ]
-
-    const typeOptions = [
-        { value: "all", label: "Todos" },
-        { value: "HARVEST_INDEX", label: "ÍNDICE DE COLHEITA" },
-        { value: "AERIAL_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUO DA PARTE AÉREA"},
-        { value: "PRODUCT_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUO DO PRODUTO" },
-        { value: "PRODUCT_DRY_MATTER_FACTOR", label: "TEOR DA MATÉRIA SECA COLHIDA"},
-        { value: "RESIDUE_DRY_MATTER_FACTOR", label: "TEOR DA MATÉRIA SECA RESÍDUO" },
-        { value: "BELOWGROUND_INDEX", label: "ÍNDICE DE RAIZ" },
-        { value: "WEED_AERIAL_FACTOR", label: "FATOR DE CONVERSÃO PARA ESTIMAR A BIOMASSA AÉREA DAS ADVENTÍCIAS" },
-        { value: "WEED_BELOWGROUND_INDEX", label: "ÍNDICE DE RAIZ ADVENTÍCIAS" },
-    ]
-
-    const cultivationSystemOptions = [
-        { value: "all", label: "Todos" },
-        { value: "Agroecological", label: "Agroecológico" },
-        { value: "Conventional", label: "Convencional" },
-        { value: "Organic", label: "Orgânico" },
-    ]
-
-    const soilOptions = [
-        { value: "all", label: "Todos" },
-        { value: "Clayey", label: "Argiloso" },
-        { value: "Sandy", label: "Arenoso" },
-        { value: "SandyClay", label: "Arenoargiloso" },
-    ]
-
-    //TRADUÇÕES
-    const traducaoConstantes: any = {
-        'HARVEST_INDEX': "ÍNDICE DE COLHEITA",
-        'AERIAL_RESIDUE_INDEX': "ÍNDICE DE RESÍDUO DA PARTE AÉREA",
-        'PRODUCT_RESIDUE_INDEX': "ÍNDICE DE RESÍDUO DO PRODUTO",
-        'PRODUCT_DRY_MATTER_FACTOR': "TEOR DA MATÉRIA SECA COLHIDA",
-        'RESIDUE_DRY_MATTER_FACTOR': "TEOR DA MATÉRIA SECA RESÍDUO",
-        'BELOWGROUND_INDEX': "ÍNDICE DE RAIZ",
-        'WEED_AERIAL_FACTOR': "FATOR DE CONVERSÃO PARA ESTIMAR A BIOMASSA AÉREA DAS ADVENTÍCIAS",
-        'WEED_BELOWGROUND_INDEX': "ÍNDICE DE RAIZ ADVENTÍCIAS",
-    }
-    const traducaoIrrigacao: any = {
-        "Irrigation": "Irrigado",
-        "Dry": "Sequeiro"
-    }
-    const traducaoSistemaCultivo: any = {
-        "Organic": "Orgânico",
-        "Conventional": "Convencional",
-        "Agroecological": "Agroecológico",
-    }
-    const traducaoSolo: any = {
-        "Clayey": "Argiloso",
-        "Sandy": "Arenoso",
-        "SandyClay": "Arenoargiloso",
+            try {
+                await constant.deleteConstant(id)
+                setDados(dadosTemp.filter(dado => dado.id !== id))
+                console.log("Fator de conversão removido")
+            } catch (error) {
+                console.error("Falha ao deletar constante:", error)
+            }
+        } else {
+            sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`)
+            redirect('/')
+        }
+        
     }
 
     //AUTENTICACAO
@@ -133,6 +86,7 @@ const constant = ({ params }: Props) => {
         }
 
     }, [])
+    
     
     useEffect(() => {
         let dadosFiltrados = dados
@@ -173,19 +127,19 @@ const constant = ({ params }: Props) => {
 
                     <div className="container-filtros">
                         <div>
-                            <Select type="filter" options={irrigationOptions} onChange={(value) => setIrrigacao(value)} placeholder="Filtrar por irrigação" />
+                            <Select type="filter" options={irrigationFilterOptions} onChange={(value) => setIrrigacao(value)} placeholder="Filtrar por irrigação" />
                         </div>
                         <div>
-                            <Select type="filter" options={climateOptions} onChange={(value) => setClima(value)} placeholder="Filtrar por clima" />
+                            <Select type="filter" options={climateFilterOptions} onChange={(value) => setClima(value)} placeholder="Filtrar por clima" />
                         </div>
                         <div>
-                            <Select type="filter" options={cultivationSystemOptions} onChange={(value) => setSistemaCultivo(value)} placeholder="Filtrar por sistema de cultivo"/>
+                            <Select type="filter" options={cultivationSystemFilterOptions} onChange={(value) => setSistemaCultivo(value)} placeholder="Filtrar por sistema de cultivo"/>
                         </div>
                         <div>
-                            <Select type="filter" options={typeOptions} onChange={(value) => setTipo(value)} placeholder="Filtrar por tipo"/>
+                            <Select type="filter" options={typeFilterOptions} onChange={(value) => setTipo(value)} placeholder="Filtrar por tipo"/>
                         </div>
                         <div>
-                            <Select type="filter" options={soilOptions} onChange={(value) => setSolo(value)} placeholder="Filtrar por solo"/>
+                            <Select type="filter" options={soilFilterOptions} onChange={(value) => setSolo(value)} placeholder="Filtrar por solo"/>
                         </div>
           
                     </div>
@@ -236,7 +190,7 @@ const constant = ({ params }: Props) => {
                             <div key={e.id} className="content-list">
                             
                                 <div className="result-col-type">
-                                    {traducaoConstantes[e.type]}
+                                    {typeTranslation[e.type]}
                                 </div>
 
                                 <div className="result-col-value">
@@ -249,22 +203,27 @@ const constant = ({ params }: Props) => {
 
                                 
                                 <div className="result-col-climate">
-                                    {e.climate ? e.climate : "Não definido"}
+                                    {e.climate ? e.climate : "Não informado"}
                                 </div>
+
                                 <div className="result-col-biome">
-                                    {e.biome ? e.biome : "Não definido"}
+                                    {e.biome ? e.biome : "Não informado"}
                                 </div>
+                                
                                 <div className="result-col-country">
                                     {e.country}
                                 </div>
+                                
                                 <div className="result-col-irrigation">
-                                    {traducaoIrrigacao[e.irrigation] ? traducaoIrrigacao[e.irrigation] : "Não definido"}
+                                    {irrigationTranslation[e.irrigation] ? irrigationTranslation[e.irrigation] : "Não informado"}
                                 </div>
+                                
                                 <div className="result-col-cultivationSystem">
-                                    {traducaoSistemaCultivo[e.cultivationSystem] ? traducaoSistemaCultivo[e.cultivationSystem] : "Não definido"}
+                                    {cultivationSystemTranslation[e.cultivationSystem] ? cultivationSystemTranslation[e.cultivationSystem] : "Não informado"}
                                 </div>
+                                
                                 <div className="result-col-soil">
-                                    {traducaoSolo[e.soil] ? traducaoSolo[e.soil] : "Não definido"}
+                                    {soilTranslation[e.soil] ? soilTranslation[e.soil] : "Não informado"}
                                 </div>
 
                                 <div className="result-col-acoes-constant">
@@ -287,6 +246,7 @@ const constant = ({ params }: Props) => {
                                         alt="excluir"
                                         width={20}
                                         height={20}
+                                        onClick={() => handleDeleteConstant(e.id)}
                                     />
                                 </div>
 

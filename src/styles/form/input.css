@@ -1,0 +1,28 @@
+.inputDefault-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: auto;
+}
+
+.inputDefault-label {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.inputDefault-input {
+  box-sizing: border-box;
+  height: 38px;
+  border: 1px solid rgba(0, 0, 0, 0.267);
+  padding: 8px 10px;
+  /* border: 1px solid #ccc; */
+  border-radius: 7px;
+  font-size: 14px;
+}
+
+.inputDefault-input:focus {
+  border-color: #007BFF;
+  outline: none;
+}
+
+                

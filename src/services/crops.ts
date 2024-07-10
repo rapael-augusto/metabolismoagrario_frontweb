@@ -1,4 +1,4 @@
-import { CropsParams,paramsEntradaConstant } from "@/types/cropsTypes";
+import { CropsParams, paramsBibliographicReference, paramsEntradaConstant } from "@/types/cropsTypes";
 import Axios from "./api";
 import { CultivarParams } from "@/types/cultivarTypes";
 
@@ -96,5 +96,61 @@ export class cropsService {
             })
         }
 
+    }
+
+    async createBibliographicReference(data: paramsBibliographicReference) {
+        if(this.token) {
+            return await Axios.post(`/bibliographic`, data, {
+                headers:{
+                    Authorization: `Bearer ${this.token}`
+                }
+            }) .then((response) => {
+                return response.data
+            }).catch((error)=> {
+                return {status: -1, mensagem: error.response.data.message}
+            })
+        }
+    }
+
+    async deleteConstant(idConstant: string) {
+        if (this.token) {
+            return await Axios.delete(`/constants/${idConstant}`, {
+                headers:{
+                    Authorization: `Bearer ${this.token}`
+                }
+            }).then((response) => {
+                return {status: 1, mensagem: 'Fator de conversão deletado'}
+            }).catch((error)=> {
+                return {status: -1, mensagem: error.response.data.message}
+            })
+        }
+    }
+
+    async deleteCultivar(idCultivar: string) {
+        if (this.token) {
+            return await Axios.delete(`/cultivars/${idCultivar}`, {
+                headers:{
+                    Authorization: `Bearer ${this.token}`
+                }
+            }).then((response) => {
+                return {status: 1, mensagem: 'Cultivar deletado'}
+            }).catch((error)=> {
+                return {status: -1, mensagem: error.response.data.message}
+            })
+        }
+    }
+
+    async deleteCrop(idCrop: string) {
+        if (this.token) {
+            return await Axios.delete(`/crops/${idCrop}`, {
+                headers:{
+                    Authorization: `Bearer ${this.token}`
+                }
+            }).then((response) => {
+                return {status: 1, mensagem: 'Cultura deletado'}
+            }).catch((error)=> {
+                return {status: -1, mensagem: error.response.data.message}
+            })
+        }
     }
 }

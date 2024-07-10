@@ -63,4 +63,8 @@
 .container-filtros div {
     width: max-content;
     padding: 0 4px;
-}   
+}
+
+.result-col-acoes-constant:link:hover {
+
+}
