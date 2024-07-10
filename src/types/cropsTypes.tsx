@@ -13,6 +13,14 @@ export type paramsEntradaConstant = {
     irrigation: string
     country: string 
     cultivationSystem: string
+    bibliographicReferenceId: number
+}
+
+export type paramsBibliographicReference = {
+    authorName: string
+    title: string
+    year: number
+    source: string
 }
 
 export type responseCropsCreate = {

@@ -14,6 +14,7 @@ import { redirect } from "next/navigation";
 import NavButton from "@/components/layout/navigationButton";
 import Select from "@/components/layout/customSelect";
 import { useRouter } from "next/navigation";
+import { typeSelectOptions,  climateSelectOptions, irrigationSelectOptions, cultivationSystemSelectOptions, biomeSelectOptions, soilSelectOptions } from "@/utils/selectOptions";
 
 interface Props {
     params: { id: string }
@@ -37,67 +38,18 @@ const CriarConstant = ({ params }: Props) => {
     const [cultivationSystem, setCultivationSysten] = useState('')
     const [country, setCountry] = useState('')
     const [soil, setSoil] = useState('')
+    const [errorMessage, setErrorMessage] = useState<string[]>([])
+    const [bibliographicReferenceId, setBibliographicReferenceId] = useState<number | null>(null)
+    const [authorName, setAuthorName] = useState('')
+    const [title, setTitle] = useState('')
+    const [year, setYear] = useState<number>(0)
+    const [source, setSource] = useState('')
+
+
+
     const router = useRouter()
-    
-    const typeOptions = [
-        { value: "HARVEST_INDEX", label: "ÍNDICE DE COLHEITA" },
-        { value: "AERIAL_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUO DA PARTE AÉREA"},
-        { value: "PRODUCT_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUO DO PRODUTO" },
-        { value: "PRODUCT_DRY_MATTER_FACTOR", label: "TEOR DA MATÉRIA SECA COLHIDA"},
-        { value: "RESIDUE_DRY_MATTER_FACTOR", label: "TEOR DA MATÉRIA SECA RESÍDUO" },
-        { value: "BELOWGROUND_INDEX", label: "ÍNDICE DE RAIZ" },
-        { value: "WEED_AERIAL_FACTOR", label: "FATOR DE CONVERSÃO PARA ESTIMAR A BIOMASSA AÉREA DAS ADVENTÍCIAS" },
-        { value: "WEED_BELOWGROUND_INDEX", label: "ÍNDICE DE RAIZ ADVENTÍCIAS" },
-    ]
 
-    const climateOptions = [
-        { value: "NaoInformado", label: "Não definido" },
-        { value: "Seco", label: "Seco" },
-        { value: "Semiárido", label: "Semiárido" },
-        { value: "Temperado", label: "Temperado" },
-        { value: "Frio", label: "Frio" },
-        { value: "Mediterrâneo", label: "Mediterrâneo" },
-        { value: "Montanha", label: "Montanha" },
-    ]
-        
-    const irrigationOptions = [
-        { value: "NaoInformado", label: "Não definido" },
-        { value: "Irrigation", label: "Irrigado" },
-        { value: "Dry", label: "Sequeiro" },
-    ]
-            
-    const cultivationSystemOptions = [
-        { value: "NaoInformado", label: "Não definido" },
-        { value: "Conventional", label: "Convencional" },
-        { value: "Organic", label: "Orgânico" },
-    ]
 
-    const biomeOptions = [
-        { value: "NaoInformado", label: "Não definido" },
-        { value: "Amazônia", label: "Amazônia" },
-        { value: "Biomas de Montanha", label: "Biomas de Montanha" },
-        { value: "Cerrado", label: "Cerrado" },
-        { value: "Caatinga", label: "Caatinga" },
-        { value: "Desertos", label: "Desertos" },
-        { value: "Floresta Temperada", label: "Floresta Temperada" },
-        { value: "Floresta Tropical", label: "Floresta Tropical" },
-        { value: "Floresta Mediterrânea", label: "Floresta Mediterrânea" },
-        { value: "Mata Atlântica", label: "Mata Atlântica" },
-        { value: "Pampa", label: "Pampa" },
-        { value: "Pradarias", label: "Pradarias" },
-        { value: "Savanas", label: "Savanas" },
-        { value: "Taiga", label: "Taiga" },
-        { value: "Tundra", label: "Tundra" },
-    ]
-
-    const soilOptions = [
-        { value: "NaoInformado", label: "Não definido" },
-        { value: "Clayey", label: "Argiloso" },
-        { value: "Sandy", label: "Arenoso" },
-        { value: "SandyClay", label: "Arenoargiloso" },
-    ]
-                
-          
     const handleTypeChange = (value: string) => {
         setType(value)
     }
@@ -134,36 +86,50 @@ const CriarConstant = ({ params }: Props) => {
         }
     }, [])
 
+    const validateFields = () => {
+        const newErrors: string[] = [];
 
+        if (!type) newErrors.push("Tipo é um campo obrigatório.")
+        if (!value) newErrors.push("Valor é um campo obrigatório.")
+        if (!climate) newErrors.push("Clima é um campo obrigatório.")
+        if (!biome) newErrors.push("Bioma é um campo obrigatório.")
+        if (!irrigation) newErrors.push("Irrigação é um campo obrigatório.")
+        if (!country) newErrors.push("País é um campo obrigatório.")
+        if (!cultivationSystem) newErrors.push("Sistema de cultivo é um campo obrigatório.")
+        if (!reference) newErrors.push("Referência é um campo obrigatório.")
+
+        setErrorMessage(newErrors);
+        return newErrors.length === 0;
+    }
+
+    const createBibliographicReference = async () => {
+        if (token) {
+            const service = new cropsService(token)
+            const response = await service.createBibliographicReference({
+                authorName,
+                title,
+                year,
+                source
+            })
+            return response.id
+        }
+    }
+    
     const cadastroConstant = async (e: React.FormEvent) => {
         e.preventDefault()
 
-        if (!type) {
-            sessionStorage.setItem('mensagem', `{"mensagem":"Tipo é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
-            location.reload()
-        } else if (!value) {
-            sessionStorage.setItem('mensagem', `{"mensagem":"Valor é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
-            location.reload()
-        } else if (!climate){
-            sessionStorage.setItem('mensagem', `{"mensagem":"Clima é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
-            location.reload()
-        } else if (!biome){
-            sessionStorage.setItem('mensagem', `{"mensagem":"Bioma é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
-            location.reload()
-        } else if (!irrigation){
-            sessionStorage.setItem('mensagem', `{"mensagem":"Irrigação é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
-            location.reload()
-        } else if (!country){
-            sessionStorage.setItem('mensagem', `{"mensagem":"País é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
-            location.reload()
-        } else if (!cultivationSystem){
-            sessionStorage.setItem('mensagem', `{"mensagem":"Sistema de cultivo é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
-            location.reload()
-        } else if (!reference){
-            sessionStorage.setItem('mensagem', `{"mensagem":"Referência é um campo obrigatório para cadastrar uma constante!","tipo":"danger"}`)
-            location.reload()
-        } else {
-            let service = new cropsService(token)
+        if (!validateFields()) {
+            return
+        }
+
+        let refId = bibliographicReferenceId
+
+        if(!refId) {
+            refId = await createBibliographicReference()
+            setBibliographicReferenceId(refId)
+        }
+
+        let service = new cropsService(token)
             
             let paramsData: any = {
                 type: type,
@@ -175,7 +141,8 @@ const CriarConstant = ({ params }: Props) => {
                 irrigation: irrigation !== 'NaoInformado' ? irrigation : undefined,
                 country: country,
                 cultivationSystem: cultivationSystem !== 'NaoInformado' ? cultivationSystem : undefined,
-                soil: soil !== 'NaoInformado' ? soil : undefined
+                soil: soil !== 'NaoInformado' ? soil : undefined,
+                bibliographicReferenceId: refId
             };
 
             Object.keys(paramsData).forEach(key => paramsData[key] === undefined && delete paramsData[key])
@@ -184,8 +151,6 @@ const CriarConstant = ({ params }: Props) => {
 
             console.log(responseConstants)
             setResponse(responseConstants.status)
-        }
-
     }
     
 
@@ -199,12 +164,61 @@ const CriarConstant = ({ params }: Props) => {
         <Layout>
             <div className="cropsPage">
                 <div className="list-crops">
-                    <form className="formBody-login">
-                        <div className="form-input-box">
-                            <h2 className="tittle-login">Cadastrar fator de conversão</h2>
-                        </div>
+                    <div className="form-title">
+                        <h2 className="tittle-login">Cadastrar fator de conversão</h2>
+                    </div>
+                    <form className="form-container">
 
-                        <Select type="form" label="Tipo" options={typeOptions} onChange={handleTypeChange}/>
+                        {errorMessage.length > 0 && (
+                            <div className="error-message">
+                                {errorMessage.map((error, index) => (
+                                    <div key={index}>{error}</div>
+                                ))}
+                            </div>
+                        )}
+
+                        <h3>Referência bibliográfica</h3>
+
+                        <InputDefault
+                            classe="form-input-box"
+                            label="Nome do autor"
+                            placeholder="Nome do autor"
+                            value={authorName}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAuthorName(e.target.value)}
+                            type={'text'}
+                        />
+
+                        <InputDefault
+                            classe="form-input-box"
+                            label="Título"
+                            placeholder="Título"
+                            value={title}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+                            type={'text'}
+                        />
+
+                        <InputDefault
+                            classe="form-input-box"
+                            label="Ano"
+                            placeholder="Ano"
+                            value={year ? year.toString() : ''}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setYear(parseInt(e.target.value))}
+                            type={'number'}
+                        />
+
+                        <InputDefault
+                            classe="form-input-box"
+                            label="Fonte"
+                            placeholder="Fonte"
+                            value={source}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSource(e.target.value)}
+                            type={'text'}
+                        />
+
+
+                        <h3>Informações sobre o fator de conversão</h3>
+
+                        <Select type="form" label="Tipo" options={typeSelectOptions} onChange={handleTypeChange}/>
 
                         <InputDefault
                             classe="form-input-box"
@@ -215,26 +229,29 @@ const CriarConstant = ({ params }: Props) => {
                             type={'text'}
                         />
 
-                        <Select type="form" label="Clima" options={climateOptions} onChange={handleClimateChange}/>     
+                        <div className="container-2-column">
+                            <Select type="form" label="Clima" options={climateSelectOptions} onChange={handleClimateChange}/>     
+                            <Select type="form" label="Bioma" options={biomeSelectOptions} onChange={handleBiomeChange}/>  
+                        </div>
 
-                        <Select type="form" label="Bioma" options={biomeOptions} onChange={handleBiomeChange}/>  
+                        <div className="container-2-column">
+                            <InputDefault
+                                classe="form-input-box"
+                                label="País"
+                                placeholder="País"
+                                value={country}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCountry((e.target as HTMLInputElement).value)}
+                                type={'text'}
+                            />
 
-                        <InputDefault
-                            classe="form-input-box"
-                            label="País"
-                            placeholder="País"
-                            value={country}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCountry((e.target as HTMLInputElement).value)}
-                            type={'text'}
-                        />
+                            <Select type="form" label="Sistema de cultivo" options={cultivationSystemSelectOptions} onChange={handleCultivationSystemChange}/>
+                        </div>
 
-                        <Select type="form" label="Sistema de cultivo" options={cultivationSystemOptions} onChange={handleCultivationSystemChange}/>
+                        <div className="container-2-column">
+                            <Select type="form" label="Solo" options={soilSelectOptions} onChange={handleSoilChange}/>
+                            <Select type="form" label="Irrigação" options={irrigationSelectOptions} onChange={handleIrrigationChange}/>
+                        </div>
 
-                        {/* SOLO */}
-
-                        <Select type="form" label="Solo" options={soilOptions} onChange={handleSoilChange}/>
-
-                        <Select type="form" label="Irrigação" options={irrigationOptions} onChange={handleIrrigationChange}/>
 
                         <InputDefault
                             classe="form-input-box"
@@ -255,9 +272,9 @@ const CriarConstant = ({ params }: Props) => {
                             type={'text'}
                         />
 
-                        <div className="form-input-box">
-                            <Button texto={'Cadastrar'} classe={'button-home'} onclick={cadastroConstant} />
+                        <div className="footer-form">
                             <NavButton Url={`/constant/${params.id}`} page="form" text="Voltar" type="voltar" />
+                            <Button texto={'Cadastrar'} classe={'form-button'} onclick={cadastroConstant} />
                         </div>
 
                     </form>

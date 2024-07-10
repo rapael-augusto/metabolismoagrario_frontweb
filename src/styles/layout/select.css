@@ -1,10 +1,32 @@
+.filter-select {
+  width: max-content;
+}
+
 .form-select {
   display: flex;
   flex-direction: column;
-  width: 80%;
-  margin: 4px auto;
+  width: 100%;
 }
 
-.filter-select {
-  width: max-content;
+.select-label {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.form-select select,
+.filter-select select {
+  box-sizing: border-box;
+  width: 100%;
+  height: 38px;
+  padding: 8px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.267);
+  border-radius: 7px;
+  font-size: 14px;
+}
+
+.form-select select:focus,
+.filter-select select:focus {
+  border-color: #007BFF;
+  border-radius: 7px;
+  outline: none;
 }

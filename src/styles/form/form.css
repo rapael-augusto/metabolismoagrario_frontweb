@@ -1,14 +1,70 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border: 1px solid rgba(0, 0, 0, 0.267);
+    border-radius: 20px;
+    width: 900px;
+    min-height: 170px;
+    height: min-content;
+    margin: 0 auto;
+    padding: 24px 24px 30px 24px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 8px;
+}
+
+.container-2-column {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    gap: 32px;
+    /* margin-top: 8px; */
+    /* background-color: aqua; */
+}
+
 .form-input-box {
     display: flex;
     flex-direction: column;
-    width: 80%;
-    margin: 4px auto;
+    width: 100%;
+    /* margin-top: 28px; */
+}
+
+.form-title {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 32px auto;
+}
+
+.form {
+    width: 100%;
+}
+
+.form-button {
+    background-color: #386641;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    height: 36px;
+    width: 100px;
+    margin: 3px 0;
+    transition: all ease .4s;
+    cursor: pointer;
 }
 
 .footer-form{
     display: flex;
     flex-direction: row;
-    width: 80%;
+    justify-content: flex-end;
+    width: 100%;
     margin: 4px auto;
-    background-color: red;
+    gap: 16px;
+    margin-top: 32px;
+    /* background-color: red; */
+}
+
+.info-block {
+    margin-top: 10px;
 }

@@ -28,16 +28,21 @@
 
 /* padrao para formularios */
 .navButton-voltar-form{
-    background-color: rgba(255, 0, 0, 0.703);
-    color: white;
-    border: none;
+    background-color: transparent;
+    color: #838383;
+    border: 1px solid #838383;
+    border-radius: 8px;
     font-size: 14px;
-    padding: 3px 0px;
+    height: 36px;
+    min-width: 100px;
+    padding: 0px 0px;
     margin: 3px 0;
     width: 100%;
     transition: all ease .4s;
+    cursor: pointer;
 }
 
 .navButton-voltar-form:hover{
-    background-color: red;
+    background-color: #838383;
+    color: white;
 }
