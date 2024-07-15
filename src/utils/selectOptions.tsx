@@ -2,9 +2,9 @@
 
 const typeSelectOptions = [
   { value: "HARVEST_INDEX", label: "ÍNDICE DE COLHEITA" },
-  { value: "AERIAL_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUO DA PARTE AÉREA"},
+  { value: "AERIAL_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUO DA PARTE AÉREA" },
   { value: "PRODUCT_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUO DO PRODUTO" },
-  { value: "PRODUCT_DRY_MATTER_FACTOR", label: "TEOR DA MATÉRIA SECA COLHIDA"},
+  { value: "PRODUCT_DRY_MATTER_FACTOR", label: "TEOR DA MATÉRIA SECA COLHIDA" },
   { value: "RESIDUE_DRY_MATTER_FACTOR", label: "TEOR DA MATÉRIA SECA RESÍDUO" },
   { value: "BELOWGROUND_INDEX", label: "ÍNDICE DE RAIZ" },
   { value: "WEED_AERIAL_FACTOR", label: "FATOR DE CONVERSÃO PARA ESTIMAR A BIOMASSA AÉREA DAS ADVENTÍCIAS" },
@@ -20,13 +20,13 @@ const climateSelectOptions = [
   { value: "Mediterrâneo", label: "Mediterrâneo" },
   { value: "Montanha", label: "Montanha" },
 ]
-  
+
 const irrigationSelectOptions = [
   { value: "NaoInformado", label: "Não informado" },
   { value: "Irrigation", label: "Irrigado" },
   { value: "Dry", label: "Sequeiro" },
 ]
-    
+
 const cultivationSystemSelectOptions = [
   { value: "NaoInformado", label: "Não informado" },
   { value: "Conventional", label: "Convencional" },
