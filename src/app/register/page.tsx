@@ -1,97 +1,31 @@
 'use client';
 
 import Layout from "@/components/layout/layout";
-import { useEffect, useState } from "react";
 import Button from "@/components/forms/button";
 import InputDefault from "@/components/forms/inputDefault";
-import '../../styles/form/form.css'
-import '../../styles/home/login.css'
-import Auth from "@/services/auth";
-import { redirect } from "next/navigation";
+import '../../styles/form/form.css';
+import '../../styles/home/login.css';
 import NavButton from "@/components/layout/navigationButton";
 import Select from "@/components/layout/customSelect";
+import useRegisterForm from "../hooks/useRegisterForm"; // Importa o hook
 
-const registerComp = () => {
-    const auth = new Auth
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [role, setRole] = useState('')
-    const [password, setPassword] = useState('')
-    const [respostaRequisicao,setResposta] = useState <string>('')
-    const [session,setSession] = useState <string|null>('')
-
-    const handleRoleChange = (value: string) => {
-        setRole(value);
-      };
-
-    const options = [
-        { value: "ADMIN", label: "Administrador" },
-        { value: "OPERATOR", label: "Operador" },
-    ]
-
-    useEffect(() => {
-        const token = sessionStorage.getItem('@token')
-
-        if (!token) {
-            sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`)
-            redirect('/')
-        }else{
-            setSession(token)
-        }
-
-    }, [])
-
-
-    const cadastroEvento = async (e: React.FormEvent) => {
-        e.preventDefault()
-
-        //validates 
-        if (!name) {
-            sessionStorage.setItem('mensagem', `{"mensagem":"Nome é um campo obrigatório para cadastrar um usuário !","tipo":"danger"}`)
-            location.reload()
-        } else if (!email) {
-            sessionStorage.setItem('mensagem', `{"mensagem":"E-mail é um campo obrigatório para cadastrar um usuário !","tipo":"danger"}`)
-            location.reload()
-        } else if (!role) {
-            sessionStorage.setItem('mensagem', `{"mensagem":"Tipo de usuário é um campo obrigatório para cadastrar um usuário !","tipo":"danger"}`)
-            location.reload()
-        } else if (!password) {
-            sessionStorage.setItem('mensagem', `{"mensagem":"Senha é um campo obrigatório para cadastrar um usuário !","tipo":"danger"}`)
-            location.reload()
-        } else {
-            //requisicao
-            const dadosCadastro = {
-                name: name,
-                email: email,
-                role: role,
-                password: password,
-            };
-           
-            const response: any = await auth.cadastro(dadosCadastro,session);
-            const { status, message } = response;
-
-            if(message == "User already exists"){
-                sessionStorage.setItem('mensagem', `{"mensagem":"Esse E-mail não está disponível","tipo":"danger"}`)
-                location.reload()
-            }
-
-            setResposta(status)
-            
-        }
-
-
-    }
-
-    if (respostaRequisicao == "1"){
-        sessionStorage.setItem('mensagem', `{"mensagem":"Usuário cadastrado com sucesso !","tipo":"success"}`)
-        window.location.href = `/usersList`
-    }
+const RegisterComp = () => {
+    const {
+        name,
+        setName,
+        email,
+        setEmail,
+        role,
+        password,
+        setPassword,
+        handleRoleChange,
+        options,
+        cadastroEvento,
+    } = useRegisterForm(); // Usa o hook
 
     return (
         <Layout>
-            {/* <div className="feedback-error" >mensagem de erro aqui</div> */}
-
-            <form className="formBody-login">
+            <form className="formBody-login" onSubmit={cadastroEvento}>
                 <div className="form-input-box">
                     <h2 className="tittle-login">Cadastrar</h2>
                 </div>
@@ -114,7 +48,7 @@ const registerComp = () => {
                     value={email}
                 />
 
-                <Select label="Tipo de usuário" options={options} onChange={handleRoleChange}/>
+                <Select label="Tipo de usuário" options={options} onChange={handleRoleChange} type={"form"} />
 
                 <InputDefault
                     type={'password'}
@@ -134,4 +68,4 @@ const registerComp = () => {
     );
 }
 
-export default registerComp;
+export default RegisterComp;
