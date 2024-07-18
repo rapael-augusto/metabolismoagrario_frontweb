@@ -1,29 +1,34 @@
 .navButton-cadastrar-list,
-.navButton-voltar-list{
+.navButton-voltar-list {
     border: 1px solid transparent;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 16px;
     padding: 3px 12px;
-    color: white;
     font-weight: bold;
+    text-decoration: none;
     transition: all ease .4s;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .navButton-voltar-list {
-    background-color: rgba(255, 0, 0, 0.703);
+    background-color: transparent; 
+    gap: 8px;
+    text-decoration: underline;
 }
 
 .navButton-voltar-list:hover{
-    background-color: red;
+    /* background-color: red; */
 }
 
-.navButton-cadastrar-list {
-    background-color: rgba(42, 177, 42, 0.699);
+.navButton-cadastrar-list > button {
+    border: 1px solid;
+    height: 56px;
 }
 
 .navButton-cadastrar-list:hover {
-    background-color: rgba(42, 177, 42);
+    /* background-color: rgba(42, 177, 42); */
 }
 
 /* padrao para formularios */
