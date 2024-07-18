@@ -3,6 +3,7 @@
 import Layout from "@/components/layout/layout";
 import "../../../styles/crops/pageCrops.css"
 import "../../../styles/constant/constantPage.css"
+import Table from "@/components/table/table";
 import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 import { cropsService } from "@/services/crops";
@@ -43,6 +44,17 @@ const constant = ({ params }: Props) => {
     const [sistemaCultivo, setSistemaCultivo] = useState<string>('all')
     const [solo, setSolo] = useState<string>('all')
 
+
+    const columns = [
+        { header: 'Tipo', accessor: 'type' },
+        { header: 'Valor', accessor: 'value' },
+        { header: 'Clima', accessor: 'climate' },
+        { header: 'Bioma', accessor: 'biome' },
+        { header: 'País', accessor: 'country' },
+        { header: 'Irrigação', accessor: 'irrigation' },
+        { header: 'Sistema de cultivo', accessor: 'cultivationSystem' },
+        { header: 'Solo', accessor: 'soil' }
+    ]
 
     const handleDeleteConstant = async (id: string) => {
         
@@ -120,37 +132,43 @@ const constant = ({ params }: Props) => {
     return (
         <Layout>
             <div className="cropsPage">
+                
+                <div className="container-button-crops">
+                    <NavButton Url={`/cultivars/${cropId}`} page="list" text="Voltar" type="voltar" />
+                    <NavButton Url={`/criarConstant/${params.id}`} page="list" text="Cadastrar fator de conversão" type="cadastrar" />
+                </div>
+                
                 <h2 className="titulo-crops" >Fatores de conversão de {titulo}</h2>
-
 
                 <div className="list-constants">
 
                     <div className="container-filtros">
-                        <div>
-                            <Select type="filter" options={irrigationFilterOptions} onChange={(value) => setIrrigacao(value)} placeholder="Filtrar por irrigação" />
-                        </div>
-                        <div>
-                            <Select type="filter" options={climateFilterOptions} onChange={(value) => setClima(value)} placeholder="Filtrar por clima" />
-                        </div>
-                        <div>
-                            <Select type="filter" options={cultivationSystemFilterOptions} onChange={(value) => setSistemaCultivo(value)} placeholder="Filtrar por sistema de cultivo"/>
-                        </div>
+
                         <div>
                             <Select type="filter" options={typeFilterOptions} onChange={(value) => setTipo(value)} placeholder="Filtrar por tipo"/>
                         </div>
+
+                        <div>
+                            <Select type="filter" options={climateFilterOptions} onChange={(value) => setClima(value)} placeholder="Filtrar por clima" />
+                        </div>
+
+                        <div>
+                            <Select type="filter" options={irrigationFilterOptions} onChange={(value) => setIrrigacao(value)} placeholder="Filtrar por irrigação" />
+                        </div>
+                        
+                        <div>
+                            <Select type="filter" options={cultivationSystemFilterOptions} onChange={(value) => setSistemaCultivo(value)} placeholder="Filtrar por sistema de cultivo"/>
+                        </div>
+                        
                         <div>
                             <Select type="filter" options={soilFilterOptions} onChange={(value) => setSolo(value)} placeholder="Filtrar por solo"/>
                         </div>
           
                     </div>
 
-                    <div className="container-button-crops">
-                        <NavButton Url={`/cultivars/${cropId}`} page="list" text="Voltar" type="voltar" />
-                        <NavButton Url={`/criarConstant/${params.id}`} page="list" text="Cadastrar fator de conversão" type="cadastrar" />
-                    </div>
+                    <Table data={dadosTemp} columns={columns} onDelete={handleDeleteConstant} />
 
                     <div className="header-list">
-                        Dados
 
                         <div className="header-col-type">
                             Tipo
@@ -229,34 +247,34 @@ const constant = ({ params }: Props) => {
                                 <div className="result-col-acoes-constant">
 
                                     <Image
-                                        src={"/visualizar.svg"}
+                                        src={"/eye.svg"}
                                         alt="visualizar"
-                                        width={20}
-                                        height={20}
+                                        width={24}
+                                        height={24}
                                     />
 
                                     <Image
-                                        src={"/edit.svg"}
+                                        src={"/pencil.svg"}
                                         alt="Editar"
-                                        width={20}
-                                        height={20}
+                                        width={24}
+                                        height={24}
                                     />
                                     <Image
-                                        src={"/excluir.svg"}
+                                        src={"/delete.svg"}
                                         alt="excluir"
-                                        width={20}
-                                        height={20}
+                                        width={24}
+                                        height={24}
                                         onClick={() => handleDeleteConstant(e.id)}
                                     />
                                 </div>
 
                             </div>
                         ))
+
                     }
                 </div>
+                
             </div>
-
-
         </Layout>
     );
 }
