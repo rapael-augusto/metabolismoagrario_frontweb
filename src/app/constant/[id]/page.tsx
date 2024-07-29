@@ -4,14 +4,15 @@ import Layout from "@/components/layout/layout";
 import "../../../styles/crops/pageCrops.css"
 import "../../../styles/constant/constantPage.css"
 import Table from "@/components/table/table";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { redirect } from "next/navigation";
 import { cropsService } from "@/services/crops";
 import Image from "next/image";
 import NavButton from "@/components/layout/navigationButton";
 import Select from "@/components/layout/customSelect";
-import { typeFilterOptions, climateFilterOptions, soilFilterOptions, cultivationSystemFilterOptions, irrigationFilterOptions  } from "@/utils/constantFilterOptions";
+import { typeFilterOptions, climateFilterOptions, soilFilterOptions, cultivationSystemFilterOptions, irrigationFilterOptions, biomeFilterOptions  } from "@/utils/constantFilterOptions";
 import { typeTranslation, irrigationTranslation, cultivationSystemTranslation, soilTranslation } from "@/utils/translationsOptions";
+import { useRouter } from "next/router";
 
 interface Props {
     params: { id: string }
@@ -35,7 +36,7 @@ interface dadosConstants {
 
 const constant = ({ params }: Props) => {
     const [dados, setDados] = useState<dadosConstants[]>([])
-    const [dadosTemp, setDadosTemp] = useState<dadosConstants[]>([]) //state temporario para trabalhar com filtros
+    const [dadosTemp, setDadosTemp] = useState<dadosConstants[]>([]) 
     const [titulo, setTitulo] = useState<string | any>('')
     const [cropId, setCropId] = useState<string | any>('')
     const [irrigacao, setIrrigacao] = useState<string>('all')
@@ -43,7 +44,7 @@ const constant = ({ params }: Props) => {
     const [tipo, setTipo] = useState<string>('all')
     const [sistemaCultivo, setSistemaCultivo] = useState<string>('all')
     const [solo, setSolo] = useState<string>('all')
-
+    const [biome, setBiome] = useState<string>('all')
 
     const columns = [
         { header: 'Tipo', accessor: 'type' },
@@ -56,17 +57,19 @@ const constant = ({ params }: Props) => {
         { header: 'Solo', accessor: 'soil' }
     ]
 
-    const handleDeleteConstant = async (id: string) => {
-        
-        let session = sessionStorage.getItem('@token')
+    const handleDeleteConstant = useCallback(async (id: string) => {
+        let session = sessionStorage.getItem('@token');
         
         if (session != null) {
-            const constant = new cropsService(session)
-
+            const constantService = new cropsService(session);
+    
             try {
-                await constant.deleteConstant(id)
-                setDados(dadosTemp.filter(dado => dado.id !== id))
+                await constantService.deleteConstant(id);
+                const updatedData = dadosTemp.filter(dado => dado.id !== id)
+                setDados(updatedData)
+                setDadosTemp(updatedData)
                 console.log("Fator de conversão removido")
+                // window.location.reload()
             } catch (error) {
                 console.error("Falha ao deletar constante:", error)
             }
@@ -74,8 +77,7 @@ const constant = ({ params }: Props) => {
             sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`)
             redirect('/')
         }
-        
-    }
+    }, [dadosTemp])
 
     //AUTENTICACAO
     useEffect(() => {
@@ -97,8 +99,7 @@ const constant = ({ params }: Props) => {
             redirect('/')
         }
 
-    }, [])
-    
+    }, [params.id])
     
     useEffect(() => {
         let dadosFiltrados = dados
@@ -123,15 +124,20 @@ const constant = ({ params }: Props) => {
             dadosFiltrados = dadosFiltrados.filter((e:dadosConstants) => e.soil == solo)
         }
 
+        if(biome != "all"){
+            dadosFiltrados = dadosFiltrados.filter((e:dadosConstants) => e.biome == biome)
+        }
+
         setDadosTemp(dadosFiltrados)
 
-    }, [irrigacao, clima, tipo, sistemaCultivo, dados, solo])
+    }, [irrigacao, clima, tipo, sistemaCultivo, solo, biome])
     
 
     //VIEW
     return (
         <Layout>
             <div className="cropsPage">
+                
                 
                 <div className="container-button-crops">
                     <NavButton Url={`/cultivars/${cropId}`} page="list" text="Voltar" type="voltar" />
@@ -153,6 +159,10 @@ const constant = ({ params }: Props) => {
                         </div>
 
                         <div>
+                            <Select type="filter" options={biomeFilterOptions} onChange={(value) => setBiome(value)} placeholder="Filtrar por Bioma" />
+                        </div>
+
+                        <div>
                             <Select type="filter" options={irrigationFilterOptions} onChange={(value) => setIrrigacao(value)} placeholder="Filtrar por irrigação" />
                         </div>
                         
@@ -166,114 +176,19 @@ const constant = ({ params }: Props) => {
           
                     </div>
 
-                    <Table data={dadosTemp} columns={columns} onDelete={handleDeleteConstant} />
+                    <Table 
+                        data={dadosTemp} 
+                        columns={columns} 
+                        onDelete={handleDeleteConstant}
+                        translations={{
+                            type: typeTranslation,
+                            irrigation: irrigationTranslation,
+                            cultivationSystem: cultivationSystemTranslation,
+                            soil: soilTranslation
+                        }}
+                    /> 
 
-                    <div className="header-list">
-
-                        <div className="header-col-type">
-                            Tipo
-                        </div>
-                        <div className="header-col-value">
-                            Valor
-                        </div>
-                        <div className="header-col-reference">
-                            Referência
-                        </div>
-                        <div className="header-col-climate">
-                            Clima
-                        </div>
-                        <div className="header-col-biome">
-                            Bioma
-                        </div>
-                        <div className="header-col-country">
-                            País
-                        </div>
-                        <div className="header-col-irrigation">
-                            Irrigação
-                        </div>
-                        <div className="header-col-cultivationSystem">
-                            Sistema de cultivo
-                        </div>
-                        <div className="header-col-soil">
-                            Solo
-                        </div>
-
-                        <div className="header-col-acoes-constant">
-                            Ações
-                        </div>
-
-                    </div>
-                    {
-                        dadosTemp.map((e: dadosConstants) => (
-                            <div key={e.id} className="content-list">
-                            
-                                <div className="result-col-type">
-                                    {typeTranslation[e.type]}
-                                </div>
-
-                                <div className="result-col-value">
-                                    {e.value}
-                                </div>
-
-                                <div className="result-col-reference">
-                                    {e.reference}
-                                </div>
-
-                                
-                                <div className="result-col-climate">
-                                    {e.climate ? e.climate : "Não informado"}
-                                </div>
-
-                                <div className="result-col-biome">
-                                    {e.biome ? e.biome : "Não informado"}
-                                </div>
-                                
-                                <div className="result-col-country">
-                                    {e.country}
-                                </div>
-                                
-                                <div className="result-col-irrigation">
-                                    {irrigationTranslation[e.irrigation] ? irrigationTranslation[e.irrigation] : "Não informado"}
-                                </div>
-                                
-                                <div className="result-col-cultivationSystem">
-                                    {cultivationSystemTranslation[e.cultivationSystem] ? cultivationSystemTranslation[e.cultivationSystem] : "Não informado"}
-                                </div>
-                                
-                                <div className="result-col-soil">
-                                    {soilTranslation[e.soil] ? soilTranslation[e.soil] : "Não informado"}
-                                </div>
-
-                                <div className="result-col-acoes-constant">
-
-                                    <Image
-                                        src={"/eye.svg"}
-                                        alt="visualizar"
-                                        width={24}
-                                        height={24}
-                                    />
-
-                                    <Image
-                                        src={"/pencil.svg"}
-                                        alt="Editar"
-                                        width={24}
-                                        height={24}
-                                    />
-                                    <Image
-                                        src={"/delete.svg"}
-                                        alt="excluir"
-                                        width={24}
-                                        height={24}
-                                        onClick={() => handleDeleteConstant(e.id)}
-                                    />
-                                </div>
-
-                            </div>
-                        ))
-
-                    }
                 </div>
-                
             </div>
         </Layout>
     );

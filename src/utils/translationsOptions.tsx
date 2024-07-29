@@ -1,12 +1,12 @@
 const typeTranslation: any = {
-  'HARVEST_INDEX': "ÍNDICE DE COLHEITA",
-  'AERIAL_RESIDUE_INDEX': "ÍNDICE DE RESÍDUO DA PARTE AÉREA",
-  'PRODUCT_RESIDUE_INDEX': "ÍNDICE DE RESÍDUO DO PRODUTO",
-  'PRODUCT_DRY_MATTER_FACTOR': "TEOR DA MATÉRIA SECA COLHIDA",
-  'RESIDUE_DRY_MATTER_FACTOR': "TEOR DA MATÉRIA SECA RESÍDUO",
-  'BELOWGROUND_INDEX': "ÍNDICE DE RAIZ",
-  'WEED_AERIAL_FACTOR': "FATOR DE CONVERSÃO PARA ESTIMAR A BIOMASSA AÉREA DAS ADVENTÍCIAS",
-  'WEED_BELOWGROUND_INDEX': "ÍNDICE DE RAIZ ADVENTÍCIAS",
+  'HARVEST_INDEX': "Índice de colheita",
+  'AERIAL_RESIDUE_INDEX': "Índice de resíduo da parte aérea",
+  'PRODUCT_RESIDUE_INDEX': "Índice de resíduo de produto",
+  'PRODUCT_DRY_MATTER_FACTOR': "Teor da matéria seca colhida",
+  'RESIDUE_DRY_MATTER_FACTOR': "Teor da matéria seca resíduo",
+  'BELOWGROUND_INDEX': "Índice de raiz",
+  'WEED_AERIAL_FACTOR': "Fator de conversão para estimar a biomassa aérea das adventícias",
+  'WEED_BELOWGROUND_INDEX': "Índice de raiz adventícias",
 }
 
 const irrigationTranslation: any = {

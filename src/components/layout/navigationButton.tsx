@@ -10,7 +10,7 @@ interface navButtonParams {
     page: "list" | "form"
 }
 
-const NavButton: React.FC<navButtonParams> = ({Url, text, type, page}) => {
+const NavButton: React.FC<navButtonParams> = ({Url, text, type,page}) => {
     return (
         <Link href={Url} className={`navButton-${type}-${page}`}>
             <button className={`navButton-${type}-${page}`} type="button">
