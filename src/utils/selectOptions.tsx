@@ -1,14 +1,14 @@
 // src/utils/selectOptions.ts
 
 const typeSelectOptions = [
-  { value: "HARVEST_INDEX", label: "ÍNDICE DE COLHEITA" },
-  { value: "AERIAL_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUO DA PARTE AÉREA" },
-  { value: "PRODUCT_RESIDUE_INDEX", label: "ÍNDICE DE RESÍDUO DO PRODUTO" },
-  { value: "PRODUCT_DRY_MATTER_FACTOR", label: "TEOR DA MATÉRIA SECA COLHIDA" },
-  { value: "RESIDUE_DRY_MATTER_FACTOR", label: "TEOR DA MATÉRIA SECA RESÍDUO" },
-  { value: "BELOWGROUND_INDEX", label: "ÍNDICE DE RAIZ" },
-  { value: "WEED_AERIAL_FACTOR", label: "FATOR DE CONVERSÃO PARA ESTIMAR A BIOMASSA AÉREA DAS ADVENTÍCIAS" },
-  { value: "WEED_BELOWGROUND_INDEX", label: "ÍNDICE DE RAIZ ADVENTÍCIAS" },
+  { value: "HARVEST_INDEX", label: "Índice de colheita" },
+  { value: "AERIAL_RESIDUE_INDEX", label: "Índice de resíduo da parte aérea" },
+  { value: "PRODUCT_RESIDUE_INDEX", label: "Índice de resíduo de produto" },
+  { value: "PRODUCT_DRY_MATTER_FACTOR", label: "Teor da matéria seca colhida" },
+  { value: "RESIDUE_DRY_MATTER_FACTOR", label: "Teor da matéria seca resíduo" },
+  { value: "BELOWGROUND_INDEX", label: "Índice de raiz" },
+  { value: "WEED_AERIAL_FACTOR", label: "Fator de conversão para estimar a biomassa aérea das adventícias" },
+  { value: "WEED_BELOWGROUND_INDEX", label: "Índice de raiz adventícias" },
 ]
 
 const climateSelectOptions = [

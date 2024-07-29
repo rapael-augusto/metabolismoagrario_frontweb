@@ -1,7 +1,14 @@
+.container-button-crops {
+    display: flex;
+    margin: 0 auto;
+    padding: 0px;
+    width: 100%;
+    justify-content: space-between;
+    /* background-color: aqua; */
+}
 
 .list-constants{
-    margin: 30px auto;
-    width: 100%;
+    margin: 32px auto;
     min-height: 60vh;
     height: max-content;
     display: flex;
@@ -9,62 +16,20 @@
     align-items: center;
 }
 
-.header-col-type, 
-.result-col-type{
-    width: 300px;
-    
-}
-.header-col-reference, 
-.result-col-reference{
-    width: 210px;
-} 
-.header-col-climate, 
-.result-col-climate{
-    width: 140px;
-} 
-.header-col-biome, 
-.result-col-biome{
-    width: 90px;
-} 
-.header-col-country, 
-.result-col-country{
-    width: 90px;
-} 
-
-.header-col-irrigation, 
-.result-col-irrigation{
-    width: 80px;
-} 
-.header-col-cultivationSystem, 
-.result-col-cultivationSystem{
-    width: 150px;
-} 
-
-.header-col-value, 
-.result-col-value{
-    width: 70px;
-}
-
-.header-col-acoes-constant, 
-.result-col-acoes-constant{
-    flex-grow: 1;
-}
-
 .container-filtros {
-    /* padding: 7px; */
-    /* border: 1px solid rgba(0, 0, 0, 0.356); */
-    margin: 0 auto;
-    width: 100%;
+    margin: 24px 0px 0px 0px;
+    gap: 10px;
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    /* gap: 8px; */
+    /* padding: 7px; */
+    /* background-color: aqua; */
 }
 
 .container-filtros div {
-    width: max-content;
-    padding: 0 4px;
-}
-
-.result-col-acoes-constant:link:hover {
-
+    padding: 0;
+    margin: 0;
 }

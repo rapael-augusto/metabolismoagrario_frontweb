@@ -3,14 +3,23 @@
 import Layout from "@/components/layout/layout";
 import "../../styles/crops/pageCrops.css"
 import { cropsService } from "@/services/crops";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import NavButton from "@/components/layout/navigationButton";
 import { dataCropsType } from "@/types/cropsTypes";
 
-const Crops = () => {
+interface Props {
+    params: { id: string }
+}
+
+const Crops = ({ params }: Props) => {
     const [dados, setDados] = useState<dataCropsType[] | any>([])
+
+    const columns = [
+        { header: 'Nome', accessor: 'name' },
+        { header: 'Nome científico', accessor: 'scientificName' },
+    ]
 
     useEffect(() => {
         let session = sessionStorage.getItem('@token')
@@ -31,16 +40,18 @@ const Crops = () => {
     return (
         <Layout>
             <div className="cropsPage">
+                
+                <div className="container-button-crops">
+                    <NavButton Url="/home" text={"Voltar"} type="voltar" page="list" />
+                    <div>
+                        <NavButton Url="/criarCrops" text={"Cadastrar Cultura"} type="cadastrar" page="list" />
+                    </div>
+                </div>
+
                 <h2 className="titulo-crops" >Lista de culturas</h2>
 
 
                 <div className="list-crops">
-                    <div className="container-button-crops">
-                        <NavButton Url="/home" text={"Voltar"} type="voltar" page="list" />
-                        <div>
-                            <NavButton Url="/criarCrops" text={"Cadastrar Cultura"} type="cadastrar" page="list" />
-                        </div>
-                    </div>
 
                     <div className="header-list">
 

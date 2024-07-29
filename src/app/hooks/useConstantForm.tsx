@@ -110,8 +110,10 @@ const useConstantForm = (params: { id: string }) => {
         setResponse(responseConstants.status);
 
         if (responseConstants.status === 1) {
-            sessionStorage.setItem('mensagem', `{"mensagem":"Fator de conversão cadastrado com sucesso !","tipo":"success"}`);
-            router.push(`/constant/${params.id}`);
+            sessionStorage.setItem('mensagem', `{"mensagem":"Fator de conversão cadastrado com sucesso !","tipo":"success"}`)
+
+            router.replace(`/constant/${params.id}`)
+            // router.push(`/constant/${params.id}`)
         }
     };
 

@@ -3,12 +3,14 @@
 import Layout from "@/components/layout/layout";
 import "../../../styles/crops/pageCrops.css"
 import "../../../styles/cultivar/pageCultivar.css"
-import { useEffect, useState } from "react";
+import Table from "@/components/table/table";
+import { useEffect, useState, useCallback } from "react";
 import { redirect } from "next/navigation";
 import { cropsService } from "@/services/crops";
 import Image from "next/image";
 import NavButton from "@/components/layout/navigationButton";
 import { cultivarsData } from "@/types/cultivarTypes";
+import router from "next/router";
 
 interface Props {
     params: { id: string }
@@ -37,18 +39,57 @@ const Cultivars = ({ params }: Props) => {
 
     }, [])
 
+    const handleDeleteCultivar = useCallback(async (id: string) => {
+        let session = sessionStorage.getItem('@token');
+        
+        if (session != null) {
+            const constantService = new cropsService(session);
+    
+            try {
+                await constantService.deleteCultivar(id);
+                const updatedData = dados.filter(dado => dado.id !== id)
+                setDados(updatedData)
+                console.log("Cultivar removida")
+            } catch (error) {
+                console.error("Falha ao deletar constante:", error)
+            }
+        } else {
+            sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`)
+            redirect('/')
+        }
+    }, [dados])
+
+    const handleView = (id: string) => {
+        window.location.href = `/constant/${id}`
+    }
+
+    const columns = [
+        { header: 'Nome', accessor: 'name' },
+    ]
+
     return (
         <Layout>
             <div className="cropsPage">
+
+                <div className="container-button-crops">
+                    <NavButton Url={"/crops"} page="list" text="Voltar" type="voltar" />
+                    <NavButton Url={`/criarCultivar/${params.id}`} page="list" text="Cadastrar Cultivar" type="cadastrar" />
+                </div>
+
                 <h2 className="titulo-crops">Cultivares de {titulo}</h2>
 
                 <div className="list-cultivars">
-                    <div className="container-button-crops">
-                        <NavButton Url={"/crops"} page="list" text="Voltar" type="voltar" />
-                        <NavButton Url={`/criarCultivar/${params.id}`} page="list" text="Cadastrar Cultivar" type="cadastrar" />
-                    </div>
 
-                    <div className="header-list">
+                <Table
+                    data={dados}
+                    columns={columns}
+                    onView={(id) => handleView(id)}
+                    onDelete={(id) => handleDeleteCultivar(id)}
+                    translations={{}}
+                />
+
+
+                    {/* <div className="header-list">
 
                         <div className="header-col-nameCultivar">
                             Nome
@@ -92,7 +133,7 @@ const Cultivars = ({ params }: Props) => {
 
                             </div>
                         ))
-                    }
+                    } */}
                 </div>
             </div>
 

@@ -1,18 +1,21 @@
 .cropsPage{
-    width: 100%;
+    width: 1200px;
     min-height: 70vh;
     height: max-content;
-  
+    display: flex;
+    flex-direction: column;
+
 }
 .titulo-crops{
     text-align: center;
 }
-.container-button-crops{
-    margin: 5px auto;
-    width: 90%;
+.container-button-crops {
     display: flex;
-    align-items: center;
+    margin: 0 auto;
+    padding: 0px;
+    width: 100%;
     justify-content: space-between;
+    /* background-color: aqua; */
 }
 .filtro_crops{
     margin: 0 15px 0 0;

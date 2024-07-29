@@ -1,6 +1,5 @@
 "use client";
 
-import "../../../styles/crops/pageCrops.css";
 import "../../../styles/form/form.css";
 import '../../../styles/home/login.css';
 
