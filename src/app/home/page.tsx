@@ -12,8 +12,8 @@ const Home = () => {
         <SecurityComp>
             <Layout>
                 <div className="homepage-box">
-                    <Modulo URL="/crops" text="Culturas" imageUrl="/culturasIcon.png" />
-                    <Modulo URL="/usersList" text="Usuários" imageUrl="/userIcon.svg" />
+                    <Modulo URL="/crops" text="Culturas" imageUrl="/vaso.svg" />
+                    <Modulo URL="/usersList" text="Usuários" imageUrl="/account.svg" />
                 </div>
             </Layout>
         </SecurityComp>

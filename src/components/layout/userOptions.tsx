@@ -12,20 +12,27 @@ interface userSession {
 const UserOpt: React.FC<userSession> = ({ token, userLogado }) => {
     const [dropdownOpen, setDropdown] = useState<boolean>(false)
 
-    
+
     function abrirDropDown() {
         setDropdown(!dropdownOpen)
     }
 
-    function logout(){
+    function logout() {
         sessionStorage.clear()
         window.location.href = '/'
     }
 
     return (
         <>
-            
-            <li className={`dropDown ${token ? '' : 'd-none'}`}  onClick={abrirDropDown}>
+
+            <li className={`dropDown ${token ? '' : 'd-none'}`} onClick={abrirDropDown}>
+                <Image
+                    src={"/Profile.svg"}
+                    alt="icone perfil"
+                    width={18}
+                    height={18}
+                    style={{ marginRight: '8px' }}
+                />
                 <span className='user-name'>{userLogado}</span>
                 <Image
                     src={"/setaHeader.svg"}

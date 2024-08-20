@@ -1,16 +1,30 @@
-a{
+a {
     text-decoration: none;
     color: black;
 }
 
-
-.modulo-box{
+.modulo-box {
     width: 240px;
     height: 150px;
-    border: 1px solid black;
+    border: 1px solid transparent;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 10px 20px 0 20px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modulo-box img {
+    width: 50px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.modulo-box span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
 }
