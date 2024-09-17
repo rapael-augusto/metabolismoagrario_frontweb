@@ -1,12 +1,11 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 .layout-box {
     display: flex;
     flex-direction: column;
-    width: 100vw;
-    min-height: 99vh;
-    height: max-content;
-    margin: -20px;
-    overflow-x: hidden;
-    /* background-color: #881c24; */
 }
 
 .header-box {
@@ -46,7 +45,7 @@
 .header-logo-box,
 .footer-logo-box {
     padding: 0 0 0 120px;
-    justify-content: start;
+
 }
 
 .menu-box {
@@ -66,24 +65,24 @@
     transition: all ease-in-out .3s;
     background-color: rgba(128, 128, 128, 0.548);
     cursor: pointer;
+
 }
 
 .footer-box {
     background-color: #7F975D;
-    color: white;
+    color: rgb(255, 255, 255);
     position: relative;
-    bottom: 0px;
+    top: 49.5vh;
     width: 100%;
     margin: 40px 0 0 0px;
     height: 100px;
-    /* border: 1px solid black; */
-    display: flex;
+
 }
 
 .container-centralizado {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+
 }
 
 .logos {
@@ -146,7 +145,15 @@
     width: max-content;
     padding: 5px 5px 5px 10px;
     margin: 0 auto;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
 }
+
+.alert-box.hidden {
+    opacity: 0;
+    display: none;
+}
+
 
 .alert-box span {
     height: 100%;

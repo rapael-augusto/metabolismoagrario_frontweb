@@ -41,10 +41,10 @@ const Cultivars = ({ params }: Props) => {
 
     const handleDeleteCultivar = useCallback(async (id: string) => {
         let session = sessionStorage.getItem('@token');
-        
+
         if (session != null) {
             const constantService = new cropsService(session);
-    
+
             try {
                 await constantService.deleteCultivar(id);
                 const updatedData = dados.filter(dado => dado.id !== id)
@@ -80,13 +80,13 @@ const Cultivars = ({ params }: Props) => {
 
                 <div className="list-cultivars">
 
-                <Table
-                    data={dados}
-                    columns={columns}
-                    onView={(id) => handleView(id)}
-                    onDelete={(id) => handleDeleteCultivar(id)}
-                    translations={{}}
-                />
+                    <Table
+                        data={dados}
+                        columns={columns}
+                        onView={(id) => handleView(id)}
+                        onDelete={(id) => handleDeleteCultivar(id)}
+                        translations={{}}
+                    />
 
 
                     {/* <div className="header-list">

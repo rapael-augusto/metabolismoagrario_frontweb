@@ -1,4 +1,4 @@
-.cropsPage{
+.cropsPage {
     width: 1200px;
     min-height: 70vh;
     height: max-content;
@@ -6,9 +6,11 @@
     flex-direction: column;
 
 }
-.titulo-crops{
+
+.titulo-crops {
     text-align: center;
 }
+
 .container-button-crops {
     display: flex;
     margin: 0 auto;
@@ -17,10 +19,12 @@
     justify-content: space-between;
     /* background-color: aqua; */
 }
-.filtro_crops{
+
+.filtro_crops {
     margin: 0 15px 0 0;
 }
-.list-crops{
+
+.list-crops {
     margin: 30px auto;
     width: 90%;
     min-height: 60vh;
@@ -30,14 +34,17 @@
     align-items: center;
 }
 
-.header-list{
-    
-    background-color: rgb(60, 60, 151);
+.header-list {
+
+    background-color: #7F975D;
+    border-radius: 14px 14px 0px 0px;
     font-weight: bolder;
     color: white;
+    padding: 8px 0px;
     height: 40px;
 }
-.content-list{
+
+.content-list {
     border-bottom: 1px solid rgba(0, 0, 0, 0.377);
     background-color: rgba(122, 122, 224, 0.507);
     height: 30px;
@@ -45,29 +52,32 @@
 }
 
 .header-list,
-.content-list{
+.content-list {
     width: 90%;
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 0 5px;
 }
-.header-col-name,.result-col-name{
+
+.header-col-name,
+.result-col-name {
     width: 310px;
-    
+
 }
+
 .header-col-cientific-name,
-.result-col-cientific-name{
+.result-col-cientific-name {
     width: 500px;
-}  
+}
 
 .header-col-climate,
-.result-col-climate{
+.result-col-climate {
     width: 200px;
-}  
+}
 
 .header-col-acoes,
-.result-col-acoes{
+.result-col-acoes {
     flex-grow: 1;
-    
+
 }
