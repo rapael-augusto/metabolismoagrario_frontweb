@@ -2,13 +2,13 @@
 
 const typeSelectOptions = [
   { value: "HARVEST_INDEX", label: "Índice de colheita" },
+  { value: "BELOWGROUND_INDEX", label: "Índice de raiz" },
+  { value: "WEED_BELOWGROUND_INDEX", label: "Índice de raiz adventícias" },
   { value: "AERIAL_RESIDUE_INDEX", label: "Índice de resíduo da parte aérea" },
   { value: "PRODUCT_RESIDUE_INDEX", label: "Índice de resíduo de produto" },
   { value: "PRODUCT_DRY_MATTER_FACTOR", label: "Teor da matéria seca colhida" },
   { value: "RESIDUE_DRY_MATTER_FACTOR", label: "Teor da matéria seca resíduo" },
-  { value: "BELOWGROUND_INDEX", label: "Índice de raiz" },
   { value: "WEED_AERIAL_FACTOR", label: "Fator de conversão para estimar a biomassa aérea das adventícias" },
-  { value: "WEED_BELOWGROUND_INDEX", label: "Índice de raiz adventícias" },
 ]
 
 const climateSelectOptions = [
@@ -22,19 +22,18 @@ const climateSelectOptions = [
 ]
 
 const irrigationSelectOptions = [
-  { value: "NaoInformado", label: "Não informado" },
   { value: "Irrigation", label: "Irrigado" },
   { value: "Dry", label: "Sequeiro" },
+  { value: "NaoInformado", label: "Não informado" },
 ]
 
 const cultivationSystemSelectOptions = [
-  { value: "NaoInformado", label: "Não informado" },
   { value: "Conventional", label: "Convencional" },
   { value: "Organic", label: "Orgânico" },
+  { value: "NaoInformado", label: "Não informado" },
 ]
 
 const biomeSelectOptions = [
-  { value: "NaoInformado", label: "Não informado" },
   { value: "Amazônia", label: "Amazônia" },
   { value: "Biomas de Montanha", label: "Biomas de Montanha" },
   { value: "Cerrado", label: "Cerrado" },
@@ -49,13 +48,16 @@ const biomeSelectOptions = [
   { value: "Savanas", label: "Savanas" },
   { value: "Taiga", label: "Taiga" },
   { value: "Tundra", label: "Tundra" },
+  { value: "NaoInformado", label: "Não informado" },
+  { value: "Outro", label: "Outro" },
 ]
 
 const soilSelectOptions = [
-  { value: "NaoInformado", label: "Não informado" },
   { value: "Clayey", label: "Argiloso" },
   { value: "Sandy", label: "Arenoso" },
   { value: "SandyClay", label: "Arenoargiloso" },
+  { value: "NaoInformado", label: "Não informado" },
+  { value: "Other", label: "Outro" },
 ]
 
 export {

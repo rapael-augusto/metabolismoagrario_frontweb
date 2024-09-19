@@ -8,6 +8,7 @@ import '../styles/home/login.css'
 import { useState } from "react";
 import Auth from "@/services/auth";
 import { redirect } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
 
 //pagina de login 
 
@@ -52,8 +53,21 @@ const Home = () => {
 
       const response: any = await auth.login(dadosLogin);
       setStatusResponse(response.status)
-    }
 
+      if (response.status === "1") {
+        // Armazena o token no sessionStorage
+        sessionStorage.setItem('accessToken', response.accessToken);
+
+        // Decodifica o token para obter a role
+        const decodedToken: any = jwtDecode(response.accessToken);
+        sessionStorage.setItem('role', decodedToken.role);
+
+        setStatusResponse(response.status);
+        redirect('/home');
+      } else {
+        setStatusResponse(response.status);
+      }
+    }
   }
 
   if (statusResponse == "1") {
