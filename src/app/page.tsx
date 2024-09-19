@@ -61,42 +61,53 @@ const Home = () => {
   } else {
     return (
       <Layout>
-
-        <form className="formBody-login">
-
-          <div className="form-input-box">
-            <h2 className="tittle-login">Entrar</h2>
+        <div className="page-container">
+          <div className="text-content">
+            <h1>Metabolismo Agrário</h1>
+            <p>
+              Lorem ipsum dolor sit amet consectetur. Vitae aliquet ultrices congue in nisl.
+              Morbi vitae parturient quis scelerisque ligula orci suscipit. Leo integer malesuada elit blandit sit quam quis convallis.
+              Mattis ornare dignissim amet cursus arcu lacus risus gravida. Cras nunc mi suspendisse in aliquet sit pellentesque aenean egestas.
+              Venenatis sagittis nisi neque eget enim magna turpis. Iaculis in mi accumsan egestas hendrerit orci amet etiam.
+            </p>
           </div>
 
-          <InputDefault
-            type={'email'}
-            placeholder={'Informe seu E-mail'}
-            classe={'form-input-box'}
-            label={'E-mail'}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail((e.target as HTMLInputElement).value)}
-            value={email}
-          />
+          <form className="formBody-login">
+            <div className="form-input-box">
+              <h2 className="tittle-login">Entrar</h2>
+            </div>
 
-          <InputDefault
-            type={'password'}
-            placeholder={'Informe sua senha'}
-            classe={'form-input-box'}
-            label={'Senha'}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword((e.target as HTMLInputElement).value)}
-            value={password}
-          />
+            <InputDefault
+              type={'email'}
+              placeholder={'Informe seu E-mail'}
+              classe={'form-input-box'}
+              label={'E-mail'}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail((e.target as HTMLInputElement).value)}
+              value={email}
+            />
 
-          <div className="form-input-box">
-            <span></span>
-          </div>
+            <InputDefault
+              type={'password'}
+              placeholder={'Informe sua senha'}
+              classe={'form-input-box'}
+              label={'Senha'}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword((e.target as HTMLInputElement).value)}
+              value={password}
+            />
+            <div className="forgot-password">
+              <a href="/forgot-password">Esqueceu a senha?</a>
+            </div>
 
-          <div className="form-input-box">
-            <Button texto={'Entrar'} classe={'button-home'} onclick={loginEvento} />
-          </div>
+            <div className="form-input-box">
+              <Button texto={'Entrar'} classe={'button-home'} onclick={loginEvento} />
+            </div>
 
-        </form>
+            <p className="form-register">Não possui conta? <a href="/register">Crie agora</a></p>
+          </form>
+        </div>
       </Layout>
     );
+
   }
 
 }

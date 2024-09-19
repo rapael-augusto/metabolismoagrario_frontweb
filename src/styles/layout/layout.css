@@ -1,4 +1,6 @@
-* {
+html,
+body {
+    height: 100%;
     margin: 0;
     padding: 0;
 }
@@ -78,6 +80,12 @@
     height: 100px;
 
 }
+
+footer {
+    margin: 0;
+    padding: 0;
+}
+
 
 .container-centralizado {
     max-width: 1200px;
