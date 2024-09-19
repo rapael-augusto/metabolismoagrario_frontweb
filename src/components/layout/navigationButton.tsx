@@ -13,15 +13,7 @@ interface navButtonParams {
 const NavButton: React.FC<navButtonParams> = ({ Url, text, type, page }) => {
     return (
         <button className={`navButton-${type}-${page}`} type="button" onClick={() => window.location.href = Url}>
-            {type === 'voltar' && (
-                <Image
-                    src={"/arrow_back_ios.svg"}
-                    alt="voltar"
-                    width={20}
-                    height={20}
-                    className="navButton-icon"
-                />
-            )}
+            {type === 'voltar'}
             {text}
         </button>
     );

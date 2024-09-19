@@ -38,6 +38,10 @@
     text-decoration: underline;
     font-size: 16px;
     text-decoration: none;
+    background-color: #B18C69;
+    color: white;
+    width: 80px;
+    justify-content: center;
 }
 
 .navButton-voltar-list:hover {
@@ -60,23 +64,20 @@
     /* background-color: rgba(42, 177, 42); */
 }
 
-/* padrao para formularios */
 .navButton-voltar-form {
-    background-color: transparent;
-    color: #838383;
-    border: 1px solid #838383;
-    border-radius: 8px;
+    background-color: #fff;
+    color: #B18C69;
+    border: 1px solid #B18C69;
     font-size: 14px;
-    height: 36px;
-    min-width: 100px;
-    padding: 0px 0px;
-    margin: 3px 0;
-    width: 100%;
-    transition: all ease .4s;
+    padding: 10px 20px;
+    border-radius: 10px;
+    width: 48%;
     cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
 }
 
 .navButton-voltar-form:hover {
-    background-color: #838383;
+    background-color: hsl(0, 2%, 75%);
     color: white;
 }

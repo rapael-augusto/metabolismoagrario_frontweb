@@ -23,8 +23,19 @@
 
 .form-input-box {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
     width: 100%;
+    margin-bottom: 20px;
+}
+
+.form-input-boxReg {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+    color: #80AD6B;
 }
 
 .form-register {
