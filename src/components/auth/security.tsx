@@ -3,29 +3,30 @@
 import { redirect } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 
-//componente para encapsular todas as rotas protegidas 
 const SecurityComp: React.FC<any> = ({ children }) => {
 
-    const [componente,setComponente] = useState<ReactNode>('')
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
 
-    useEffect(()=>{
+    useEffect(() => {
         const token = sessionStorage.getItem('@token')
 
-        if(!token){
+        if (!token) {
             sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`)
             redirect('/')
-        }else{
-            setComponente(children)
+        } else {
+            setIsAuthenticated(true)
         }
-        
-    },[])
+    }, []);
 
+    if (isAuthenticated === null) {
+        return <div>Carregando...</div>
+    }
 
     return (
         <>
-            {componente}
+            {children}
         </>
-    )
+    );
     
 }
 
