@@ -41,8 +41,9 @@ const CriarCultivar = ({ params }: Props) => {
 
                         <br />
                         <div className="form-input-box">
-                            <Button texto={'Cadastrar'} classe={'button-home'} onclick={cadastroCultivar} />
                             <NavButton Url={`/cultivars/${params.id}`} page="form" text="Voltar" type="voltar" />
+                            <Button texto={'Cadastrar'} classe={'button-home'} onclick={cadastroCultivar} />
+
                         </div>
 
                     </form>

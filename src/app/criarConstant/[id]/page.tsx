@@ -21,7 +21,7 @@ interface Props {
 const CriarConstant = ({ params }: Props) => {
     const {
         type, reference, value, comment, climate, biome, irrigation, cultivationSystem, country, soil, customSoil,
-        authorName, title, year, source, errorMessage, countries, 
+        authorName, title, year, source, errorMessage, countries,
         handleTypeChange, handleClimateChange, handleIrrigationChange, handleCultivationSystemChange, handleBiomeChange, handleSoilChange, handleCountryChange,
         setAuthorName, setTitle, setYear, setSource, setSoil, setReference, setValue, setComment, setCountry, setCustomSoil,
         cadastroConstant, createCustomSoil
@@ -55,7 +55,7 @@ const CriarConstant = ({ params }: Props) => {
                         <CustomSelect type="form" label="Tipo" options={typeSelectOptions} onChange={handleTypeChange} />
 
                         <InputDefault
-                            classe="form-input-box"
+                            classe="form-input-boxConst"
                             label="Valor"
                             placeholder="Valor da Constante"
                             value={value}
@@ -74,24 +74,24 @@ const CriarConstant = ({ params }: Props) => {
                         </div>
 
                         <div className="container-2-column">
-                        <CustomSelect 
-                                type="form" 
-                                label="Solo" 
-                                options={soilSelectOptions} 
+                            <CustomSelect
+                                type="form"
+                                label="Solo"
+                                options={soilSelectOptions}
                                 onChange={(value: string) => {
                                     handleSoilChange(value);
                                     if (value === 'Other') {
                                         setSoil('Other')
-                                        setCustomSoil(''); 
+                                        setCustomSoil('');
                                     } else {
-                                        setSoil(value); 
+                                        setSoil(value);
                                         setCustomSoil(null);
                                     }
-                                }}  
+                                }}
                             />
                             {soil === 'Other' && (
                                 <InputDefault
-                                    classe="form-input-box"
+                                    classe="form-input-boxConst"
                                     label="Solo Personalizado"
                                     placeholder="Digite o solo"
                                     value={customSoil}
@@ -99,12 +99,12 @@ const CriarConstant = ({ params }: Props) => {
                                     type="text"
                                 />
                             )}
-                            
+
                             <CustomSelect type="form" label="Irrigação" options={irrigationSelectOptions} onChange={handleIrrigationChange} />
                         </div>
 
                         <InputDefault
-                            classe="form-input-box"
+                            classe="form-input-boxConst"
                             label="Referência"
                             placeholder="Referência"
                             value={reference}
@@ -114,7 +114,7 @@ const CriarConstant = ({ params }: Props) => {
 
                         {/* trocar por um textarea */}
                         <InputDefault
-                            classe="form-input-box"
+                            classe="form-input-boxConst"
                             label="Observações"
                             placeholder="Observações"
                             value={comment}
@@ -122,7 +122,7 @@ const CriarConstant = ({ params }: Props) => {
                             type={'text'}
                         />
 
-                        <div className="footer-form">
+                        <div className="footer-formConst">
                             <NavButton Url={`/constant/${params.id}`} page="form" text="Voltar" type="voltar" />
                             <Button texto={'Cadastrar'} classe={'form-button'} onclick={cadastroConstant} />
                         </div>
