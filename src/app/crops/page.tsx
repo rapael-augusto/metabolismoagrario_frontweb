@@ -48,7 +48,7 @@ const Crops = ({ params }: Props) => {
     };
 
     const handleEdit = (id: string) => {
-        router.push(`/editCrops/${id}`);
+        router.push(`crops/editCrops/${id}`);
     };
 
     const handleDelete = useCallback(async (id: string) => {

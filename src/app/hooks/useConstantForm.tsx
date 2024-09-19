@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { redirect } from "next/navigation";
 import { countriesService } from "@/services/countries";
 import { soilService } from "@/services/soil";
+import { biomeService } from "@/services/biome";
 
 const useConstantForm = (params: { id: string }) => {
     const [type, setType] = useState('');
@@ -19,6 +20,7 @@ const useConstantForm = (params: { id: string }) => {
     const [country, setCountry] = useState('');
     const [soil, setSoil] = useState('');
     const [customSoil, setCustomSoil] = useState<string | null>(null);
+    const [customBiome, setCustomBiome] = useState<string | null>(null); 
     const [errorMessage, setErrorMessage] = useState<string[]>([]);
     const [bibliographicReferenceId, setBibliographicReferenceId] = useState<number | null>(null);
     const [authorName, setAuthorName] = useState('');
@@ -62,8 +64,14 @@ const useConstantForm = (params: { id: string }) => {
     const handleClimateChange = (value: string) => setClimate(value);
     const handleIrrigationChange = (value: string) => setIrrigation(value);
     const handleCultivationSystemChange = (value: string) => setCultivationSystem(value);
-    const handleBiomeChange = (value: string) => setBiome(value);
-
+    const handleBiomeChange = (value: string) => {
+        if (value === 'Other') {
+            setCustomBiome(''); 
+        } else {
+            setBiome(value);
+            setCustomBiome(null);
+        }
+    };
     const handleSoilChange = async (value: string) => {
         if (value === 'Other') {
             setCustomSoil('');
@@ -81,7 +89,7 @@ const useConstantForm = (params: { id: string }) => {
         if (!type) newErrors.push("Tipo é um campo obrigatório.");
         if (!value) newErrors.push("Valor é um campo obrigatório.");
         if (!climate) newErrors.push("Clima é um campo obrigatório.");
-        if (!biome) newErrors.push("Bioma é um campo obrigatório.");
+        if (!biome && !customBiome) newErrors.push("Bioma é um campo obrigatório.");
         if (!irrigation) newErrors.push("Irrigação é um campo obrigatório.");
         if (!country) newErrors.push("País é um campo obrigatório.");
         if (!cultivationSystem) newErrors.push("Sistema de cultivo é um campo obrigatório.");
@@ -102,6 +110,23 @@ const useConstantForm = (params: { id: string }) => {
             } catch (error) {
                 console.error("Erro ao criar solo personalizado:", error);
                 setErrorMessage(prevErrors => [...prevErrors, "Erro ao criar solo personalizado"]);
+                return null;
+            }
+        }
+        return null;
+    };
+
+    const createCustomBiome = async (name: string) => { 
+        if (token) {
+            const service = new biomeService(token); 
+            try {
+                const response = await service.createBiome({
+                    name
+                });
+                return response.data.id;  
+            } catch (error) {
+                console.error("Erro ao criar bioma personalizado:", error);
+                setErrorMessage(prevErrors => [...prevErrors, "Erro ao criar bioma personalizado"]);
                 return null;
             }
         }
@@ -146,7 +171,12 @@ const useConstantForm = (params: { id: string }) => {
         if (soil === 'Other' && customSoil) {
             customSoilId = await createCustomSoil(customSoil);
         }
-        
+
+        let customBiomeId = null;
+        if (biome === 'Other' && customBiome) {
+            customBiomeId = await createCustomBiome(customBiome);
+        }
+
         const service = new cropsService(token);
 
         const paramsData: any = {
@@ -154,7 +184,7 @@ const useConstantForm = (params: { id: string }) => {
             comment,
             reference,
             value: typeof value === 'string' ? parseFloat(value) : value,
-            biome: biome !== 'NaoInformado' ? biome : undefined,
+            biome: biome !== 'NaoInformado' ? (biome === 'Outro' ? customBiome : biome) : undefined,
             climate: climate !== 'NaoInformado' ? climate : undefined,
             irrigation: irrigation !== 'NaoInformado' ? irrigation : undefined,
             country,
@@ -196,6 +226,7 @@ const useConstantForm = (params: { id: string }) => {
         country,
         soil,
         customSoil,
+        customBiome, 
         authorName,
         title,
         year,
@@ -219,8 +250,10 @@ const useConstantForm = (params: { id: string }) => {
         setCountry,
         setSoil,
         setCustomSoil,
+        setCustomBiome,
         cadastroConstant, 
-        createCustomSoil
+        createCustomSoil,
+        createCustomBiome 
     };
 };
 

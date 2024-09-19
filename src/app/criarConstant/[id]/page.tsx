@@ -21,10 +21,11 @@ interface Props {
 const CriarConstant = ({ params }: Props) => {
     const {
         type, reference, value, comment, climate, biome, irrigation, cultivationSystem, country, soil, customSoil,
+        customBiome, 
         authorName, title, year, source, errorMessage, countries,
         handleTypeChange, handleClimateChange, handleIrrigationChange, handleCultivationSystemChange, handleBiomeChange, handleSoilChange, handleCountryChange,
-        setAuthorName, setTitle, setYear, setSource, setSoil, setReference, setValue, setComment, setCountry, setCustomSoil,
-        cadastroConstant, createCustomSoil
+        setAuthorName, setTitle, setYear, setSource, setSoil, setReference, setValue, setComment, setCountry, setCustomSoil, setCustomBiome, 
+        cadastroConstant, createCustomSoil, createCustomBiome
     } = useConstantForm(params);
 
     const renderCountriesList = () => {
@@ -32,6 +33,8 @@ const CriarConstant = ({ params }: Props) => {
             <li key={index}>{country.nome_pais}</li>
         ));
     };
+
+    const [biomea, setBiome] = useState<string>('');
 
     return (
         <Layout>
@@ -65,7 +68,24 @@ const CriarConstant = ({ params }: Props) => {
 
                         <div className="container-2-column">
                             <CustomSelect type="form" label="Clima" options={climateSelectOptions} onChange={handleClimateChange} />
-                            <CustomSelect type="form" label="Bioma" options={biomeSelectOptions} onChange={handleBiomeChange} />
+                            <CustomSelect type="form" label="Bioma" options={biomeSelectOptions} onChange={(value: string) => {
+                                handleBiomeChange(value);
+                                if (value === 'Outro') {
+                                    setBiome('Outro');
+                                } else {
+                                    setBiome(value);
+                                }
+                            }} />
+                            {biome === 'Outro' && (
+                                <InputDefault
+                                    classe="form-input-boxConst"
+                                    label="Bioma Personalizado"
+                                    placeholder="Digite o bioma"
+                                    value={customBiome} 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCustomBiome(e.target.value)}
+                                    type="text"
+                                />
+                            )}
                         </div>
 
                         <div className="container-2-column">
