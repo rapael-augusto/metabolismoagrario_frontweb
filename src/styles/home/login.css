@@ -20,21 +20,32 @@
     font-weight: bold;
 }
 
+.tittle-loginReg {
+    color: #80AD6B;
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
 .button-home {
-    background-color: transparent;
     background-color: #80AD6B;
     color: white;
     border: none;
     font-size: 14px;
-    padding: 3px 0px;
-    padding: 0 12px;
-    font-size: 15px;
-    border-radius: 7px;
-    border: 1px solid #80AD6B;
-    height: 38px;
-    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    width: 48%;
     cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
 }
+
+.button-home:hover {
+    background-color: #6f9e5b;
+}
+
 
 .criar-conta {
     margin: 10px 0 0 0;

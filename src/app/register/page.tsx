@@ -7,7 +7,7 @@ import '../../styles/form/form.css';
 import '../../styles/home/login.css';
 import NavButton from "@/components/layout/navigationButton";
 import Select from "@/components/layout/customSelect";
-import useRegisterForm from "../hooks/useRegisterForm"; // Importa o hook
+import useRegisterForm from "../hooks/useRegisterForm";
 
 const RegisterComp = () => {
     const {
@@ -21,47 +21,46 @@ const RegisterComp = () => {
         handleRoleChange,
         options,
         cadastroEvento,
-    } = useRegisterForm(); // Usa o hook
+    } = useRegisterForm();
 
     return (
         <Layout>
             <form className="formBody-login" onSubmit={cadastroEvento}>
-                <div className="form-input-box">
-                    <h2 className="tittle-login">Cadastrar</h2>
+                <div className="form-input-boxReg">
+                    <h2 className="tittle-loginReg">Cadastrar</h2>
                 </div>
 
                 <InputDefault
                     type={'text'}
                     placeholder={'Informe seu Nome'}
-                    classe={'form-input-box'}
+                    classe={'form-input-boxReg'}
                     label={'Nome'}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName((e.target as HTMLInputElement).value)}
                     value={name}
                 />
+                <Select label="Tipo de usuário" options={options} onChange={handleRoleChange} type={"form"} />
 
                 <InputDefault
                     type={'email'}
                     placeholder={'Informe seu E-mail'}
-                    classe={'form-input-box'}
+                    classe={'form-input-boxReg'}
                     label={'E-mail'}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail((e.target as HTMLInputElement).value)}
                     value={email}
                 />
 
-                <Select label="Tipo de usuário" options={options} onChange={handleRoleChange} type={"form"} />
-
                 <InputDefault
                     type={'password'}
                     placeholder={'Informe sua senha'}
-                    classe={'form-input-box'}
+                    classe={'form-input-boxReg'}
                     label={'Senha'}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword((e.target as HTMLInputElement).value)}
                     value={password}
                 />
 
-                <div className="form-input-box">
-                    <Button texto={'Cadastrar'} classe={'button-home'} onclick={cadastroEvento} />
+                <div className="form-input-boxReg">
                     <NavButton Url="/usersList" page="form" text="Voltar" type="voltar" />
+                    <Button texto={'Cadastrar'} classe={'button-home'} onclick={cadastroEvento} />
                 </div>
             </form>
         </Layout>
