@@ -14,6 +14,10 @@
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 8px;
 }
 
+.form-container h3 {
+    color: #80AD6B;
+}
+
 .container-2-column {
     display: flex;
     align-items: flex-end;
@@ -27,6 +31,15 @@
     gap: 10px;
     width: 100%;
     margin-bottom: 20px;
+}
+
+.form-input-boxConst {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+    color: #80AD6B;
 }
 
 .form-input-boxReg {
@@ -88,6 +101,20 @@
     gap: 16px;
     margin-top: 32px;
 }
+
+.footer-formConst {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 16px;
+    height: 38px;
+    margin: 0 auto;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
 
 .info-block {
     margin-top: 10px;
