@@ -5,23 +5,24 @@
     justify-content: flex-start;
     border: 1px solid rgba(0, 0, 0, 0.267);
     border-radius: 10px;
-    width: 300px;
-    min-height: 170px;
-    height: min-content;
+    width: 460px;
+    height: auto;
     margin: 0 auto;
-    padding: 0px 10px 30px 10px;
+    padding: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .tittle-login {
     text-align: center;
     justify-content: center;
-    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .button-home {
     background-color: transparent;
-    background-color: #4C6444;
+    background-color: #80AD6B;
     color: white;
     border: none;
     font-size: 14px;
@@ -29,13 +30,14 @@
     padding: 0 12px;
     font-size: 15px;
     border-radius: 7px;
-    border: 1px solid #4C6444;
+    border: 1px solid #80AD6B;
     height: 38px;
     margin-top: 10px;
+    cursor: pointer;
 }
 
 .criar-conta {
-    margin: 5px 0 0 0;
+    margin: 10px 0 0 0;
     text-align: center;
     font-size: 14px;
 }
@@ -43,4 +45,24 @@
 .feedback-error {
     text-align: center;
     font-size: 14px;
+}
+
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 100px;
+    margin-top: -100px;
+}
+
+.text-content {
+    max-width: 500px;
+    text-align: left;
+    margin-top: -50px;
+
+}
+
+.text-content h1 {
+    color: #80AD6B;
 }
