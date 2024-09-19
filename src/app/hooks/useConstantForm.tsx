@@ -2,46 +2,78 @@ import { useState, useEffect } from "react";
 import { cropsService } from "@/services/crops";
 import { useRouter } from "next/navigation";
 import { redirect } from "next/navigation";
+import { countriesService } from "@/services/countries";
+import { soilService } from "@/services/soil";
 
 const useConstantForm = (params: { id: string }) => {
     const [type, setType] = useState('');
     const [reference, setReference] = useState('');
     const [value, setValue] = useState('');
     const [comment, setComment] = useState('');
-    const [token, setToken] = useState<string | null>('');
+    const [token, setToken] = useState<string | null>(null);
     const [response, setResponse] = useState('');
     const [climate, setClimate] = useState('');
     const [biome, setBiome] = useState('');
     const [irrigation, setIrrigation] = useState('');
-    const [cultivationSystem, setCultivationSysten] = useState('');
+    const [cultivationSystem, setCultivationSystem] = useState('');
     const [country, setCountry] = useState('');
     const [soil, setSoil] = useState('');
+    const [customSoil, setCustomSoil] = useState<string | null>(null);
     const [errorMessage, setErrorMessage] = useState<string[]>([]);
     const [bibliographicReferenceId, setBibliographicReferenceId] = useState<number | null>(null);
     const [authorName, setAuthorName] = useState('');
     const [title, setTitle] = useState('');
     const [year, setYear] = useState<number>(0);
     const [source, setSource] = useState('');
+    const [countries, setCountries] = useState<{ nome_pais: string }[]>([]);
 
     const router = useRouter();
 
     useEffect(() => {
-        let session = sessionStorage.getItem('@token');
-
+        const session = sessionStorage.getItem('@token');
         if (session) {
             setToken(session);
         } else {
-            sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`);
+            sessionStorage.setItem('mensagem', JSON.stringify({
+                mensagem: "Você não possui permissões para acessar essa página!",
+                tipo: "danger"
+            }));
             redirect('/');
         }
     }, []);
 
+    useEffect(() => {
+        if (token) {
+            fetchCountries(token);
+        }
+    }, [token]);
+
+    const fetchCountries = async (token: string) => {
+        try {
+            const service = new countriesService(token);
+            const response = await service.listAll();
+            setCountries(response.data);
+        } catch (error) {
+            console.error("Erro ao carregar os países:", error);
+        }
+    };
+
     const handleTypeChange = (value: string) => setType(value);
     const handleClimateChange = (value: string) => setClimate(value);
     const handleIrrigationChange = (value: string) => setIrrigation(value);
-    const handleCultivationSystemChange = (value: string) => setCultivationSysten(value);
+    const handleCultivationSystemChange = (value: string) => setCultivationSystem(value);
     const handleBiomeChange = (value: string) => setBiome(value);
-    const handleSoilChange = (value: string) => setSoil(value);
+
+    const handleSoilChange = async (value: string) => {
+        if (value === 'Other') {
+            setCustomSoil('');
+        } else {
+            setCustomSoil(null);
+            setSoil(value);
+        }
+    };
+
+    const handleCountryChange = (value: string) => setCountry(value);
 
     const validateFields = () => {
         const newErrors: string[] = [];
@@ -59,17 +91,41 @@ const useConstantForm = (params: { id: string }) => {
         return newErrors.length === 0;
     };
 
+    const createCustomSoil = async (name: string) => {
+        if (token) {
+            const service = new soilService(token);
+            try {
+                const response = await service.createSoil({
+                    name
+                });
+                return response.data.id;  
+            } catch (error) {
+                console.error("Erro ao criar solo personalizado:", error);
+                setErrorMessage(prevErrors => [...prevErrors, "Erro ao criar solo personalizado"]);
+                return null;
+            }
+        }
+        return null;
+    };
+
     const createBibliographicReference = async () => {
         if (token) {
-            const service = new cropsService(token);
-            const response = await service.createBibliographicReference({
-                authorName,
-                title,
-                year,
-                source
-            });
-            return response.id;
+            try {
+                const service = new cropsService(token);
+                const response = await service.createBibliographicReference({
+                    authorName,
+                    title,
+                    year,
+                    source
+                });
+                return response.id;
+            } catch (error) {
+                console.error("Erro ao criar referência bibliográfica:", error);
+                setErrorMessage(prevErrors => [...prevErrors, "Erro ao criar referência bibliográfica"]);
+                return null;
+            }
         }
+        return null;
     };
 
     const cadastroConstant = async (e: React.FormEvent) => {
@@ -86,6 +142,11 @@ const useConstantForm = (params: { id: string }) => {
             setBibliographicReferenceId(refId);
         }
 
+        let customSoilId = null;
+        if (soil === 'Other' && customSoil) {
+            customSoilId = await createCustomSoil(customSoil);
+        }
+        
         const service = new cropsService(token);
 
         const paramsData: any = {
@@ -98,22 +159,28 @@ const useConstantForm = (params: { id: string }) => {
             irrigation: irrigation !== 'NaoInformado' ? irrigation : undefined,
             country,
             cultivationSystem: cultivationSystem !== 'NaoInformado' ? cultivationSystem : undefined,
-            soil: soil !== 'NaoInformado' ? soil : undefined,
+            soil,
+            customSoil: soil === 'Other' ? customSoil : undefined,
             bibliographicReferenceId: refId
         };
 
         Object.keys(paramsData).forEach(key => paramsData[key] === undefined && delete paramsData[key]);
 
-        const responseConstants: any | ResponseType = await service.createConstantOfCultivar(params.id, paramsData);
+        try {
+            const responseConstants: any | ResponseType = await service.createConstantOfCultivar(params.id, paramsData);
+            console.log(responseConstants);
+            setResponse(responseConstants.status);
 
-        console.log(responseConstants);
-        setResponse(responseConstants.status);
-
-        if (responseConstants.status === 1) {
-            sessionStorage.setItem('mensagem', `{"mensagem":"Fator de conversão cadastrado com sucesso !","tipo":"success"}`)
-
-            router.replace(`/constant/${params.id}`)
-            // router.push(`/constant/${params.id}`)
+            if (responseConstants.status === 1) {
+                sessionStorage.setItem('mensagem', JSON.stringify({
+                    mensagem: "Fator de conversão cadastrado com sucesso!",
+                    tipo: "success"
+                }));
+                router.replace(`/constant/${params.id}`);
+            }
+        } catch (error) {
+            console.error("Erro ao cadastrar fator de conversão:", error);
+            setErrorMessage(prevErrors => [...prevErrors, "Erro ao cadastrar fator de conversão"]);
         }
     };
 
@@ -128,17 +195,20 @@ const useConstantForm = (params: { id: string }) => {
         cultivationSystem,
         country,
         soil,
+        customSoil,
         authorName,
         title,
         year,
         source,
         errorMessage,
+        countries,
         handleTypeChange,
         handleClimateChange,
         handleIrrigationChange,
         handleCultivationSystemChange,
         handleBiomeChange,
         handleSoilChange,
+        handleCountryChange,
         setAuthorName,
         setTitle,
         setYear,
@@ -147,7 +217,10 @@ const useConstantForm = (params: { id: string }) => {
         setValue,
         setComment,
         setCountry,
-        cadastroConstant
+        setSoil,
+        setCustomSoil,
+        cadastroConstant, 
+        createCustomSoil
     };
 };
 
