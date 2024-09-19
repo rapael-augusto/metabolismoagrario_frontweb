@@ -17,6 +17,28 @@ const useCropsForm = () => {
         }
     }, []);
 
+    const editarCrop = async (id: string) => {
+        if (!name || !scientificName) {
+            sessionStorage.setItem('mensagem', `{"mensagem":"Nome e nome científico são campos obrigatórios para editar uma cultura!","tipo":"danger"}`);
+            return;
+        }
+        const session = sessionStorage.getItem('@token');
+        const service = new cropsService(session);
+
+        const respostaRequisicao = await service.editCrop(id, {
+            name,
+            scientificName
+        });
+
+        if (respostaRequisicao) {
+            const { status } = respostaRequisicao;
+            setResponse(status as 1 | -1);
+        } else {
+            setResponse(-1);
+        }
+    };
+
+
     const cadastroCrops = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -55,7 +77,8 @@ const useCropsForm = () => {
         setName,
         scientificName,
         setScientificName,
-        cadastroCrops
+        cadastroCrops,
+        editarCrop 
     };
 };
 

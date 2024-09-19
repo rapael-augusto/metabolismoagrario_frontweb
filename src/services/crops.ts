@@ -51,6 +51,29 @@ export class cropsService {
 
     }
 
+    async editCrop(id: string, params: CropsParams) {
+        if (this.token) {
+            return await Axios.patch(`/crops/${id}`, params, {
+                headers: {
+                    Authorization: `Bearer ${this.token}`
+                }
+            }).then(() => {
+                sessionStorage.setItem('mensagem', `{"mensagem":"Cultura atualizada com sucesso!","tipo":"success"}`);
+                setTimeout(() => {
+                    const alertBox = document.querySelector('.alert-box');
+                    if (alertBox) {
+                        alertBox.classList.add('hidden');
+                    }
+                }, 2000);
+                return { status: 1, mensagem: 'Crop updated' };
+            }).catch((error) => ({
+                status: -1,
+                mensagem: error.response.data.message[0]
+            }));
+        }
+    }
+    
+
     async findOne(id: string) {
 
         if (this.token) {
