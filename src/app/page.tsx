@@ -113,7 +113,7 @@ const Home = () => {
             </div>
 
             <div className="form-input-box">
-              <Button texto={'Entrar'} classe={'button-home'} onclick={loginEvento} />
+              <Button texto={'Entrar'} classe={'button-homeHome'} onclick={loginEvento} />
             </div>
 
             <p className="form-register">Não possui conta? <a href="/register">Crie agora</a></p>

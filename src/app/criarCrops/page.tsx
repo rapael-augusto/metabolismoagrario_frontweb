@@ -48,8 +48,9 @@ const CriarCrops = () => {
                         <br />
 
                         <div className="form-input-box">
-                            <Button texto={'Cadastrar'} classe={'button-home'} onclick={cadastroCrops} />
                             <NavButton Url="/crops" page="form" text="Voltar" type="voltar" />
+
+                            <Button texto={'Cadastrar'} classe={'button-home'} onclick={cadastroCrops} />
                         </div>
 
                     </form>
