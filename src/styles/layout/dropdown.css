@@ -1,4 +1,4 @@
-.componente-dropdown{
+.componente-dropdown {
     padding: 5px;
     width: 100px;
     max-height: 50px;
@@ -11,6 +11,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
 }
 
 .componente-dropdown ul {
@@ -22,7 +23,7 @@
     align-items: center;
     padding: 0px;
     margin: 0px;
-    list-style: none; 
+    list-style: none;
 }
 
 .componente-dropdown ul .link {
@@ -47,7 +48,7 @@
     transition: .2s ease;
 }
 
-.dropDown{
+.dropDown {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -66,6 +67,6 @@
     transition: .3s all ease-in-out;
 }
 
-.user-name{
+.user-name {
     margin: 0 5px 0 0px;
 }

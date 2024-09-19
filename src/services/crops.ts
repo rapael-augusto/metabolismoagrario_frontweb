@@ -32,7 +32,17 @@ export class cropsService {
                     Authorization: `Bearer ${this.token}`
                 }
             }).then((s) => {
-                sessionStorage.setItem('mensagem', `{"mensagem":"Cultura cadastrada com sucesso !","tipo":"success"}`)
+                sessionStorage.setItem('mensagem', `{"mensagem":"Cultura cadastrada com sucesso !","tipo":"success"}`);
+                
+                setTimeout(() => {
+                    const alertBox = document.querySelector('.alert-box');
+                    if (alertBox) {
+                        console.log("Ocultando alerta após 2s");
+                        alertBox.classList.add('hidden');
+                    }
+                }, 2000);
+                
+                
                 return { status: 1, mensagem: 'Crop created' }
             }).catch((e) => {
                 return { status: -1, mensagem: e.response.data.message[0] }
@@ -67,18 +77,28 @@ export class cropsService {
         }
     }
 
-    async createCultivar(idCrop:string,params: CultivarParams){
+    async createCultivar(idCrop: string, params: CultivarParams) {
         if (this.token) {
-            return await Axios.post(`/cultivars/${idCrop}`,params,{
-                headers:{
+            return await Axios.post(`/cultivars/${idCrop}`, params, {
+                headers: {
                     Authorization: `Bearer ${this.token}`
                 }
-            }).then((response)=>{
-                sessionStorage.setItem('mensagem', `{"mensagem":"Cultivar cadastrada com sucesso !","tipo":"success"}`)
-                return { status: 1, mensagem: 'Cultivar cadastrada com sucesso !'}
-             }).catch((e) => {
-                return { status: -1, mensagem: e.response.data.message[0] }
-            })
+            }).then((response) => {
+                sessionStorage.setItem('mensagem', `{"mensagem":"Cultivar cadastrada com sucesso !","tipo":"success"}`);
+                setTimeout(() => {
+                    const alertBox = document.querySelector('.alert-box');
+                    if (alertBox) {
+                        console.log("Ocultando alerta após 2s");
+                        alertBox.classList.add('hidden');
+                    }
+                }, 2000);
+                
+                
+    
+                return { status: 1, mensagem: 'Cultivar cadastrada com sucesso !' };
+            }).catch((e) => {
+                return { status: -1, mensagem: e.response.data.message[0] };
+            });
         }
     }
 
@@ -90,6 +110,15 @@ export class cropsService {
                 }
             }).then((response)=>{
                 sessionStorage.setItem('mensagem', `{"mensagem":"Constante criada com sucesso !","tipo":"success"}`)
+                ;
+                setTimeout(() => {
+                    const alertBox = document.querySelector('.alert-box');
+                    if (alertBox) {
+                        console.log("Ocultando alerta após 2s");
+                        alertBox.classList.add('hidden');
+                    }
+                }, 2000);
+                
                 return {status: 1, mensagem: 'Constante Criada com sucesso !'}
             }).catch((error)=>{
                 return {status: -1, mensagem: error.response.data.message[0]}

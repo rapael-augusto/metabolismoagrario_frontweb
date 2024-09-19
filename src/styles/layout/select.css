@@ -41,12 +41,12 @@
 }
 
 .select-options {
-  background-color: #f1f1f1; 
-  color: #333;               
+  background-color: #f1f1f1;
+  color: #333;
   font-size: 15px;
 }
 
 
 .select-options:first-child {
-  color: #aaa; 
+  color: #aaa;
 }
