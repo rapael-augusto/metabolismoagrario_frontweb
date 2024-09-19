@@ -23,10 +23,24 @@ const Home = () => {
     e.preventDefault();
 
     if (!email) {
-      sessionStorage.setItem('mensagem', `{"mensagem":"Para realizar o login você deve informar o e-mail !","tipo":"danger"}`)
+      sessionStorage.setItem('mensagem', `{"mensagem":"Para realizar o login você deve informar o e-mail !","tipo":"danger"}`); setTimeout(() => {
+        const alertBox = document.querySelector('.alert-box');
+        if (alertBox) {
+          console.log("Ocultando alerta após 2s");
+          alertBox.classList.add('hidden');
+        }
+      }, 2000);
+
       location.reload()
     } else if (!password) {
-      sessionStorage.setItem('mensagem', `{"mensagem":"Para realizar o login você deve informar a senha !","tipo":"danger"}`)
+      sessionStorage.setItem('mensagem', `{"mensagem":"Para realizar o login você deve informar a senha !","tipo":"danger"}`); setTimeout(() => {
+        const alertBox = document.querySelector('.alert-box');
+        if (alertBox) {
+          console.log("Ocultando alerta após 2s");
+          alertBox.classList.add('hidden');
+        }
+      }, 2000);
+
       location.reload()
     } else {
       //requisicao

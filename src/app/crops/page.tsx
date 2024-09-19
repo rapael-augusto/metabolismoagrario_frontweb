@@ -31,7 +31,14 @@ const Crops = ({ params }: Props) => {
                 setDados(response);
             });
         } else {
-            sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`);
+            sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`); setTimeout(() => {
+                const alertBox = document.querySelector('.alert-box');
+                if (alertBox) {
+                    console.log("Ocultando alerta após 2s");
+                    alertBox.classList.add('hidden');
+                }
+            }, 2000);
+
             redirect('/');
         }
     }, []);
@@ -55,11 +62,27 @@ const Crops = ({ params }: Props) => {
                 const updatedData = dados.filter((crop: { id: string; }) => crop.id !== id);
                 setDados(updatedData);
                 console.log("Cultura removida");
+                setTimeout(() => {
+                    const alertBox = document.querySelector('.alert-box');
+                    if (alertBox) {
+                        console.log("Ocultando alerta após 2s");
+                        alertBox.classList.add('hidden');
+                    }
+                }, 2000);
+
             } catch (error) {
                 console.error("Falha ao deletar cultura:", error);
             }
         } else {
             sessionStorage.setItem('mensagem', `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`);
+            setTimeout(() => {
+                const alertBox = document.querySelector('.alert-box');
+                if (alertBox) {
+                    console.log("Ocultando alerta após 2s");
+                    alertBox.classList.add('hidden');
+                }
+            }, 2000);
+
             redirect('/');
         }
     }, [dados]);

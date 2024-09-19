@@ -1,11 +1,15 @@
-.navButton-cadastrar-list,
-.navButton-voltar-list {
+.navButton-cadastrar-list {
     display: flex;
     align-items: center;
     font-size: 16px;
-    padding: 3px 0px;
+    height: 38px;
+    padding: 0 12px;
     border: 1px solid transparent;
-    border-radius: 5px;
+    border-radius: 7px;
+    background-color: transparent;
+    border: 1px solid #4C6444;
+    background-color: #4C6444;
+    color: white;
     font-weight: bold;
     text-decoration: none;
     transition: all ease .4s;
@@ -13,13 +17,30 @@
 }
 
 .navButton-voltar-list {
-    background-color: transparent; 
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background-color: transparent;
+    border: 1px solid #4C6444;
+    background-color: #4C6444;
+    font-weight: bold;
+    transition: all ease .4s;
+    cursor: pointer;
+}
+
+.navButton-voltar-list {
+    background-color: transparent;
     gap: 8px;
     text-decoration: underline;
     font-size: 16px;
+    text-decoration: none;
 }
 
-.navButton-voltar-list:hover{
+.navButton-voltar-list:hover {
     /* background-color: red; */
 }
 
@@ -40,7 +61,7 @@
 }
 
 /* padrao para formularios */
-.navButton-voltar-form{
+.navButton-voltar-form {
     background-color: transparent;
     color: #838383;
     border: 1px solid #838383;
@@ -55,7 +76,7 @@
     cursor: pointer;
 }
 
-.navButton-voltar-form:hover{
+.navButton-voltar-form:hover {
     background-color: #838383;
     color: white;
 }

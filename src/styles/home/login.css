@@ -13,26 +13,34 @@
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-.tittle-login{
+.tittle-login {
     text-align: center;
+    justify-content: center;
+    margin-top: 10px;
 }
 
 .button-home {
-    background-color: rgb(60, 60, 151);
+    background-color: transparent;
+    background-color: #4C6444;
     color: white;
     border: none;
     font-size: 14px;
     padding: 3px 0px;
-    margin: 0px 0 0 0;
+    padding: 0 12px;
+    font-size: 15px;
+    border-radius: 7px;
+    border: 1px solid #4C6444;
+    height: 38px;
+    margin-top: 10px;
 }
 
-.criar-conta{
+.criar-conta {
     margin: 5px 0 0 0;
     text-align: center;
     font-size: 14px;
 }
 
-.feedback-error{
+.feedback-error {
     text-align: center;
     font-size: 14px;
 }

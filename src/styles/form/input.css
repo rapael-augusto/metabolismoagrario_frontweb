@@ -3,6 +3,7 @@
   flex-direction: column;
   width: 100%;
   margin: auto;
+  margin-bottom: 10px;
 }
 
 .inputDefault-label {
@@ -24,5 +25,3 @@
   border-color: #007BFF;
   outline: none;
 }
-
-                

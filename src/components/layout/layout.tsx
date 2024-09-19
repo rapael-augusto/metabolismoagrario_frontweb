@@ -87,13 +87,15 @@ const Layout: React.FC<any> = ({ children }) => {
               className="logo-facebook"
             />
 
-            <Image
-              src={"/logo_instagram.svg"}
-              alt="logo lmts"
-              width={30}
-              height={30}
-              className="logo-facebook"
-            />
+            <a href="https://www.instagram.com/lmts_ufape/" target="_blank" rel="noopener noreferrer">
+              <Image
+                src={"/logo_instagram.svg"}
+                alt="logo lmts"
+                width={30}
+                height={30}
+                className="logo-facebook"
+              />
+            </a>
           </div>
 
         </div>
