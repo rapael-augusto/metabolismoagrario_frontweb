@@ -7,10 +7,12 @@ import Layout from "@/components/layout/layout";
 import InputDefault from "@/components/forms/inputDefault";
 import Button from "@/components/forms/button";
 import NavButton from "@/components/layout/navigationButton";
-import Select from "@/components/layout/customSelect";
+import CustomSelect from "@/components/layout/customSelect";
+import Select, { SingleValue } from 'react-select'
 import { typeSelectOptions, climateSelectOptions, irrigationSelectOptions, cultivationSystemSelectOptions, biomeSelectOptions, soilSelectOptions } from "@/utils/selectOptions";
 import useConstantForm from "../../hooks/useConstantForm";
-
+import { countriesService } from "@/services/countries";
+import { useEffect, useState } from "react";
 
 interface Props {
     params: { id: string }
@@ -18,12 +20,18 @@ interface Props {
 
 const CriarConstant = ({ params }: Props) => {
     const {
-        type, reference, value, comment, climate, biome, irrigation, cultivationSystem, country, soil,
-        authorName, title, year, source, errorMessage,
-        handleTypeChange, handleClimateChange, handleIrrigationChange, handleCultivationSystemChange, handleBiomeChange, handleSoilChange,
-        setAuthorName, setTitle, setYear, setSource, setReference, setValue, setComment, setCountry,
-        cadastroConstant
+        type, reference, value, comment, climate, biome, irrigation, cultivationSystem, country, soil, customSoil,
+        authorName, title, year, source, errorMessage, countries, 
+        handleTypeChange, handleClimateChange, handleIrrigationChange, handleCultivationSystemChange, handleBiomeChange, handleSoilChange, handleCountryChange,
+        setAuthorName, setTitle, setYear, setSource, setSoil, setReference, setValue, setComment, setCountry, setCustomSoil,
+        cadastroConstant, createCustomSoil
     } = useConstantForm(params);
+
+    const renderCountriesList = () => {
+        return countries.map((country, index) => (
+            <li key={index}>{country.nome_pais}</li>
+        ));
+    };
 
     return (
         <Layout>
@@ -42,48 +50,9 @@ const CriarConstant = ({ params }: Props) => {
                             </div>
                         )}
 
-                        <h3>Referência bibliográfica</h3>
-
-                        <InputDefault
-                            classe="form-input-box"
-                            label="Nome do autor"
-                            placeholder="Nome do autor"
-                            value={authorName}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAuthorName(e.target.value)}
-                            type={'text'}
-                        />
-
-                        <InputDefault
-                            classe="form-input-box"
-                            label="Título"
-                            placeholder="Título"
-                            value={title}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-                            type={'text'}
-                        />
-
-                        <InputDefault
-                            classe="form-input-box"
-                            label="Ano"
-                            placeholder="Ano"
-                            value={year ? year.toString() : ''}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setYear(parseInt(e.target.value))}
-                            type={'number'}
-                        />
-
-                        <InputDefault
-                            classe="form-input-box"
-                            label="Fonte"
-                            placeholder="Fonte"
-                            value={source}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSource(e.target.value)}
-                            type={'text'}
-                        />
-
-
                         <h3>Informações sobre o fator de conversão</h3>
 
-                        <Select type="form" label="Tipo" options={typeSelectOptions} onChange={handleTypeChange} />
+                        <CustomSelect type="form" label="Tipo" options={typeSelectOptions} onChange={handleTypeChange} />
 
                         <InputDefault
                             classe="form-input-box"
@@ -95,28 +64,44 @@ const CriarConstant = ({ params }: Props) => {
                         />
 
                         <div className="container-2-column">
-                            <Select type="form" label="Clima" options={climateSelectOptions} onChange={handleClimateChange} />
-                            <Select type="form" label="Bioma" options={biomeSelectOptions} onChange={handleBiomeChange} />
+                            <CustomSelect type="form" label="Clima" options={climateSelectOptions} onChange={handleClimateChange} />
+                            <CustomSelect type="form" label="Bioma" options={biomeSelectOptions} onChange={handleBiomeChange} />
                         </div>
 
                         <div className="container-2-column">
-                            <InputDefault
-                                classe="form-input-box"
-                                label="País"
-                                placeholder="País"
-                                value={country}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCountry((e.target as HTMLInputElement).value)}
-                                type={'text'}
+                            <CustomSelect type="form" label="País" options={countries.map(country => ({ value: country.nome_pais, label: country.nome_pais }))} onChange={handleCountryChange} />
+                            <CustomSelect type="form" label="Sistema de cultivo" options={cultivationSystemSelectOptions} onChange={handleCultivationSystemChange} />
+                        </div>
+
+                        <div className="container-2-column">
+                        <CustomSelect 
+                                type="form" 
+                                label="Solo" 
+                                options={soilSelectOptions} 
+                                onChange={(value: string) => {
+                                    handleSoilChange(value);
+                                    if (value === 'Other') {
+                                        setSoil('Other')
+                                        setCustomSoil(''); 
+                                    } else {
+                                        setSoil(value); 
+                                        setCustomSoil(null);
+                                    }
+                                }}  
                             />
-
-                            <Select type="form" label="Sistema de cultivo" options={cultivationSystemSelectOptions} onChange={handleCultivationSystemChange} />
+                            {soil === 'Other' && (
+                                <InputDefault
+                                    classe="form-input-box"
+                                    label="Solo Personalizado"
+                                    placeholder="Digite o solo"
+                                    value={customSoil}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCustomSoil(e.target.value)}
+                                    type="text"
+                                />
+                            )}
+                            
+                            <CustomSelect type="form" label="Irrigação" options={irrigationSelectOptions} onChange={handleIrrigationChange} />
                         </div>
-
-                        <div className="container-2-column">
-                            <Select type="form" label="Solo" options={soilSelectOptions} onChange={handleSoilChange} />
-                            <Select type="form" label="Irrigação" options={irrigationSelectOptions} onChange={handleIrrigationChange} />
-                        </div>
-
 
                         <InputDefault
                             classe="form-input-box"

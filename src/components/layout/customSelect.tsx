@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  React, { useState } from "react";
 import "../../styles/layout/select.css"
 
 interface SelectProps {
@@ -9,7 +9,7 @@ interface SelectProps {
   onChange: (value: string) => void
 }
 
-const Select: React.FC<SelectProps> = ({ label, options, onChange, placeholder, type }) => {
+const CustomSelect: React.FC<SelectProps> = ({ label, options, onChange, placeholder, type }) => {
   const [selectedValue, setSelectedValue] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
@@ -47,4 +47,4 @@ const Select: React.FC<SelectProps> = ({ label, options, onChange, placeholder, 
   )
 }
 
-export default Select
+export default CustomSelect
