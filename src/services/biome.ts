@@ -10,11 +10,7 @@ export class biomeService {
 
   async createBiome(data: createSoil) {
     try {
-      const response = await Axios.post('/customBiome', data, {
-        headers: {
-          Authorization: this.token ? `Bearer ${this.token}` : ''
-        }
-      });
+      const response = await Axios.post("/customBiome", data);
       return response.data;
     } catch (error) {
       console.error("Erro ao criar o bioma personalizado:", error);
