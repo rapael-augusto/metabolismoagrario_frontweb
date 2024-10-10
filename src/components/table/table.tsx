@@ -15,7 +15,7 @@ const Table: React.FC<TableProps> = ({ data, columns, onView, onDelete, onEdit, 
 
   const getTranslation = (value: string, translationMap?: { [key: string]: string }): string => {
     return translationMap && translationMap[value] ? translationMap[value] : "Não informado"
-  }
+  } 
 
   const displayValue = (value: any): string => {
     return value === null || value === undefined || value === "" ? "Não informado" : String(value)
