@@ -1,0 +1,36 @@
+.footer {
+  width: 100vw;
+  background-color: var(--primary-color);
+}
+
+.mainFooter {
+  display: flex;
+  padding: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.imgFlex {
+  display: flex;
+  align-items: center;
+  color: var(--white);
+}
+
+.mediaSocial {
+  gap: 12px;
+}
+
+.mediaSocial > img {
+  cursor: pointer;
+}
+
+@media (max-width: 575px) {
+  .imgFlex {
+    width: 100%;
+    justify-content: center;
+    margin-top: 4px;
+  }
+}

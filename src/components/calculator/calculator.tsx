@@ -1,44 +1,51 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import CustomSelect from "@/components/layout/customSelect";
 import { dataCropsType } from "@/types/cropsTypes";
 import { cropsService } from "@/services/crops";
 import { cultivarsData } from "@/types/cultivarTypes";
 import { usePPLCalculator } from "@/app/hooks/usePPLCalculator";
+import styles from "@/styles/calculator/index.module.css";
+import NavButton from "../layout/navigationButton";
+import InputDefault from "../forms/inputDefault";
+import { typeTranslation } from "@/utils/translationsOptions";
+import { Calculation } from "./calculation";
 
 const Calculator = () => {
   const [crops, setCrops] = useState<dataCropsType[]>([]);
-  const [selectedCrop, setSelectedCrop] = useState<string>('');
+  const [selectedCrop, setSelectedCrop] = useState<string>("");
   const [cultivars, setCultivars] = useState<cultivarsData[]>([]);
-  const [cultivarId, setCultivarId] = useState<string>('');
+  const [cultivarId, setCultivarId] = useState<string>("");
   const [constants, setConstants] = useState<any[]>([]);
   const [area, setArea] = useState<number>(0);
   const [harvestedProduction, setHarvestedProduction] = useState<number>(0);
-  const [cultivarScientificName, setCultivarScientificName] = useState<string | any>('');
+  const [cultivarScientificName, setCultivarScientificName] = useState<
+    string | any
+  >("");
   const [calculations, setCalculations] = useState<any>(null);
 
   useEffect(() => {
-    const token = sessionStorage.getItem('@token');
+    const token = sessionStorage.getItem("@token");
     if (token) {
       const cropsAPI = new cropsService(token);
       cropsAPI.list().then((response) => setCrops(response));
     }
   }, []);
 
-  const handleCropChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const cropId = event.target.value;
+  const handleCropChange = (selectedCrop: string) => {
+    const cropId = selectedCrop;
     setSelectedCrop(cropId);
-    
+
     if (cropId) {
-      const token = sessionStorage.getItem('@token');
+      const token = sessionStorage.getItem("@token");
       if (token) {
         const cropsAPI = new cropsService(token);
         cropsAPI.findOne(cropId).then((response) => {
           if (response && response.cultivars) {
-            setCultivars(response.cultivars); 
-            setCultivarId(''); 
-            setCultivarScientificName(response.type);
+            setCultivars(response.cultivars);
+            setCultivarId("");
+            setCultivarScientificName(response.scientificName);
             setConstants([]);
             setArea(0);
             setHarvestedProduction(0);
@@ -51,8 +58,8 @@ const Calculator = () => {
         console.error("Token não encontrado");
       }
     } else {
-      setCultivars([]); 
-      setCultivarId('');
+      setCultivars([]);
+      setCultivarId("");
       setConstants([]);
       setArea(0);
       setHarvestedProduction(0);
@@ -61,16 +68,16 @@ const Calculator = () => {
   };
 
   const handleCultivarChange = async (selectedCultivarId: string) => {
-    setCultivarId(selectedCultivarId); 
+    setCultivarId(selectedCultivarId);
     const session = sessionStorage.getItem("@token");
 
     if (session) {
       const service = new cropsService(session);
-      const response = await service.findOneCultivar(selectedCultivarId); 
+      const response = await service.findOneCultivar(selectedCultivarId);
       if (response) {
         const convertedConstants = response.constants.map((constant: any) => ({
           type: constant.type,
-          value: Number(constant.value), 
+          value: Number(constant.value),
         }));
         setConstants(convertedConstants);
       }
@@ -78,38 +85,64 @@ const Calculator = () => {
   };
 
   const handleCalculate = () => {
-    if (area > 0 && harvestedProduction > 0 && constants.length > 0 && cultivarId) {
+    if (
+      area > 0 &&
+      harvestedProduction > 0 &&
+      constants.length > 0 &&
+      cultivarId
+    ) {
       const calculator = usePPLCalculator({
         cultivar: { name: cultivarScientificName },
         constants: {
-          HARVEST_INDEX: constants.find(constant => constant.type === 'HARVEST_INDEX')?.value || 0, 
-          AERIAL_RESIDUE_INDEX: constants.find(constant => constant.type === 'AERIAL_RESIDUE_INDEX')?.value || 0, 
-          PRODUCT_RESIDUE_INDEX: constants.find(constant => constant.type === 'PRODUCT_RESIDUE_INDEX')?.value || 0,
-          PRODUCT_DRY_MATTER_FACTOR: constants.find(constant => constant.type === 'PRODUCT_DRY_MATTER_FACTOR')?.value || 0,
-          RESIDUE_DRY_MATTER_FACTOR: constants.find(constant => constant.type === 'RESIDUE_DRY_MATTER_FACTOR')?.value || 0,
-          BELOWGROUND_INDEX: constants.find(constant => constant.type === 'BELOWGROUND_INDEX')?.value || 0,
-          WEED_AERIAL_FACTOR: constants.find(constant => constant.type === 'WEED_AERIAL_FACTOR')?.value || 0,
-          WEED_BELOWGROUND_INDEX: constants.find(constant => constant.type === 'WEED_BELOWGROUND_INDEX')?.value || 0,
-        },     
+          HARVEST_INDEX:
+            constants.find((constant) => constant.type === "HARVEST_INDEX")
+              ?.value || 0,
+          AERIAL_RESIDUE_INDEX:
+            constants.find(
+              (constant) => constant.type === "AERIAL_RESIDUE_INDEX"
+            )?.value || 0,
+          PRODUCT_RESIDUE_INDEX:
+            constants.find(
+              (constant) => constant.type === "PRODUCT_RESIDUE_INDEX"
+            )?.value || 0,
+          PRODUCT_DRY_MATTER_FACTOR:
+            constants.find(
+              (constant) => constant.type === "PRODUCT_DRY_MATTER_FACTOR"
+            )?.value || 0,
+          RESIDUE_DRY_MATTER_FACTOR:
+            constants.find(
+              (constant) => constant.type === "RESIDUE_DRY_MATTER_FACTOR"
+            )?.value || 0,
+          BELOWGROUND_INDEX:
+            constants.find((constant) => constant.type === "BELOWGROUND_INDEX")
+              ?.value || 0,
+          WEED_AERIAL_FACTOR:
+            constants.find((constant) => constant.type === "WEED_AERIAL_FACTOR")
+              ?.value || 0,
+          WEED_BELOWGROUND_INDEX:
+            constants.find(
+              (constant) => constant.type === "WEED_BELOWGROUND_INDEX"
+            )?.value || 0,
+        },
         area,
         harvestedProduction,
       });
-      
-      console.log('Constants:', constants);
+
+      console.log("Constants:", constants);
       const productivity = calculator.getProductivity();
       const totalAerialBiomass = calculator.getTotalAerialBiomass();
       const residueBiomass = calculator.getResidueBiomass();
       const dryMatterBiomass = calculator.getDryMatterBiomass();
       const residueDryMatterBiomass = calculator.getResidueDryMatterBiomass();
       const dryMatterBiomassTotal = calculator.getDryMatterBiomassTotal();
-  
-      setCalculations({ 
-        productivity, 
-        totalAerialBiomass, 
+
+      setCalculations({
+        productivity,
+        totalAerialBiomass,
         residueBiomass,
         residueDryMatterBiomass,
         dryMatterBiomass,
-        dryMatterBiomassTotal
+        dryMatterBiomassTotal,
       });
     } else {
       alert("Por favor, preencha todos os campos corretamente.");
@@ -126,71 +159,111 @@ const Calculator = () => {
     value: cultivar.id,
   }));
 
+  const handleAreaChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setArea(Number(e.target.value));
+  };
+
   return (
-    <div>
-      <h1>Calculadora</h1>
-      
-      <label htmlFor="cropSelect">Selecione uma Cultura:</label>
-      <select id="cropSelect" value={selectedCrop} onChange={handleCropChange}>
-        <option value="">Escolha uma cultura</option>
-        {cropsOptions.map((crop) => (
-          <option key={crop.value} value={crop.value}>
-            {crop.label}
-          </option>
-        ))}
-      </select>
-      
-      {cultivars.length > 0 ? (
-        <CustomSelect 
-          type="form" 
-          label="Cultivar" 
-          options={cultivarsOptions} 
-          onChange={handleCultivarChange} 
-        />
-      ) : (  
-        <p>Nenhuma cultivar disponível</p>
-      )}
+    <div className={styles.page}>
+      <div className={styles.pageButtonsWrapper}>
+        <NavButton Url="/home" text={"Voltar"} type="voltar" page="list" />
+      </div>
+      <h2 className={styles.pageTitle}>Calculadora</h2>
+      <main className={styles.container}>
+        <div className={styles.inputGrid}>
+          <div className={styles.inputLarge}>
+            <CustomSelect
+              type="form"
+              label="Cultura"
+              placeholder="Selecione uma cultura"
+              options={cropsOptions}
+              onChange={handleCropChange}
+            />
+          </div>
 
-      {cultivarId && constants.length > 0 && (
-        <>
-          <h2>Constantes de {cultivarScientificName}</h2>
-          <ul>
-            {constants.map((constant, index) => (
-              <li key={index}>
-                {constant.type} - {constant.value}: {typeof(constant.value)}
-              </li>
-            ))}
-          </ul>
-          <input
-            type="number"
-            placeholder="Produção colhida"
-            value={harvestedProduction}
-            onChange={(e) => setHarvestedProduction(Number(e.target.value))}
-          />
-          <input
-            type="number"
-            placeholder="Área"
-            value={area}
-            onChange={(e) => setArea(Number(e.target.value))}
-          />
-        </>
-      )}
+          <div>
+            <CustomSelect
+              type="form"
+              label="Cultivar"
+              placeholder="Selecione um cultivar"
+              options={cultivarsOptions}
+              onChange={handleCultivarChange}
+            />
+          </div>
+          <div>
+            <InputDefault
+              type="number"
+              label="Produção colhida"
+              value={harvestedProduction}
+              onChange={(e) => setHarvestedProduction(Number(e.target.value))}
+              step="0.1"
+              min={0}
+              classe={""}
+              placeholder={""}
+            />
+          </div>
 
-      <button onClick={handleCalculate}>Calcular</button>
-
-      {calculations && (
-        <div>
-          <h2>Resultados</h2>
-          <p>{calculations.productivity.name}: {calculations.productivity.result.toFixed(2)} {calculations.productivity.unity}</p>
-          <p>{calculations.totalAerialBiomass.name}: {calculations.totalAerialBiomass.result.toFixed(2)} {calculations.totalAerialBiomass.unity}</p>
-          <p>{calculations.residueBiomass.name}: {calculations.residueBiomass.result.toFixed(2)} {calculations.residueBiomass.unity}</p>
-          <p>{calculations.dryMatterBiomass.name}: {calculations.dryMatterBiomass.result.toFixed(2)} {calculations.dryMatterBiomass.unity}</p>
-          <p>{calculations.residueDryMatterBiomass.name}: {calculations.residueDryMatterBiomass.result.toFixed(2)} {calculations.residueDryMatterBiomass.unity}</p>
-          <p>{calculations.dryMatterBiomassTotal.name}: {calculations.dryMatterBiomassTotal.result.toFixed(2)} {calculations.dryMatterBiomassTotal.unity}</p>
+          <div>
+            <InputDefault
+              type="number"
+              label="Área (ha)"
+              value={area}
+              step="0.1"
+              min={0}
+              onChange={handleAreaChange}
+              classe={""}
+              placeholder={""}
+            />
+          </div>
         </div>
-      )}
+
+        {cultivarId && constants.length > 0 && (
+          <div className={styles.infoContainer}>
+            <h2>Constantes de {cultivarScientificName}</h2>
+            <div className={styles.inputGrid}>
+              {constants.map((constant, index) => (
+                <InputDefault
+                  key={constant.type}
+                  type="number"
+                  label={typeTranslation[constant.type]}
+                  value={constant.value}
+                  step="0.1"
+                  min={0}
+                  disabled
+                  onChange={handleAreaChange}
+                  classe={""}
+                  placeholder={""}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className={styles.mainFooter}>
+          <button onClick={handleCalculate} className={styles.submitButton}>
+            Calcular
+          </button>
+        </div>
+      </main>
+      <div>
+        {calculations && (
+          <div className={styles.container}>
+            <h2>Resultados</h2>
+            <div className={styles.calculationsWrapper}>
+              {Object.keys(calculations).map((calculation, index) => (
+                <Calculation
+                  key={calculation}
+                  name={calculations[calculation].name}
+                  result={calculations[calculation].result}
+                  unity={calculations[calculation].unity}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
-}
+};
 
 export default Calculator;
