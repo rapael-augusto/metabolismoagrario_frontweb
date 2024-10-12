@@ -1,6 +1,7 @@
 .homepage-box {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 10px 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 10px 10px;
 }

@@ -1,173 +1,173 @@
 html,
 body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .layout-box {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .header-box {
-    position: relative;
-    top: 0px;
-    margin: 0px 0px 32px 0px;
-    height: 100px;
-    display: flex;
-    border-bottom: 2px solid transparent;
+  position: sticky;
+  top: 0px;
+  margin: 0px 0px 32px 0px;
+  height: 100px;
+  display: flex;
+  border-bottom: 2px solid transparent;
+}
+
+.header-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .header-box:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0)
+  );
 }
-
 
 .header-box div,
 .footer-box div {
-    flex: 1;
-    height: 100%;
-    display: flex;
-    align-items: center;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
-.header-menu-box,
 .footer-social-box {
-    justify-content: flex-end;
-    padding: 0 120px 0 0;
+  justify-content: flex-end;
+  padding: 0 120px 0 0;
 }
 
-.header-logo-box,
 .footer-logo-box {
-    padding: 0 0 0 120px;
-
+  padding: 0 0 0 120px;
 }
 
 .menu-box {
-    width: max-content;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    list-style: none;
+  width: max-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
 }
 
 .menu-box .link {
-    margin: 0;
-    padding: 0 13px;
+  margin: 0;
+  padding: 0 13px;
 }
 
 .menu-box .link:hover {
-    transition: all ease-in-out .3s;
-    background-color: rgba(128, 128, 128, 0.548);
-    cursor: pointer;
-
+  transition: all ease-in-out 0.3s;
+  background-color: rgba(128, 128, 128, 0.548);
+  cursor: pointer;
 }
 
 .footer-box {
-    background-color: #7F975D;
-    color: rgb(255, 255, 255);
-    position: relative;
-    top: 49.5vh;
-    width: 100%;
-    margin: 40px 0 0 0px;
-    height: 100px;
-
+  background-color: #7f975d;
+  color: rgb(255, 255, 255);
+  width: 100%;
+  margin: 40px 0 0 0px;
+  height: 100px;
 }
 
 footer {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
-
 .container-centralizado {
-    max-width: 1200px;
-    margin: 0 auto;
-
+  display: flex;
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .logos {
-    display: flex;
-    padding: 0;
-    margin: 0 auto;
-    justify-content: space-between;
+  display: flex;
+  padding: 0;
+  margin: 0 auto;
+  justify-content: space-between;
 }
 
 .logo-sistema {
-    display: flex;
-    gap: 3px;
+  display: flex;
+  gap: 3px;
 }
 
 .logo-sistema-nome {
-    font-weight: bold;
-    font-size: 14px;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 .logos-faculdade {
-    justify-content: center;
-    align-self: flex-end;
+  justify-content: center;
+  align-self: flex-end;
 }
 
 .redes-sociais {
-    justify-content: end;
-    align-self: flex-end;
-    gap: 35px;
+  justify-content: end;
+  align-self: flex-end;
+  gap: 35px;
 }
-
 
 /* feedback css*/
 
 .success {
-    color: #155724;
-    background-color: #d4edda;
+  color: #155724;
+  background-color: #d4edda;
 }
 
 .warning {
-    color: #956445;
-    background-color: #fff3cd;
+  color: #956445;
+  background-color: #fff3cd;
 }
 
 .danger {
-    color: #881c24;
-    background-color: #f8d7da;
+  color: #881c24;
+  background-color: #f8d7da;
 }
 
 .hide {
-    display: none;
+  display: none;
 }
 
 .alert-box {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 80%;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    width: max-content;
-    padding: 5px 5px 5px 10px;
-    margin: 0 auto;
-    opacity: 1;
-    transition: opacity 0.5s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 80%;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  width: max-content;
+  padding: 5px 5px 5px 10px;
+  margin: 0 auto;
+  opacity: 1;
+  transition: opacity 0.5s ease-out;
 }
 
 .alert-box.hidden {
-    opacity: 0;
-    display: none;
+  opacity: 0;
+  display: none;
 }
 
-
 .alert-box span {
-    height: 100%;
-    margin: 0px 10px 0px 0px;
+  height: 100%;
+  margin: 0px 10px 0px 0px;
 }
 
 .icone-fechar {
-    cursor: pointer;
+  cursor: pointer;
 }

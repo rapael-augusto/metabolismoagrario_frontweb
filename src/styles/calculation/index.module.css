@@ -1,0 +1,17 @@
+.calculationBox {
+  width: 20rem;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0.5rem;
+  background-color: #80ad6b;
+  border: 2px solid #699056;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.calculationBox > p {
+  text-align: center;
+}

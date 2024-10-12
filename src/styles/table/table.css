@@ -14,7 +14,7 @@
 }
 
 .header-list {
-  background-color: #7F975D;
+  background-color: #7f975d;
   border-radius: 14px 14px 0px 0px;
   padding: 8px 0px;
 }
@@ -37,8 +37,8 @@
   flex: 1;
   padding: 10px;
   text-align: center;
-  white-space: wrap; 
-  overflow: hidden; 
+  white-space: wrap;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
@@ -57,9 +57,63 @@
 }
 
 .header-col-actions {
-  flex: 1; 
+  flex: 1;
 }
 
 .pointer-cursor {
   cursor: pointer;
+}
+
+.result-col-actions > img {
+  cursor: pointer;
+}
+
+.paginatedWrapper {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.pagesWrapper {
+  display: flex;
+  gap: 12px;
+}
+
+.pagesWrapper > button,
+.pageNextButton,
+.pagePrevButton {
+  outline: none;
+  border: none;
+  cursor: pointer;
+  color: var(--brown);
+  font-size: 1rem;
+  font-weight: 700;
+  transition: color 0.2s;
+}
+
+.pagesWrapper > button:disabled,
+.pageNextButton:disabled,
+.pagePrevButton:disabled {
+  filter: opacity(0.3);
+}
+
+.pagesWrapper > button {
+  color: var(--black);
+  font-weight: 700;
+}
+
+.pageActive {
+  color: var(--primary-color) !important;
+}
+
+.pagesWrapper > button:hover {
+  color: var(--primary-color);
+}
+
+.pageNextButton:hover,
+.pagePrevButton:hover {
+  filter: opacity(0.6);
 }

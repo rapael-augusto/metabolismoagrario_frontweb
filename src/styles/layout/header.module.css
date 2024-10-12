@@ -1,0 +1,28 @@
+.header {
+  position: relative;
+  top: 0px;
+  width: 100vw;
+  margin-bottom: 32px;
+  box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.1);
+}
+
+.mainHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.logoTitle {
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}

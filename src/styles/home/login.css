@@ -1,95 +1,92 @@
 .formBody-login {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    border: 1px solid rgba(0, 0, 0, 0.267);
-    border-radius: 10px;
-    width: 460px;
-    height: auto;
-    margin: 0 auto;
-    padding: 20px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  border: 1px solid rgba(0, 0, 0, 0.267);
+  border-radius: 10px;
+  width: 460px;
+  height: auto;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .tittle-login {
-    text-align: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: bold;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .tittle-loginReg {
-    color: #80AD6B;
-    text-align: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: bold;
+  color: #80ad6b;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .button-home {
-    background-color: #80AD6B;
-    color: white;
-    border: none;
-    font-size: 14px;
-    padding: 10px 20px;
-    border-radius: 10px;
-    width: 48%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
+  background-color: #80ad6b;
+  color: white;
+  border: none;
+  font-size: 14px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  width: 48%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
 }
 
 .button-homeHome {
-    background-color: #80AD6B;
-    color: white;
-    border: none;
-    font-size: 14px;
-    padding: 10px 20px;
-    border-radius: 10px;
-    width: 48%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-    width: 460px;
-    margin-top: 15px;
+  background-color: #80ad6b;
+  color: white;
+  border: none;
+  font-size: 14px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  width: 48%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  width: 460px;
+  margin-top: 15px;
 }
-
 
 .button-home:hover {
-    background-color: #6f9e5b;
+  background-color: #6f9e5b;
 }
 
-
 .criar-conta {
-    margin: 10px 0 0 0;
-    text-align: center;
-    font-size: 14px;
+  margin: 10px 0 0 0;
+  text-align: center;
+  font-size: 14px;
 }
 
 .feedback-error {
-    text-align: center;
-    font-size: 14px;
+  text-align: center;
+  font-size: 14px;
 }
 
 .page-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    gap: 100px;
-    margin-top: -100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  gap: 100px;
+  margin-top: -100px;
 }
 
 .text-content {
-    max-width: 500px;
-    text-align: left;
-    margin-top: -50px;
-
+  max-width: 500px;
+  text-align: left;
+  margin-top: -50px;
 }
 
 .text-content h1 {
-    color: #80AD6B;
+  color: #80ad6b;
 }

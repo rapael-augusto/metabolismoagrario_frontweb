@@ -1,72 +1,70 @@
 .componente-dropdown {
-    padding: 5px;
-    width: 100px;
-    max-height: 50px;
-    margin: 90px 0px 0px 0px;
-    position: absolute;
-    border: 1px solid rgba(0, 0, 0, 0.397);
-    background-color: white;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
+  padding: 5px;
+  width: 100px;
+  max-height: 50px;
+  position: absolute;
+  border: 1px solid rgba(0, 0, 0, 0.397);
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .componente-dropdown ul {
-    width: 80%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0px;
-    margin: 0px;
-    list-style: none;
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
 }
 
 .componente-dropdown ul .link {
-    margin: 5px 0;
-    width: 80%;
-    text-align: center;
-    text-decoration: none;
-    color: black;
+  margin: 5px 0;
+  width: 80%;
+  text-align: center;
+  text-decoration: none;
+  color: black;
 }
 
 .active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    transition: .2s ease;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: 0.2s ease;
 }
 
 .inactive {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-20px);
-    transition: .2s ease;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: 0.2s ease;
 }
 
 .dropDown {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .d-none {
-    display: none;
+  display: none;
 }
 
 .activeIcon {
-    transition: .3s all ease-in-out;
-    rotate: 180deg;
+  transition: 0.3s all ease-in-out;
+  rotate: 180deg;
 }
 
 .inactiveIcon {
-    transition: .3s all ease-in-out;
+  transition: 0.3s all ease-in-out;
 }
 
 .user-name {
-    margin: 0 5px 0 0px;
+  margin: 0 5px 0 0px;
 }
