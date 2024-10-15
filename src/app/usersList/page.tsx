@@ -20,64 +20,6 @@ interface DataUserType {
 const UsersList = () => {
   const [dados, setDados] = useState<DataUserType[]>([]);
 
-  const users: DataUserType[] = [
-    { id: "1", name: "Alice Silva", email: "alice@example.com", role: "ADMIN" },
-    {
-      id: "2",
-      name: "Bruno Souza",
-      email: "bruno@example.com",
-      role: "OPERATOR",
-    },
-    {
-      id: "3",
-      name: "Carlos Pereira",
-      email: "carlos@example.com",
-      role: "ADMIN",
-    },
-    {
-      id: "4",
-      name: "Daniela Santos",
-      email: "daniela@example.com",
-      role: "OPERATOR",
-    },
-    {
-      id: "5",
-      name: "Eduardo Lima",
-      email: "eduardo@example.com",
-      role: "ADMIN",
-    },
-    {
-      id: "6",
-      name: "Fernanda Alves",
-      email: "fernanda@example.com",
-      role: "OPERATOR",
-    },
-    {
-      id: "7",
-      name: "Gabriel Costa",
-      email: "gabriel@example.com",
-      role: "ADMIN",
-    },
-    {
-      id: "8",
-      name: "Helena Martins",
-      email: "helena@example.com",
-      role: "OPERATOR",
-    },
-    {
-      id: "9",
-      name: "Igor Ferreira",
-      email: "igor@example.com",
-      role: "ADMIN",
-    },
-    {
-      id: "10",
-      name: "Juliana Rocha",
-      email: "juliana@example.com",
-      role: "OPERATOR",
-    },
-  ];
-
   useEffect(() => {
     const token = sessionStorage.getItem("@token");
 
@@ -91,7 +33,7 @@ const UsersList = () => {
       const auth = new Auth();
 
       auth.UsersList(token).then((res) => {
-        setDados(users);
+        setDados(res);
       });
     }
   }, []);
