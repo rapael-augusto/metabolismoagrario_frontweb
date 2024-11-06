@@ -12,7 +12,6 @@ interface navButtonParams {
 const NavButton: React.FC<navButtonParams> = ({ Url, text, type, page }) => {
   return (
     <Link className={`navButton-${type}-${page}`} type="button" href={Url}>
-      {type === "voltar"}
       {text}
     </Link>
   );

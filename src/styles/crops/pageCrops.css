@@ -8,6 +8,8 @@
 }
 
 .titulo-crops {
+  color: var(--light-green);
+  font-weight: bold;
   text-align: center;
 }
 
@@ -22,16 +24,6 @@
 
 .filtro_crops {
   margin: 0 15px 0 0;
-}
-
-.list-crops {
-  margin: 30px auto;
-  width: 90%;
-  height: max-content;
-  min-height: 30rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .header-list {

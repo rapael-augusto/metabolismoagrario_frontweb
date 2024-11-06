@@ -1,0 +1,117 @@
+.mainWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: nowrap;
+  gap: 10%;
+}
+
+.textWrapper {
+  flex: 1;
+  max-width: 35rem;
+  height: fit-content;
+  text-align: justify;
+  color: var(--primary-color);
+}
+
+.formTitle {
+  padding-bottom: 4rem;
+  padding-top: 2rem;
+}
+
+.formWrapper {
+  flex: 1;
+  max-width: 40rem;
+  height: 100%;
+  max-height: fit-content;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 1rem;
+}
+
+.textWrapper > p {
+  margin-top: 1.5rem;
+  color: var(--black);
+}
+
+.inputBox {
+  text-align: center;
+}
+
+.inputBox > button {
+  width: 100%;
+  padding: 0.8rem 1.25rem;
+  background-color: var(--light-green);
+  color: var(--white);
+  font-weight: bold;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  outline: none;
+  border: none;
+
+  transition: opacity 0.2s;
+}
+
+.inputBox > button:hover {
+  opacity: 0.8;
+}
+
+.forgotPassword {
+  display: flex;
+  justify-self: flex-end;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  margin-bottom: 1rem;
+}
+
+.forgotPassword:hover {
+  opacity: 1;
+}
+
+.formFooter {
+  text-align: center;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+}
+
+.formFooter > a {
+  color: var(--brown);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+@media (max-width: 950px) {
+  .mainWrapper {
+    height: auto;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0.5rem;
+    gap: 2rem;
+  }
+
+  .textWrapper {
+    flex: none;
+    width: 100%;
+    max-width: 40rem;
+    margin-bottom: 1rem;
+  }
+
+  .textWrapper > h1 {
+    text-align: center;
+  }
+
+  .formWrapper {
+    width: 100%;
+    max-height: fit-content;
+  }
+}

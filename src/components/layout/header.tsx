@@ -21,7 +21,9 @@ export const Header: React.FunctionComponent = () => {
   return (
     <React.Fragment>
       <div className={Styles.header}>
-        <div className={Styles.mainHeader}>
+        <div
+          className={`${Styles.mainHeader} ${userName ? "" : Styles.onlyLogo}`}
+        >
           <Link href="/home" className={Styles.logoWrapper}>
             <Image
               src="/logo_provisoriaHeader.svg"

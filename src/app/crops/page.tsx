@@ -8,6 +8,7 @@ import { useRouter, redirect } from "next/navigation";
 import Table from "@/components/table/table";
 import NavButton from "@/components/layout/navigationButton";
 import { dataCropsType } from "@/types/cropsTypes";
+import SearchForm from "@/components/forms/SearchForm";
 
 interface Props {
   params: { id: string };
@@ -15,6 +16,7 @@ interface Props {
 
 const Crops = ({ params }: Props) => {
   const [dados, setDados] = useState<dataCropsType[] | any>([]);
+  const [filtredData, setFiltredData] = useState<dataCropsType[] | any>([]);
   const router = useRouter();
 
   const columns = [
@@ -29,6 +31,7 @@ const Crops = ({ params }: Props) => {
 
       crops.list().then((response) => {
         setDados(response);
+        setFiltredData(response);
       });
     } else {
       sessionStorage.setItem(
@@ -68,6 +71,7 @@ const Crops = ({ params }: Props) => {
             (crop: { id: string }) => crop.id !== id
           );
           setDados(updatedData);
+          setFiltredData(updatedData);
           console.log("Cultura removida");
           setTimeout(() => {
             const alertBox = document.querySelector(".alert-box");
@@ -98,10 +102,22 @@ const Crops = ({ params }: Props) => {
     [dados]
   );
 
+  const handleSearch = (search: string) => {
+    const filtred = dados.filter((crop: dataCropsType) =>
+      crop.name.toLowerCase().includes(search.toLowerCase())
+    );
+    console.log(search);
+    setFiltredData(filtred);
+  };
+
+  console.log("filtredData", filtredData);
+
   return (
     <Layout>
       <div className="cropsPage">
         <h2 className="titulo-crops">Lista de culturas</h2>
+
+        <SearchForm placeholder="Pesquisa por nome" onSearch={handleSearch} />
 
         <div className="container-button-crops">
           <NavButton Url="/home" text={"Voltar"} type="voltar" page="list" />
@@ -115,7 +131,7 @@ const Crops = ({ params }: Props) => {
           </div>
         </div>
         <Table
-          data={dados}
+          data={filtredData}
           columns={columns}
           onView={(id) => handleView(id)}
           onEdit={(id) => handleEdit(id)}

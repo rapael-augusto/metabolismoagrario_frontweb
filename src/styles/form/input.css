@@ -3,26 +3,32 @@
   flex-direction: column;
   width: 100%;
   margin: auto;
-  margin-bottom: 10px;
+  margin-bottom: 1.25rem;
 }
 
 .inputDefault-label {
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   font-size: 14px;
   font-weight: bold;
 }
 
 .inputDefault-input {
+  flex: 1;
   height: 54px;
   border: 1px solid rgba(0, 0, 0, 0.267);
   padding: 8px 10px;
   border-radius: 7px;
   font-size: 14px;
+  transition: background-color 0.2s;
 }
 
 .inputDefault-input:focus {
   border-color: #007bff;
   outline: none;
+}
+
+.inputDefault-input:read-only {
+  background-color: #e9ecef;
 }
 
 .forgot-password {

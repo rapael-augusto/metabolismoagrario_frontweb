@@ -3,13 +3,12 @@
 import Layout from "@/components/layout/layout";
 import Button from "@/components/forms/button";
 import InputDefault from "@/components/forms/inputDefault";
-import "../styles/form/form.css";
-import "../styles/home/login.css";
 import { useState } from "react";
 import Auth from "@/services/auth";
 import { redirect } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
+import styles from "@/styles/home/login.module.css";
 
 //pagina de login
 
@@ -57,7 +56,6 @@ const Home = () => {
         email: email,
         password: password,
       };
-
       const response: any = await auth.login(dadosLogin);
       setStatusResponse(response.status);
 
@@ -82,8 +80,8 @@ const Home = () => {
   } else {
     return (
       <Layout>
-        <div className="page-container">
-          <div className="text-content">
+        <div className={styles.mainWrapper}>
+          <div className={styles.textWrapper}>
             <h1>Metabolismo Agrário</h1>
             <p>
               Lorem ipsum dolor sit amet consectetur. Vitae aliquet ultrices
@@ -96,47 +94,51 @@ const Home = () => {
             </p>
           </div>
 
-          <form className="formBody-login">
-            <div className="form-input-box">
-              <h2 className="tittle-login">Entrar</h2>
+          <form className={styles.formWrapper}>
+            <div className={styles.inputBox}>
+              <h2 className={styles.formTitle}>Entrar</h2>
             </div>
 
-            <InputDefault
-              type={"email"}
-              placeholder={"Informe seu E-mail"}
-              classe={"form-input-box"}
-              label={"E-mail"}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEmail((e.target as HTMLInputElement).value)
-              }
-              value={email}
-            />
+            <main className={styles.formMain}>
+              <div className={styles.inputWrapper}>
+                <InputDefault
+                  type={"email"}
+                  placeholder={"Informe seu E-mail"}
+                  classe={"form-input-box"}
+                  label={"E-mail"}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setEmail((e.target as HTMLInputElement).value)
+                  }
+                  value={email}
+                />
 
-            <InputDefault
-              type={"password"}
-              placeholder={"Informe sua senha"}
-              classe={"form-input-box"}
-              label={"Senha"}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setPassword((e.target as HTMLInputElement).value)
-              }
-              value={password}
-            />
-            <div className="forgot-password">
-              <Link href="/forgot-password">Esqueceu a senha?</Link>
-            </div>
+                <InputDefault
+                  type={"password"}
+                  placeholder={"Informe sua senha"}
+                  classe={"form-input-box"}
+                  label={"Senha"}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setPassword((e.target as HTMLInputElement).value)
+                  }
+                  value={password}
+                />
+                <Link href="/forgot-password" className={styles.forgotPassword}>
+                  Esqueceu a senha?
+                </Link>
+              </div>
 
-            <div className="form-input-box">
-              <Button
-                texto={"Entrar"}
-                classe={"button-homeHome"}
-                onclick={loginEvento}
-              />
-            </div>
+              <div className={styles.inputBox}>
+                <Button
+                  texto={"Entrar"}
+                  classe={"button-homeHome"}
+                  onclick={loginEvento}
+                />
+              </div>
 
-            <p className="form-register">
-              Não possui conta? <Link href="/register">Crie agora</Link>
-            </p>
+              <p className={styles.formFooter}>
+                Não possui conta? <Link href="/register">Crie agora</Link>
+              </p>
+            </main>
           </form>
         </div>
       </Layout>

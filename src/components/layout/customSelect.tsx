@@ -7,6 +7,7 @@ interface SelectProps {
   placeholder?: string;
   options: { value: string; label: string }[];
   onChange: (value: string) => void;
+  required?: boolean;
 }
 
 const CustomSelect: React.FC<SelectProps> = ({
@@ -15,6 +16,7 @@ const CustomSelect: React.FC<SelectProps> = ({
   onChange,
   placeholder,
   type,
+  required,
 }) => {
   const [selectedValue, setSelectedValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -34,9 +36,12 @@ const CustomSelect: React.FC<SelectProps> = ({
     <div className={`${type}-select`}>
       <label className="select-label" htmlFor="select">
         {label}
+        {required && (
+          <span style={{ color: "var(--brown)", fontSize: "1rem" }}>*</span>
+        )}
       </label>
 
-      <select value={selectedValue} onChange={handleChange}>
+      <select value={selectedValue} onChange={handleChange} required={required}>
         <option hidden value="empty">
           {placeholder}
         </option>

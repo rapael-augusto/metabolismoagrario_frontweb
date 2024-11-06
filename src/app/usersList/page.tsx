@@ -9,6 +9,7 @@ import NavButton from "@/components/layout/navigationButton";
 import Image from "next/image";
 import Auth from "@/services/auth";
 import Table from "@/components/table/table"; // Importando o componente Table
+import SearchForm from "@/components/forms/SearchForm";
 
 interface DataUserType {
   id: string;
@@ -19,6 +20,7 @@ interface DataUserType {
 
 const UsersList = () => {
   const [dados, setDados] = useState<DataUserType[]>([]);
+  const [filtredData, setFiltredData] = useState<DataUserType[]>([]);
 
   useEffect(() => {
     const token = sessionStorage.getItem("@token");
@@ -34,6 +36,7 @@ const UsersList = () => {
 
       auth.UsersList(token).then((res) => {
         setDados(res);
+        setFiltredData(res);
       });
     }
   }, []);
@@ -72,6 +75,14 @@ const UsersList = () => {
     [dados]
   );
 
+  const handleSearch = (search: string) => {
+    const filtred = dados.filter((crop: DataUserType) =>
+      crop.name.toLowerCase().includes(search.toLowerCase())
+    );
+    console.log(search);
+    setFiltredData(filtred);
+  };
+
   const columns = [
     { header: "Nome", accessor: "name" },
     { header: "E-mail", accessor: "email" },
@@ -82,6 +93,8 @@ const UsersList = () => {
     <Layout>
       <div className="cropsPage">
         <h2 className="titulo-crops">Lista de usuários</h2>
+
+        <SearchForm placeholder="Pesquisa pelo nome" onSearch={handleSearch} />
 
         <div className="list-crops">
           <div className="container-button-crops">
@@ -95,7 +108,7 @@ const UsersList = () => {
           </div>
 
           <Table
-            data={dados}
+            data={filtredData}
             columns={columns}
             onView={(id) => handleView(id)}
             onEdit={(id) => handleEdit(id)}

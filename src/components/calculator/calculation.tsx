@@ -8,10 +8,16 @@ interface CalculationProps {
 }
 
 export const Calculation = (props: CalculationProps) => {
+  const displayResult =
+    isNaN(props.result) || !isFinite(props.result)
+      ? "N/A"
+      : props.result.toFixed(2);
+
   return (
     <div className={styles.calculationBox}>
       <b>
-        {props.result.toFixed(2)} {props.unity}
+        
+        {displayResult} {props.unity}
       </b>
       <p>{props.name}</p>
     </div>
