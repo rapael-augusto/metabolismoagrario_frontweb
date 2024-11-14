@@ -21,18 +21,18 @@ export const Header: React.FunctionComponent = () => {
   return (
     <React.Fragment>
       <div className={Styles.header}>
-        <div className={Styles.mainHeader}>
-          <div className={Styles.logoWrapper}>
-            <Link href="/home">
-              <Image
-                src="/logo_provisoriaHeader.svg"
-                alt="Logo"
-                width={50}
-                height={50}
-              />
-            </Link>
+        <div
+          className={`${Styles.mainHeader} ${userName ? "" : Styles.onlyLogo}`}
+        >
+          <Link href="/home" className={Styles.logoWrapper}>
+            <Image
+              src="/logo_provisoriaHeader.svg"
+              alt="Logo"
+              width={50}
+              height={50}
+            />
             <p className={Styles.logoTitle}>Metabolismo Agrário</p>
-          </div>
+          </Link>
           <div className={Styles.menuWrapper}>
             <ul className={Styles.listItem}>
               <UserOpt token={sessao} userLogado={userName} />

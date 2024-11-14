@@ -1,6 +1,7 @@
 .footer {
   width: 100vw;
   background-color: var(--primary-color);
+  margin-top: 32px;
 }
 
 .mainFooter {

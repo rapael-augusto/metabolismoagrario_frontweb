@@ -165,10 +165,10 @@ const Calculator = () => {
 
   return (
     <div className={styles.page}>
+      <h2 className={styles.pageTitle}>Calculadora</h2>
       <div className={styles.pageButtonsWrapper}>
         <NavButton Url="/home" text={"Voltar"} type="voltar" page="list" />
       </div>
-      <h2 className={styles.pageTitle}>Calculadora</h2>
       <main className={styles.container}>
         <div className={styles.inputGrid}>
           <div className={styles.inputLarge}>
@@ -198,7 +198,7 @@ const Calculator = () => {
               onChange={(e) => setHarvestedProduction(Number(e.target.value))}
               step="0.1"
               min={0}
-              classe={""}
+              classe={styles.inputDefault}
               placeholder={""}
             />
           </div>
@@ -211,7 +211,7 @@ const Calculator = () => {
               step="0.1"
               min={0}
               onChange={handleAreaChange}
-              classe={""}
+              classe={styles.inputDefault}
               placeholder={""}
             />
           </div>
@@ -245,23 +245,22 @@ const Calculator = () => {
           </button>
         </div>
       </main>
-      <div>
-        {calculations && (
-          <div className={styles.container}>
-            <h2>Resultados</h2>
-            <div className={styles.calculationsWrapper}>
-              {Object.keys(calculations).map((calculation, index) => (
-                <Calculation
-                  key={calculation}
-                  name={calculations[calculation].name}
-                  result={calculations[calculation].result}
-                  unity={calculations[calculation].unity}
-                />
-              ))}
-            </div>
+
+      {calculations && (
+        <div className={styles.container}>
+          <h2 className={styles.inputDefault}>Resultados</h2>
+          <div className={styles.calculationsWrapper}>
+            {Object.keys(calculations).map((calculation, index) => (
+              <Calculation
+                key={calculation}
+                name={calculations[calculation].name}
+                result={Number(calculations[calculation].result)}
+                unity={calculations[calculation].unity}
+              />
+            ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

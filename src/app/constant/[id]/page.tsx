@@ -165,23 +165,7 @@ const constant = ({ params }: Props) => {
   return (
     <Layout>
       <div className="cropsPage">
-        <div className="container-button-crops">
-          <NavButton
-            Url={`/cultivars/${cropId}`}
-            page="list"
-            text="Voltar"
-            type="voltar"
-          />
-          <NavButton
-            Url={`/criarConstant/${params.id}`}
-            page="list"
-            text="Cadastrar fator de conversão"
-            type="cadastrar"
-          />
-        </div>
-
         <h2 className="titulo-crops">Fatores de conversão de {titulo}</h2>
-
         <div className="list-constants">
           <div className="container-filtros">
             <div>
@@ -237,6 +221,21 @@ const constant = ({ params }: Props) => {
                 placeholder="Filtrar por solo"
               />
             </div>
+          </div>
+
+          <div className="container-button-crops">
+            <NavButton
+              Url={`/cultivars/${cropId}`}
+              page="list"
+              text="Voltar"
+              type="voltar"
+            />
+            <NavButton
+              Url={`/criarConstant/${params.id}`}
+              page="list"
+              text="Cadastrar fator de conversão"
+              type="cadastrar"
+            />
           </div>
 
           <Table

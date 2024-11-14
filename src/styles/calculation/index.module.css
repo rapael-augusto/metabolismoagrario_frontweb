@@ -1,5 +1,6 @@
 .calculationBox {
-  width: 20rem;
+  width: 100%;
+  max-width: 20rem;
   height: 5rem;
   display: flex;
   align-items: center;

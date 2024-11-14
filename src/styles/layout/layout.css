@@ -91,8 +91,9 @@ footer {
 .container-centralizado {
   display: flex;
   flex: 1;
-  max-width: 1200px;
+  width: 80vw;
   margin: 0 auto;
+  justify-content: center;
 }
 
 .logos {
@@ -148,11 +149,11 @@ footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 80%;
+  max-width: 100%;
   border: 1px solid transparent;
   border-radius: 5px;
   width: max-content;
-  padding: 5px 5px 5px 10px;
+  padding: 1rem;
   margin: 0 auto;
   opacity: 1;
   transition: opacity 0.5s ease-out;
@@ -170,4 +171,10 @@ footer {
 
 .icone-fechar {
   cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .container-centralizado {
+    width: 95vw;
+  }
 }

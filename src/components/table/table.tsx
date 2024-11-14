@@ -22,6 +22,7 @@ const Table: React.FC<TableProps> = ({
   perPage = 4,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
+
   const getTranslation = (
     value: string,
     translationMap?: { [key: string]: string }
@@ -49,63 +50,75 @@ const Table: React.FC<TableProps> = ({
   };
 
   return (
-    <div className="table-container">
-      <div className="header-list">
-        {columns.map((col) => (
-          <div key={col.accessor} className={`header-col-${col.accessor}`}>
-            {col.header}
-          </div>
-        ))}
+    <div style={{ width: "100%" }}>
+      <div className="table-wrapper">
+        {/* Adicionando um contêiner para rolagem */}
+        <table className="table-container">
+          <thead>
+            <tr>
+              {columns.map((col) => (
+                <th key={col.accessor} scope="col">
+                  <span title={col.header}>{col.header}</span>
+                </th>
+              ))}
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {paginatedData.map((row: any, index) => (
+              <tr key={row.id}>
+                {columns.map((col) => {
+                  const text =
+                    translations && translations[col.accessor]
+                      ? getTranslation(
+                          row[col.accessor],
+                          translations[col.accessor]
+                        )
+                      : displayValue(row[col.accessor]);
 
-        <div className="header-col-actions">Ações</div>
-      </div>
+                  return (
+                    <td key={col.accessor}>
+                      <span title={text}>{text}</span>
+                    </td>
+                  );
+                })}
 
-      {paginatedData.map((row: any, index) => {
-        if (index >= perPage) return;
-        return (
-          <div key={row.id} className="content-list">
-            {columns.map((col) => (
-              <div key={col.accessor} className={`result-col-${col.accessor}`}>
-                {translations && translations[col.accessor]
-                  ? getTranslation(
-                      row[col.accessor],
-                      translations[col.accessor]
-                    )
-                  : displayValue(row[col.accessor])}
-              </div>
+                <td className="actions-col">
+                  {onView && (
+                    <Image
+                      src={"/eye.svg"}
+                      alt="visualizar"
+                      width={24}
+                      height={24}
+                      onClick={() => onView(row.id)}
+                      title="Visualizar"
+                    />
+                  )}
+                  {onEdit && (
+                    <Image
+                      src={"/pencil.svg"}
+                      alt="editar"
+                      width={20}
+                      height={20}
+                      onClick={() => onEdit(row.id)}
+                      title="Editar"
+                    />
+                  )}
+                  <Image
+                    src={"/delete.svg"}
+                    alt="excluir"
+                    width={24}
+                    height={24}
+                    onClick={() => onDelete(row.id)}
+                    className="pointer-cursor"
+                    title="Excluir"
+                  />
+                </td>
+              </tr>
             ))}
-
-            <div className="result-col-actions">
-              {onView && (
-                <Image
-                  src={"/eye.svg"}
-                  alt="visualizar"
-                  width={24}
-                  height={24}
-                  onClick={() => onView(row.id)}
-                />
-              )}
-              {onEdit && (
-                <Image
-                  src={"/pencil.svg"}
-                  alt="editar"
-                  width={20}
-                  height={20}
-                  onClick={() => onEdit(row.id)}
-                />
-              )}
-              <Image
-                src={"/delete.svg"}
-                alt="excluir"
-                width={24}
-                height={24}
-                onClick={() => onDelete(row.id)}
-                className="pointer-cursor"
-              />
-            </div>
-          </div>
-        );
-      })}
+          </tbody>
+        </table>
+      </div>
       {data.length > perPage && (
         <div className="paginatedWrapper">
           <button

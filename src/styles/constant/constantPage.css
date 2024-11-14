@@ -1,35 +1,30 @@
 .container-button-crops {
-    display: flex;
-    margin: 0 auto;
-    padding: 0px;
-    width: 100%;
-    justify-content: space-between;
-    /* background-color: aqua; */
+  display: flex;
+  margin: 0 auto;
+  padding: 0px;
+  width: 100%;
+  justify-content: space-between;
+  /* background-color: aqua; */
 }
 
-.list-constants{
-    margin: 32px auto;
-    min-height: 60vh;
-    height: max-content;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.list-constants {
+  min-height: 60vh;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .container-filtros {
-    margin: 24px 0px 0px 0px;
-    gap: 10px;
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 100%;
-    /* gap: 8px; */
-    /* padding: 7px; */
-    /* background-color: aqua; */
+  margin: 24px 0px 24px 0px;
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 12px;
 }
 
 .container-filtros div {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }

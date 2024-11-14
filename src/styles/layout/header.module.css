@@ -16,13 +16,24 @@
 }
 
 .logoWrapper {
+  text-decoration: none;
   display: flex;
   align-items: center;
 }
 
 .logoTitle {
+  max-width: 8rem;
   font-size: 1.125rem;
   line-height: 1.5rem;
   font-weight: 700;
   color: var(--primary-color);
+}
+
+@media (max-width: 950px) {
+  .onlyLogo {
+    justify-content: center;
+  }
+  .mainHeader {
+    width: 100%;
+  }
 }

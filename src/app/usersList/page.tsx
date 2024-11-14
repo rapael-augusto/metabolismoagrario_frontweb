@@ -9,6 +9,7 @@ import NavButton from "@/components/layout/navigationButton";
 import Image from "next/image";
 import Auth from "@/services/auth";
 import Table from "@/components/table/table"; // Importando o componente Table
+import SearchForm from "@/components/forms/SearchForm";
 
 interface DataUserType {
   id: string;
@@ -19,64 +20,7 @@ interface DataUserType {
 
 const UsersList = () => {
   const [dados, setDados] = useState<DataUserType[]>([]);
-
-  const users: DataUserType[] = [
-    { id: "1", name: "Alice Silva", email: "alice@example.com", role: "ADMIN" },
-    {
-      id: "2",
-      name: "Bruno Souza",
-      email: "bruno@example.com",
-      role: "OPERATOR",
-    },
-    {
-      id: "3",
-      name: "Carlos Pereira",
-      email: "carlos@example.com",
-      role: "ADMIN",
-    },
-    {
-      id: "4",
-      name: "Daniela Santos",
-      email: "daniela@example.com",
-      role: "OPERATOR",
-    },
-    {
-      id: "5",
-      name: "Eduardo Lima",
-      email: "eduardo@example.com",
-      role: "ADMIN",
-    },
-    {
-      id: "6",
-      name: "Fernanda Alves",
-      email: "fernanda@example.com",
-      role: "OPERATOR",
-    },
-    {
-      id: "7",
-      name: "Gabriel Costa",
-      email: "gabriel@example.com",
-      role: "ADMIN",
-    },
-    {
-      id: "8",
-      name: "Helena Martins",
-      email: "helena@example.com",
-      role: "OPERATOR",
-    },
-    {
-      id: "9",
-      name: "Igor Ferreira",
-      email: "igor@example.com",
-      role: "ADMIN",
-    },
-    {
-      id: "10",
-      name: "Juliana Rocha",
-      email: "juliana@example.com",
-      role: "OPERATOR",
-    },
-  ];
+  const [filtredData, setFiltredData] = useState<DataUserType[]>([]);
 
   useEffect(() => {
     const token = sessionStorage.getItem("@token");
@@ -91,7 +35,8 @@ const UsersList = () => {
       const auth = new Auth();
 
       auth.UsersList(token).then((res) => {
-        setDados(users);
+        setDados(res);
+        setFiltredData(res);
       });
     }
   }, []);
@@ -130,6 +75,14 @@ const UsersList = () => {
     [dados]
   );
 
+  const handleSearch = (search: string) => {
+    const filtred = dados.filter((crop: DataUserType) =>
+      crop.name.toLowerCase().includes(search.toLowerCase())
+    );
+    console.log(search);
+    setFiltredData(filtred);
+  };
+
   const columns = [
     { header: "Nome", accessor: "name" },
     { header: "E-mail", accessor: "email" },
@@ -140,6 +93,8 @@ const UsersList = () => {
     <Layout>
       <div className="cropsPage">
         <h2 className="titulo-crops">Lista de usuários</h2>
+
+        <SearchForm placeholder="Pesquisa pelo nome" onSearch={handleSearch} />
 
         <div className="list-crops">
           <div className="container-button-crops">
@@ -153,7 +108,7 @@ const UsersList = () => {
           </div>
 
           <Table
-            data={dados}
+            data={filtredData}
             columns={columns}
             onView={(id) => handleView(id)}
             onEdit={(id) => handleEdit(id)}

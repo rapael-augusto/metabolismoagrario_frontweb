@@ -10,4 +10,6 @@ export default interface inputDefaultType {
   max?: number;
   disabled?: boolean;
   onBlur?: (e: React.FocusEvent<HTMLInputElement, Element>) => void;
+  editButton?: boolean;
+  required?: boolean;
 }

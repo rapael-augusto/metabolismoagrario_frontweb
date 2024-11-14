@@ -6,7 +6,8 @@
   justify-content: flex-start;
   border: 1px solid rgba(0, 0, 0, 0.267);
   border-radius: 20px;
-  width: 900px;
+  width: 100%;
+  max-width: 900px;
   min-height: 170px;
   height: min-content;
   margin: 0 auto;
