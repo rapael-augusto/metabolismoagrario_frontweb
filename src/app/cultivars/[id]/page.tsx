@@ -12,6 +12,7 @@ import NavButton from "@/components/layout/navigationButton";
 import { cultivarsData } from "@/types/cultivarTypes";
 import router from "next/router";
 import SearchForm from "@/components/forms/SearchForm";
+import { toast } from "react-toastify";
 
 interface Props {
   params: { id: string };
@@ -33,10 +34,7 @@ const Cultivars = ({ params }: Props) => {
         setTitulo(response.name);
       });
     } else {
-      sessionStorage.setItem(
-        "mensagem",
-        `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`
-      );
+      toast.error("Você não possui permissões para acessar essa página!");
       redirect("/");
     }
   }, []);
@@ -57,10 +55,7 @@ const Cultivars = ({ params }: Props) => {
           console.error("Falha ao deletar constante:", error);
         }
       } else {
-        sessionStorage.setItem(
-          "mensagem",
-          `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`
-        );
+        toast.error("Você não possui permissões para acessar essa pagina !");
         redirect("/");
       }
     },

@@ -25,6 +25,7 @@ import {
   soilTranslation,
 } from "@/utils/translationsOptions";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 interface Props {
   params: { id: string };
@@ -87,10 +88,7 @@ const constant = ({ params }: Props) => {
           console.error("Falha ao deletar constante:", error);
         }
       } else {
-        sessionStorage.setItem(
-          "mensagem",
-          `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`
-        );
+        toast.error("Você não possui permissões para acessar essa página!");
         redirect("/");
       }
     },
@@ -111,10 +109,7 @@ const constant = ({ params }: Props) => {
         setTitulo(response.name);
       });
     } else {
-      sessionStorage.setItem(
-        "mensagem",
-        `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`
-      );
+      toast.error("Você não possui permissões para acessar essa página!");
       redirect("/");
     }
   }, [params.id]);

@@ -6,6 +6,7 @@ import { countriesService } from "@/services/countries";
 import { soilService } from "@/services/soil";
 import { biomeService } from "@/services/biome";
 import { link } from "fs";
+import { toast } from "react-toastify";
 
 const useConstantForm = (params: { id: string }) => {
   const [type, setType] = useState("");
@@ -39,13 +40,7 @@ const useConstantForm = (params: { id: string }) => {
     if (session) {
       setToken(session);
     } else {
-      sessionStorage.setItem(
-        "mensagem",
-        JSON.stringify({
-          mensagem: "Você não possui permissões para acessar essa página!",
-          tipo: "danger",
-        })
-      );
+      toast.error("Você não possui permissões para acessar essa página!");
       redirect("/");
     }
   }, []);
@@ -224,13 +219,7 @@ const useConstantForm = (params: { id: string }) => {
       setResponse(responseConstants.status);
 
       if (responseConstants.status === 1) {
-        sessionStorage.setItem(
-          "mensagem",
-          JSON.stringify({
-            mensagem: "Fator de conversão cadastrado com sucesso!",
-            tipo: "success",
-          })
-        );
+        toast.success("Fator de conversão cadastrado com sucesso!");
         router.replace(`/constant/${params.id}`);
       }
     } catch (error) {

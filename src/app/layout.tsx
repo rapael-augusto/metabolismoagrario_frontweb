@@ -1,5 +1,9 @@
-import { Inter } from "next/font/google";
 import "./global.css";
+import "react-toastify/dist/ReactToastify.css";
+
+import { Inter } from "next/font/google";
+import { Slide, ToastContainer } from "react-toastify";
+import Head from "next/head";
 
 export const metadata = {
   title: "Metabolismo Agrário",
@@ -15,7 +19,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=0.9" />
+      </Head>
+      <body className={inter.className}>
+        {children}
+        <ToastContainer
+          position="top-center"
+          autoClose={1500}
+          hideProgressBar={true}
+          newestOnTop={false}
+          limit={4}
+          closeOnClick
+          transition={Slide}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
+      </body>
     </html>
   );
 }

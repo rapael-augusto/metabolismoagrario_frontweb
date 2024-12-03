@@ -5,6 +5,7 @@ import {
 } from "@/types/cropsTypes";
 import Axios from "./api";
 import { CultivarParams } from "@/types/cultivarTypes";
+import { toast } from "react-toastify";
 
 export class cropsService {
   private token: string | null;
@@ -33,19 +34,7 @@ export class cropsService {
         },
       })
         .then((s) => {
-          sessionStorage.setItem(
-            "mensagem",
-            `{"mensagem":"Cultura cadastrada com sucesso !","tipo":"success"}`
-          );
-
-          setTimeout(() => {
-            const alertBox = document.querySelector(".alert-box");
-            if (alertBox) {
-              console.log("Ocultando alerta após 2s");
-              alertBox.classList.add("hidden");
-            }
-          }, 2000);
-
+          toast.success("Cultura cadastrada com sucesso!");
           return { status: 1, mensagem: "Crop created" };
         })
         .catch((e) => {
@@ -62,16 +51,7 @@ export class cropsService {
         },
       })
         .then(() => {
-          sessionStorage.setItem(
-            "mensagem",
-            `{"mensagem":"Cultura atualizada com sucesso!","tipo":"success"}`
-          );
-          setTimeout(() => {
-            const alertBox = document.querySelector(".alert-box");
-            if (alertBox) {
-              alertBox.classList.add("hidden");
-            }
-          }, 2000);
+          toast.success("Cultura atualizada com sucesso!");
           return { status: 1, mensagem: "Crop updated" };
         })
         .catch((error) => ({
@@ -109,18 +89,7 @@ export class cropsService {
     if (this.token) {
       return await Axios.post(`/cultivars/${idCrop}`, params)
         .then((response) => {
-          sessionStorage.setItem(
-            "mensagem",
-            `{"mensagem":"Cultivar cadastrada com sucesso !","tipo":"success"}`
-          );
-          setTimeout(() => {
-            const alertBox = document.querySelector(".alert-box");
-            if (alertBox) {
-              console.log("Ocultando alerta após 2s");
-              alertBox.classList.add("hidden");
-            }
-          }, 2000);
-
+          toast.success("Cultivar cadastrada com sucesso!");
           return { status: 1, mensagem: "Cultivar cadastrada com sucesso !" };
         })
         .catch((e) => {
@@ -140,19 +109,8 @@ export class cropsService {
         },
       })
         .then((response) => {
-          sessionStorage.setItem(
-            "mensagem",
-            `{"mensagem":"Constante criada com sucesso !","tipo":"success"}`
-          );
-          setTimeout(() => {
-            const alertBox = document.querySelector(".alert-box");
-            if (alertBox) {
-              console.log("Ocultando alerta após 2s");
-              alertBox.classList.add("hidden");
-            }
-          }, 2000);
-
-          return { status: 1, mensagem: "Constante Criada com sucesso !" };
+          toast.success("Constante criada com sucesso!");
+          return { status: 1, mensagem: "Constante Criada com sucesso!" };
         })
         .catch((error) => {
           return { status: -1, mensagem: error.response.data.message[0] };

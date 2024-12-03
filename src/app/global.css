@@ -13,6 +13,14 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 90%;
+}
+
+body {
+  font-size: 1rem;
+}
+
 html,
 body {
   min-height: 100vh;

@@ -10,6 +10,7 @@ import Image from "next/image";
 import Auth from "@/services/auth";
 import Table from "@/components/table/table"; // Importando o componente Table
 import SearchForm from "@/components/forms/SearchForm";
+import { toast } from "react-toastify";
 
 interface DataUserType {
   id: string;
@@ -26,10 +27,7 @@ const UsersList = () => {
     const token = sessionStorage.getItem("@token");
 
     if (!token) {
-      sessionStorage.setItem(
-        "mensagem",
-        `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`
-      );
+      toast.error("Você não possui permissões para acessar essa pagina!");
       redirect("/");
     } else {
       const auth = new Auth();
@@ -65,10 +63,7 @@ const UsersList = () => {
           console.error("Falha ao deletar usuário:", error);
         }
       } else {
-        sessionStorage.setItem(
-          "mensagem",
-          `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`
-        );
+        toast.error("Você não possui permissões para acessar essa pagina!");
         redirect("/");
       }
     },

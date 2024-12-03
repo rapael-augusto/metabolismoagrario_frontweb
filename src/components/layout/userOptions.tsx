@@ -22,15 +22,15 @@ const UserOpt: React.FC<userSession> = ({ token, userLogado }) => {
 
   return (
     <>
-      <li
+      <div
         className={`dropDown ${token ? "" : "d-none"}`}
         onClick={abrirDropDown}
       >
         <Image
           src={"/Profile.svg"}
           alt="icone perfil"
-          width={18}
-          height={18}
+          width={28}
+          height={28}
           style={{ marginRight: "8px" }}
         />
         <span className="user-name">{userLogado}</span>
@@ -41,7 +41,7 @@ const UserOpt: React.FC<userSession> = ({ token, userLogado }) => {
           height={13}
           className={`${dropdownOpen == true ? "activeIcon" : "inactiveIcon"}`}
         />
-      </li>
+      </div>
 
       <div
         className={`componente-dropdown ${

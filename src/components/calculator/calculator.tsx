@@ -11,6 +11,7 @@ import NavButton from "../layout/navigationButton";
 import InputDefault from "../forms/inputDefault";
 import { typeTranslation } from "@/utils/translationsOptions";
 import { Calculation } from "./calculation";
+import { toast } from "react-toastify";
 
 const Calculator = () => {
   const [crops, setCrops] = useState<dataCropsType[]>([]);
@@ -145,7 +146,7 @@ const Calculator = () => {
         dryMatterBiomassTotal,
       });
     } else {
-      alert("Por favor, preencha todos os campos corretamente.");
+      toast.error("Preencha os dados corretamente!");
     }
   };
 

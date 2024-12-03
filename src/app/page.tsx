@@ -9,6 +9,7 @@ import { redirect } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import styles from "@/styles/home/login.module.css";
+import { toast } from "react-toastify";
 
 //pagina de login
 
@@ -23,33 +24,9 @@ const Home = () => {
     e.preventDefault();
 
     if (!email) {
-      sessionStorage.setItem(
-        "mensagem",
-        `{"mensagem":"Para realizar o login você deve informar o e-mail !","tipo":"danger"}`
-      );
-      setTimeout(() => {
-        const alertBox = document.querySelector(".alert-box");
-        if (alertBox) {
-          console.log("Ocultando alerta após 2s");
-          alertBox.classList.add("hidden");
-        }
-      }, 2000);
-
-      location.reload();
+      toast.info("Para realizar o login você deve informar o email!");
     } else if (!password) {
-      sessionStorage.setItem(
-        "mensagem",
-        `{"mensagem":"Para realizar o login você deve informar a senha !","tipo":"danger"}`
-      );
-      setTimeout(() => {
-        const alertBox = document.querySelector(".alert-box");
-        if (alertBox) {
-          console.log("Ocultando alerta após 2s");
-          alertBox.classList.add("hidden");
-        }
-      }, 2000);
-
-      location.reload();
+      toast.info("Para realizar o login você deve informar a senha!");
     } else {
       //requisicao
       const dadosLogin = {
@@ -122,9 +99,14 @@ const Home = () => {
                   }
                   value={password}
                 />
-                <Link href="/forgot-password" className={styles.forgotPassword}>
-                  Esqueceu a senha?
-                </Link>
+                <div className={styles.forgotPasswordContainer}>
+                  <Link
+                    href="/forgot-password"
+                    className={styles.forgotPassword}
+                  >
+                    Esqueceu a senha?
+                  </Link>
+                </div>
               </div>
 
               <div className={styles.inputBox}>

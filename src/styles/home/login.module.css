@@ -24,7 +24,7 @@
   flex: 1;
   max-width: 40rem;
   height: 100%;
-  max-height: fit-content;
+  max-height: 35rem;
   display: flex;
   flex-direction: column;
   padding: 1rem;
@@ -63,15 +63,17 @@
   opacity: 0.8;
 }
 
+.forgotPasswordContainer {
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
 .forgotPassword {
-  display: flex;
-  justify-self: flex-end;
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 700;
   opacity: 0.8;
   transition: opacity 0.2s;
-  margin-bottom: 1rem;
 }
 
 .forgotPassword:hover {
