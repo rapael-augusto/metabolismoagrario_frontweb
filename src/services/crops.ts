@@ -89,7 +89,6 @@ export class cropsService {
     if (this.token) {
       return await Axios.post(`/cultivars/${idCrop}`, params)
         .then((response) => {
-          toast.success("Cultivar cadastrada com sucesso!");
           return { status: 1, mensagem: "Cultivar cadastrada com sucesso !" };
         })
         .catch((e) => {
@@ -109,7 +108,6 @@ export class cropsService {
         },
       })
         .then((response) => {
-          toast.success("Constante criada com sucesso!");
           return { status: 1, mensagem: "Constante Criada com sucesso!" };
         })
         .catch((error) => {

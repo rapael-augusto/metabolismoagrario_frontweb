@@ -44,7 +44,7 @@ const UsersList = () => {
   };
 
   const handleEdit = (id: string) => {
-    window.location.href = `/editUser/${id}`;
+    window.location.href = `/usersList/edit/${id}`;
   };
 
   const handleDelete = useCallback(

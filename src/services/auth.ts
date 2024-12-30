@@ -1,6 +1,7 @@
-import { loginData, cadastroData } from "@/types/authType";
+import { loginData, cadastroData, UserResponseType } from "@/types/authType";
 import Axios from "./api";
 import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 class Auth {
   async login(dados: loginData) {
     let retornoReq;
@@ -32,7 +33,6 @@ class Auth {
       })
         .then((response) => {
           retornoReq = { status: 1, message: "Usuario criado !" };
-          toast.success("Usuário criado com sucesso!");
         })
         .catch((e) => {
           retornoReq = { status: -1, message: e.response.data.message };
@@ -50,6 +50,26 @@ class Auth {
     }).then((response) => {
       return response.data;
     });
+  }
+
+  async findOne(userId: string) {
+    try {
+      const { data } = await Axios.get(`/users/${userId}`);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async update(userId: string, userPayload: Partial<UserResponseType>) {
+    try {
+      const { data } = await Axios.patch(`/users/${userId}`, userPayload);
+      return data;
+    } catch (errors: any) {
+      if (errors instanceof AxiosError) {
+        return { errors: errors.response?.data.message };
+      }
+    }
   }
 }
 

@@ -42,6 +42,15 @@ export class cultivarService {
     }
   }
 
+  async update(id: string, params: CultivarParams) {
+    try {
+      const { data } = await Axios.patch(`/cultivars/${id}`, params);
+      return { status: 1, mensagem: "Cultivar atualizada com sucesso!" };
+    } catch (error: any) {
+      return { status: -1, mensagem: error.response.data.message[0] };
+    }
+  }
+
   async deleteCultivar(idCultivar: string) {
     if (this.token) {
       return await Axios.delete(`/cultivars/${idCultivar}`, {

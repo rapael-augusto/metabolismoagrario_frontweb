@@ -5,7 +5,7 @@ import "../../../styles/crops/pageCrops.css";
 import "../../../styles/cultivar/pageCultivar.css";
 import Table from "@/components/table/table";
 import { useEffect, useState, useCallback } from "react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { cropsService } from "@/services/crops";
 import Image from "next/image";
 import NavButton from "@/components/layout/navigationButton";
@@ -22,6 +22,7 @@ const Cultivars = ({ params }: Props) => {
   const [dados, setDados] = useState<cultivarsData[]>([]);
   const [filteredData, setFiltredData] = useState<cultivarsData[]>([]);
   const [titulo, setTitulo] = useState<string | any>("");
+  const router = useRouter();
 
   useEffect(() => {
     let session = sessionStorage.getItem("@token");
@@ -50,6 +51,7 @@ const Cultivars = ({ params }: Props) => {
           await constantService.deleteCultivar(id);
           const updatedData = dados.filter((dado) => dado.id !== id);
           setDados(updatedData);
+          toast.success("Cultivar removida com sucesso!");
           console.log("Cultivar removida");
         } catch (error) {
           console.error("Falha ao deletar constante:", error);
@@ -68,6 +70,10 @@ const Cultivars = ({ params }: Props) => {
 
   const handleView = (id: string) => {
     window.location.href = `/constant/${id}`;
+  };
+
+  const handleEdit = (id: string) => {
+    router.replace(`/cultivars/${params.id}/edit/${id}`);
   };
 
   const columns = [{ header: "Nome", accessor: "name" }];
@@ -100,6 +106,7 @@ const Cultivars = ({ params }: Props) => {
           columns={columns}
           onView={(id) => handleView(id)}
           onDelete={(id) => handleDeleteCultivar(id)}
+          onEdit={(id) => handleEdit(id)}
           translations={{}}
         />
       </div>

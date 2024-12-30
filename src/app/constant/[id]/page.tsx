@@ -82,8 +82,8 @@ const constant = ({ params }: Props) => {
           const updatedData = dadosTemp.filter((dado) => dado.id !== id);
           setDados(updatedData);
           setDadosTemp(updatedData);
+          toast.success("Fator de conversão removido com sucesso!");
           console.log("Fator de conversão removido");
-          // window.location.reload()
         } catch (error) {
           console.error("Falha ao deletar constante:", error);
         }

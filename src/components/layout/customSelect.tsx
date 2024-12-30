@@ -5,12 +5,14 @@ interface SelectProps {
   label?: string;
   type: "form" | "filter";
   placeholder?: string;
+  value?: string;
   options: { value: string; label: string }[];
   onChange: (value: string) => void;
   required?: boolean;
 }
 
 const CustomSelect: React.FC<SelectProps> = ({
+  value,
   label,
   options,
   onChange,
@@ -18,13 +20,11 @@ const CustomSelect: React.FC<SelectProps> = ({
   type,
   required,
 }) => {
-  const [selectedValue, setSelectedValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    setSelectedValue(value);
     onChange(value);
   };
 
@@ -41,7 +41,7 @@ const CustomSelect: React.FC<SelectProps> = ({
         )}
       </label>
 
-      <select value={selectedValue} onChange={handleChange} required={required}>
+      <select value={value} onChange={handleChange} required={required}>
         <option hidden value="empty">
           {placeholder}
         </option>
