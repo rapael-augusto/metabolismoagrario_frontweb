@@ -25,6 +25,7 @@ import {
   soilTranslation,
 } from "@/utils/translationsOptions";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 interface Props {
   params: { id: string };
@@ -81,16 +82,13 @@ const constant = ({ params }: Props) => {
           const updatedData = dadosTemp.filter((dado) => dado.id !== id);
           setDados(updatedData);
           setDadosTemp(updatedData);
+          toast.success("Fator de conversão removido com sucesso!");
           console.log("Fator de conversão removido");
-          // window.location.reload()
         } catch (error) {
           console.error("Falha ao deletar constante:", error);
         }
       } else {
-        sessionStorage.setItem(
-          "mensagem",
-          `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`
-        );
+        toast.error("Você não possui permissões para acessar essa página!");
         redirect("/");
       }
     },
@@ -111,10 +109,7 @@ const constant = ({ params }: Props) => {
         setTitulo(response.name);
       });
     } else {
-      sessionStorage.setItem(
-        "mensagem",
-        `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`
-      );
+      toast.error("Você não possui permissões para acessar essa página!");
       redirect("/");
     }
   }, [params.id]);

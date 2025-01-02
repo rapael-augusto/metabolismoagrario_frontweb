@@ -9,6 +9,7 @@ import Table from "@/components/table/table";
 import NavButton from "@/components/layout/navigationButton";
 import { dataCropsType } from "@/types/cropsTypes";
 import SearchForm from "@/components/forms/SearchForm";
+import { toast } from "react-toastify";
 
 interface Props {
   params: { id: string };
@@ -34,18 +35,7 @@ const Crops = ({ params }: Props) => {
         setFiltredData(response);
       });
     } else {
-      sessionStorage.setItem(
-        "mensagem",
-        `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`
-      );
-      setTimeout(() => {
-        const alertBox = document.querySelector(".alert-box");
-        if (alertBox) {
-          console.log("Ocultando alerta após 2s");
-          alertBox.classList.add("hidden");
-        }
-      }, 2000);
-
+      toast.error("Você não possui permissões para acessar essa página!");
       redirect("/");
     }
   }, []);
@@ -72,30 +62,14 @@ const Crops = ({ params }: Props) => {
           );
           setDados(updatedData);
           setFiltredData(updatedData);
+          toast.success("Cultura removida com sucesso!");
           console.log("Cultura removida");
-          setTimeout(() => {
-            const alertBox = document.querySelector(".alert-box");
-            if (alertBox) {
-              console.log("Ocultando alerta após 2s");
-              alertBox.classList.add("hidden");
-            }
-          }, 2000);
         } catch (error) {
           console.error("Falha ao deletar cultura:", error);
+          toast.success("Algo deu errado ao tentar deletar!");
         }
       } else {
-        sessionStorage.setItem(
-          "mensagem",
-          `{"mensagem":"Você não possui permissões para acessar essa pagina !","tipo":"danger"}`
-        );
-        setTimeout(() => {
-          const alertBox = document.querySelector(".alert-box");
-          if (alertBox) {
-            console.log("Ocultando alerta após 2s");
-            alertBox.classList.add("hidden");
-          }
-        }, 2000);
-
+        toast.error("Você não possui permissões para acessar essa página!");
         redirect("/");
       }
     },

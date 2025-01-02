@@ -1,7 +1,7 @@
 .componente-dropdown {
-  padding: 5px;
-  width: 100px;
-  max-height: 50px;
+  margin-top: 0.5rem;
+  width: 100%;
+  max-width: 10rem;
   position: absolute;
   border: 1px solid rgba(0, 0, 0, 0.397);
   background-color: white;
@@ -13,7 +13,7 @@
 }
 
 .componente-dropdown ul {
-  width: 80%;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -25,11 +25,20 @@
 }
 
 .componente-dropdown ul .link {
+  display: flex;
+  width: 100%;
+  flex-grow: 1;
   margin: 5px 0;
-  width: 80%;
+  padding: 0.5rem 0.8rem;
   text-align: center;
+  width: 100%;
   text-decoration: none;
   color: black;
+  cursor: pointer;
+}
+
+.componente-dropdown ul .link:hover {
+  opacity: 0.5;
 }
 
 .active {
@@ -67,4 +76,10 @@
 
 .user-name {
   margin: 0 5px 0 0px;
+}
+
+.dropdown-divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--text-muted);
 }
