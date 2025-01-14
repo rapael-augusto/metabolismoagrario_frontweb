@@ -8,6 +8,84 @@
   flex-direction: column;
 }
 
+.pageHeaderList {
+  display: flex;
+  width: 100%;
+  height: 3rem;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.pageHeaderItem {
+  display: flex;
+  outline: none;
+  background-color: var(--white);
+  border: none;
+  flex: 1;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border-bottom: 2px solid var(--text-muted);
+  opacity: 0.4;
+  transition: opacity 300ms;
+  cursor: pointer;
+}
+
+.pageHeaderItem.active {
+  opacity: 1;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.main,
+.resultsRoot {
+  padding: 1rem 0rem;
+  border-radius: 0.75rem;
+  box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.sectionHeader {
+  padding: 0rem 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.sectionHeader > h2 {
+  color: var(--black);
+}
+
+.sectionHeader > p {
+  font-size: 1.125rem;
+  color: var(--black);
+}
+
+.sectionMain {
+  padding: 0rem 1.5rem;
+  max-height: 35rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #4caf50 #e0e0e0;
+  padding-bottom: 3rem;
+}
+
+.section div {
+  animation: fadeIn 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  60% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .pageTitle {
   color: var(--primary-color);
   text-align: center;
@@ -21,24 +99,9 @@
   margin-bottom: 12px;
 }
 
-.container {
-  padding: 12px;
-  box-shadow: 5px 5px 7px 3px #e0e0e0;
-  margin-bottom: 1rem;
-  background-color: #fff;
-}
-
-.inputGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
 .mainFooter {
+  padding: 0rem 1.5rem;
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
   margin-top: 12px;
   margin-bottom: 12px;
 }
@@ -86,4 +149,74 @@
   flex-wrap: wrap;
   flex-grow: initial;
   gap: 8px;
+}
+
+.mainHeader {
+  padding: 0rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.backButton {
+  outline: none;
+  border: none;
+  background-color: var(--white);
+  cursor: pointer;
+  transition: opacity 0.2s;
+  font-size: 1.25rem;
+}
+
+.backButton:hover {
+  opacity: 0.4;
+}
+
+.towardsButton {
+  outline: none;
+  background-color: var(--primary-color);
+  border: 1px solid var(--light-green);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-weight: bold;
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.towardsButton:hover {
+  background-color: var(--white);
+  color: var(--primary-color);
+}
+
+.constantInputWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.constantInputWrapper aside {
+  height: 100%;
+  width: 100%;
+  max-width: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.listConstantsButton {
+  outline: none;
+  border: none;
+  background-color: var(--primary-color);
+  padding: 0.5rem;
+  cursor: pointer;
+  color: var(--white);
+  border-radius: 0.25rem;
+  transition: opacity 200ms;
+}
+
+.listConstantsButton:hover {
+  opacity: 0.8;
 }

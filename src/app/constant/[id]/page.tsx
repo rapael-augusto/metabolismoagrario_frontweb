@@ -4,10 +4,9 @@ import Layout from "@/components/layout/layout";
 import "../../../styles/crops/pageCrops.css";
 import "../../../styles/constant/constantPage.css";
 import Table from "@/components/table/table";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { redirect } from "next/navigation";
 import { cropsService } from "@/services/crops";
-import Image from "next/image";
 import NavButton from "@/components/layout/navigationButton";
 import Select from "@/components/layout/customSelect";
 import {
@@ -30,7 +29,7 @@ import { toast } from "react-toastify";
 interface Props {
   params: { id: string };
 }
-interface dadosConstants {
+export interface dadosConstants {
   comment: string;
   createdAt: string;
   cropId: string;
