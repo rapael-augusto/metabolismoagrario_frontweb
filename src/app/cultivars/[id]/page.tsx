@@ -7,12 +7,13 @@ import Table from "@/components/table/table";
 import { useEffect, useState, useCallback } from "react";
 import { redirect, useRouter } from "next/navigation";
 import { cropsService } from "@/services/crops";
-import Image from "next/image";
 import NavButton from "@/components/layout/navigationButton";
 import { cultivarsData } from "@/types/cultivarTypes";
-import router from "next/router";
 import SearchForm from "@/components/forms/SearchForm";
 import { toast } from "react-toastify";
+import Modal from "@/components/modal";
+import { cultivarService } from "@/services/cultivar";
+import { getRoleFromStorage, initializeRoleInStorage } from "@/utils/authUtils";
 
 interface Props {
   params: { id: string };
@@ -20,16 +21,22 @@ interface Props {
 
 const Cultivars = ({ params }: Props) => {
   const [dados, setDados] = useState<cultivarsData[]>([]);
+  const [selectedCultivar, setSelectedCultivar] = useState<cultivarsData>();
   const [filteredData, setFiltredData] = useState<cultivarsData[]>([]);
   const [titulo, setTitulo] = useState<string | any>("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [role, setRole] = useState<string | null>(null);
+  useEffect(() => {
+    initializeRoleInStorage();
+    const roleFromStorage = getRoleFromStorage();
+    setRole(roleFromStorage);
+  }, []);
   const router = useRouter();
 
   useEffect(() => {
     let session = sessionStorage.getItem("@token");
-
     if (session) {
       const service = new cropsService(session);
-
       service.findOne(params.id).then((response) => {
         setDados(response.cultivars);
         setTitulo(response.name);
@@ -76,13 +83,45 @@ const Cultivars = ({ params }: Props) => {
     router.replace(`/cultivars/${params.id}/edit/${id}`);
   };
 
-  const columns = [{ header: "Nome", accessor: "name" }];
+  const handleOpenModal = (id: string) => {
+    const cultivar = dados.find((item) => item.id === id);
+    setSelectedCultivar(cultivar);
+    setIsModalOpen(true);
+  };
+
+  const handleApproveCultivar = async (approved: boolean) => {
+    const service = new cultivarService(null);
+    if (selectedCultivar?.id) {
+      const status = approved ? "Approved" : "Declined";
+      await service.update(selectedCultivar.id, {
+        status: status,
+        name: selectedCultivar.name,
+      });
+      setDados((prevDados) =>
+        prevDados.map((cultivar) =>
+          cultivar.id === selectedCultivar.id
+            ? { ...selectedCultivar, status }
+            : cultivar
+        )
+      );
+    }
+    setIsModalOpen(false);
+  };
+
+  const columns = [
+    { header: "Status", accessor: "status", type: "STATUS" },
+    { header: "Nome", accessor: "name" },
+  ];
 
   const handleSearch = (search: string) => {
     const filtred = dados.filter((cultivar: cultivarsData) =>
       cultivar.name.toLowerCase().includes(search.toLowerCase())
     );
     setFiltredData(filtred);
+  };
+
+  const checkPermissions = {
+    changeStatus: role === "ADMIN",
   };
 
   return (
@@ -107,8 +146,31 @@ const Cultivars = ({ params }: Props) => {
           onView={(id) => handleView(id)}
           onDelete={(id) => handleDeleteCultivar(id)}
           onEdit={(id) => handleEdit(id)}
+          onChangeStatus={(id) => handleOpenModal(id)}
+          permissions={checkPermissions}
           translations={{}}
         />
+        <Modal isOpen={isModalOpen} size="sm">
+          <Modal.Header
+            title="Aprovar cultivar"
+            description=""
+            onClose={() => setIsModalOpen(false)}
+          />
+          <Modal.Main>
+            <>
+              <p style={{ fontSize: "1.25rem" }}>
+                Você deseja aprovar o cadastro da cultivar:{" "}
+                <b>{selectedCultivar?.name}</b>?
+              </p>
+            </>
+          </Modal.Main>
+          <Modal.Footer
+            cancelText="Rejeitar"
+            submitText="Aprovar"
+            onCancel={() => handleApproveCultivar(false)}
+            onSubmit={() => handleApproveCultivar(true)}
+          />
+        </Modal>
       </div>
     </Layout>
   );

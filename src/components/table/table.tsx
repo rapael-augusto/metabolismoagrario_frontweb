@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import "../../styles/table/table.css";
+import StatusColumn from "./columns/status";
+import { FaEye, FaGavel, FaPencil, FaTrash } from "react-icons/fa6";
 
 interface TableProps {
   data: any[];
-  columns: { header: string; accessor: string }[];
+  columns: { header: string; accessor: string; type?: string }[];
   onView?: (id: string) => void;
   onEdit?: (id: string) => void;
+  onChangeStatus?: (id: string) => void;
   onDelete: (id: string) => void;
   translations?: { [key: string]: { [key: string]: string } };
+  permissions?: { [key: string]: boolean };
   perPage?: number;
 }
 
@@ -18,7 +22,9 @@ const Table: React.FC<TableProps> = ({
   onView,
   onDelete,
   onEdit,
+  onChangeStatus,
   translations,
+  permissions = {},
   perPage = 4,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,17 +62,46 @@ const Table: React.FC<TableProps> = ({
         <table className="table-container">
           <thead>
             <tr>
+              <th scope="col" style={{ textAlign: "center" }}>
+                Ações
+              </th>
               {columns.map((col) => (
                 <th key={col.accessor} scope="col">
                   <span title={col.header}>{col.header}</span>
                 </th>
               ))}
-              <th scope="col">Ações</th>
             </tr>
           </thead>
           <tbody>
             {paginatedData.map((row: any, index) => (
               <tr key={row.id}>
+                <td className="actions-col" style={{ textAlign: "center" }}>
+                  <div>
+                    {row.status === "Pending" &&
+                      permissions["changeStatus"] &&
+                      onChangeStatus && (
+                        <FaGavel
+                          onClick={() => onChangeStatus(row.id)}
+                          title="Editar"
+                        />
+                      )}
+                    {onView && (
+                      <FaEye
+                        onClick={() => onView(row.id)}
+                        title="Visualizar"
+                      />
+                    )}
+                    {onEdit && (
+                      <FaPencil onClick={() => onEdit(row.id)} title="Editar" />
+                    )}
+                    <FaTrash
+                      onClick={() => onDelete(row.id)}
+                      className="pointer-cursor"
+                      title="Excluir"
+                    />
+                  </div>
+                </td>
+
                 {columns.map((col) => {
                   const text =
                     translations && translations[col.accessor]
@@ -75,45 +110,16 @@ const Table: React.FC<TableProps> = ({
                           translations[col.accessor]
                         )
                       : displayValue(row[col.accessor]);
-
                   return (
                     <td key={col.accessor}>
-                      <span title={text}>{text}</span>
+                      {col.type && col.type == "STATUS" ? (
+                        <StatusColumn status={row[col.accessor]} />
+                      ) : (
+                        <span title={text}>{text}</span>
+                      )}
                     </td>
                   );
                 })}
-
-                <td className="actions-col">
-                  {onView && (
-                    <Image
-                      src={"/eye.svg"}
-                      alt="visualizar"
-                      width={24}
-                      height={24}
-                      onClick={() => onView(row.id)}
-                      title="Visualizar"
-                    />
-                  )}
-                  {onEdit && (
-                    <Image
-                      src={"/pencil.svg"}
-                      alt="editar"
-                      width={20}
-                      height={20}
-                      onClick={() => onEdit(row.id)}
-                      title="Editar"
-                    />
-                  )}
-                  <Image
-                    src={"/delete.svg"}
-                    alt="excluir"
-                    width={24}
-                    height={24}
-                    onClick={() => onDelete(row.id)}
-                    className="pointer-cursor"
-                    title="Excluir"
-                  />
-                </td>
               </tr>
             ))}
           </tbody>

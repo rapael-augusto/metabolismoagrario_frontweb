@@ -3,11 +3,13 @@ import "../../styles/home/modulo.css";
 import Image from "next/image";
 import Link from "next/link";
 
-const Modulo: React.FC<moduleType> = ({ text, URL, imageUrl }) => {
+const Modulo: React.FC<moduleType> = ({ text, URL, imageUrl, icon: Icon }) => {
   return (
     <Link href={URL} className="modulo-box">
-      <Image src={imageUrl} alt="" width={70} height={70} />
-
+      {imageUrl && !Icon && (
+        <Image src={imageUrl} alt="" width={70} height={70} />
+      )}
+      {Icon && !imageUrl && <Icon size={"70px"} />}
       <div>
         <h3>{text}</h3>
       </div>

@@ -5,11 +5,8 @@ import SecurityComp from "@/components/auth/security";
 import Modulo from "@/components/home/module";
 import Layout from "@/components/layout/layout";
 import { useEffect, useState } from "react";
-import {
-  getRoleFromToken,
-  initializeRoleInStorage,
-  getRoleFromStorage,
-} from "@/utils/authUtils";
+import { initializeRoleInStorage, getRoleFromStorage } from "@/utils/authUtils";
+import { FaGavel } from "react-icons/fa";
 
 const Home = () => {
   const [role, setRole] = useState<string | null>(null);
@@ -25,6 +22,7 @@ const Home = () => {
     if (role === "ADMIN") {
       return (
         <>
+          {/* <Modulo URL="/approval" text="Aprovação" icon={FaGavel} /> */}
           <Modulo URL="/crops" text="Culturas" imageUrl="/vaso.svg" />
           <Modulo URL="/usersList" text="Usuários" imageUrl="/account.svg" />
           <Modulo

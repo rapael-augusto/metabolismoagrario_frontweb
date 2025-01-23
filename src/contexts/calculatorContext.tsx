@@ -205,9 +205,8 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
     return constants.filter((constant) =>
       Object.entries(filterCriteria).every(([key, value]) =>
         value
-          ? String(constant[key as keyof filteredConstantsType]).includes(
-              String(value)
-            )
+          ? String(constant[key as keyof filteredConstantsType]) ===
+            String(value)
           : true
       )
     );

@@ -105,8 +105,10 @@ const useRegisterForm = () => {
         const response: any = await auth.cadastro(dadosCadastro, session);
         const { status, message } = response;
 
-        if (message === "User already exists") {
+        if (typeof message === "string" && message === "User already exists")
           toast.error("Esse E-mail já está em uso!");
+        else if (Array.isArray(message)) {
+          toast.error(message[0]);
         } else {
           toast.success("Usuário cadastrado com sucesso!");
           router.push("/usersList");

@@ -6,6 +6,10 @@
   --brown: #b18c69;
   --black: #000;
   --border-divider: #eaeaea;
+  --warning: #ffbc11;
+  --danger: #c91432;
+  --info: #4976ba;
+  --success: #138636;
 }
 
 * {
