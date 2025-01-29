@@ -71,6 +71,38 @@ class Auth {
       }
     }
   }
-}
 
+  async validateForgotPassowordToken(token: string) {
+    try {
+      await Axios.get(`/password-reset/${token}`);
+      return "OK";
+    } catch (errors: any) {
+      if (errors instanceof AxiosError) {
+        return { errors: errors.response?.data.message };
+      }
+    }
+  }
+
+  async createForgotPasswordToken(email: string) {
+    try {
+      await Axios.post(`/password-reset`, { email });
+      return "OK";
+    } catch (errors: any) {
+      if (errors instanceof AxiosError) {
+        return { errors: errors.response?.data.message };
+      }
+    }
+  }
+
+  async resetPassword(token: string, password: string) {
+    try {
+      await Axios.post(`/password-reset/${token}`, { password });
+      return "OK";
+    } catch (errors: any) {
+      if (errors instanceof AxiosError) {
+        return { errors: errors.response?.data.message };
+      }
+    }
+  }
+}
 export default Auth;
