@@ -27,3 +27,8 @@ body {
   width: 100%;
   overflow-x: hidden;
 }
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
