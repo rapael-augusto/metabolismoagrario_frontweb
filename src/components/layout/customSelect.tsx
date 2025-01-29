@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../../styles/layout/select.css";
 
 interface SelectProps {
+  className?: string;
   label?: string;
   type: "form" | "filter";
   placeholder?: string;
@@ -12,6 +13,7 @@ interface SelectProps {
 }
 
 const CustomSelect: React.FC<SelectProps> = ({
+  className,
   value,
   label,
   options,
@@ -33,7 +35,7 @@ const CustomSelect: React.FC<SelectProps> = ({
   };
 
   return (
-    <div className={`${type}-select`}>
+    <div className={`${type}-select ${className}`}>
       <label className="select-label" htmlFor="select">
         {label}
         {required && (

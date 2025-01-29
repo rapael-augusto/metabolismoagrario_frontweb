@@ -1,8 +1,9 @@
 import "@/styles/table/table.css";
+import { ReviewStatus } from "@/types/cultivarTypes";
 import { translationStatusType } from "@/types/statusType";
 
 interface StatusColumnProps {
-  status: "Approved" | "Pending" | "Declined";
+  status: ReviewStatus;
 }
 
 export default function StatusColumn({ status }: StatusColumnProps) {

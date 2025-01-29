@@ -25,6 +25,8 @@ import {
 } from "@/utils/translationsOptions";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import { FaTrash } from "react-icons/fa";
+import { getRoleFromStorage, initializeRoleInStorage } from "@/utils/authUtils";
 
 interface Props {
   params: { id: string };
@@ -57,6 +59,12 @@ const constant = ({ params }: Props) => {
   const [sistemaCultivo, setSistemaCultivo] = useState<string>("all");
   const [solo, setSolo] = useState<string>("all");
   const [biome, setBiome] = useState<string>("all");
+  const [role, setRole] = useState<string | null>(null);
+  useEffect(() => {
+    initializeRoleInStorage();
+    const roleFromStorage = getRoleFromStorage();
+    setRole(roleFromStorage);
+  }, []);
 
   const columns = [
     { header: "Tipo", accessor: "type" },
@@ -155,6 +163,15 @@ const constant = ({ params }: Props) => {
     setDadosTemp(dadosFiltrados);
   }, [irrigacao, clima, tipo, sistemaCultivo, solo, biome]);
 
+  const tableActions = [
+    {
+      icon: FaTrash,
+      title: "Deletar",
+      onClick: (row: any) => handleDeleteConstant(row.id),
+      visible: (row: any) => role === "ADMIN",
+    },
+  ];
+
   //VIEW
   return (
     <Layout>
@@ -235,7 +252,7 @@ const constant = ({ params }: Props) => {
           <Table
             data={dadosTemp}
             columns={columns}
-            onDelete={handleDeleteConstant}
+            actions={tableActions}
             translations={{
               type: typeTranslation,
               irrigation: irrigationTranslation,

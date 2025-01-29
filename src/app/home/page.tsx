@@ -22,7 +22,6 @@ const Home = () => {
     if (role === "ADMIN") {
       return (
         <>
-          {/* <Modulo URL="/approval" text="Aprovação" icon={FaGavel} /> */}
           <Modulo URL="/crops" text="Culturas" imageUrl="/vaso.svg" />
           <Modulo URL="/usersList" text="Usuários" imageUrl="/account.svg" />
           <Modulo
@@ -30,12 +29,14 @@ const Home = () => {
             text="Calculadora"
             imageUrl="/calculate.svg"
           />
+          <Modulo URL="/reviews" text="Solicitações" icon={FaGavel} />
         </>
       );
     } else if (role === "OPERATOR") {
       return (
         <>
           <Modulo URL="/crops" text="Culturas" imageUrl="/vaso.svg" />
+          <Modulo URL="/reviews" text="Minhas Solicitações" icon={FaGavel} />
         </>
       );
     } else {

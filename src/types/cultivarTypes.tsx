@@ -7,6 +7,8 @@ export type CreateCultivarResponseType = {
   mensagem: string;
 };
 
+export type ReviewStatus = "Approved" | "Pending" | "Declined";
+
 export type cultivarsData = {
   id: string;
   cropId: string;

@@ -3,11 +3,18 @@ import { cropsService } from "@/services/crops";
 import { redirect, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { cultivarService } from "@/services/cultivar";
+import { getRoleFromStorage, initializeRoleInStorage } from "@/utils/authUtils";
 
 const useCultivarForm = (id: string) => {
   const [name, setName] = useState("");
   const [token, setToken] = useState<string | null>(null);
   const [response, setResponse] = useState("");
+  const [role, setRole] = useState<string | null>(null);
+  useEffect(() => {
+    initializeRoleInStorage();
+    const roleFromStorage = getRoleFromStorage();
+    setRole(roleFromStorage);
+  }, []);
   const router = useRouter();
 
   useEffect(() => {
@@ -20,27 +27,38 @@ const useCultivarForm = (id: string) => {
     }
   }, []);
 
-  const cadastroCultivar = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const cadastroCultivar = async () => {
     if (!name) {
       toast.error("Nome é um campo obrigatório para cadastrar uma cultivar!");
+      return false;
     } else if (token) {
+      const cultivarSer = new cultivarService(token);
       const service = new cropsService(token);
-      const respostaRequisicao = await service.createCultivar(id, { name });
-
+      let respostaRequisicao = null;
+      if (role === "ADMIN") {
+        respostaRequisicao = await service.createCultivar(id, { name });
+      } else {
+        respostaRequisicao = await cultivarSer.createCultivarReview(id, {
+          name,
+        });
+      }
       if (respostaRequisicao) {
         const { status } = respostaRequisicao;
         setResponse(status.toString()); // Converter status para string se necessário
+
+        if (role === "ADMIN") {
+          toast.success("A cultivar foi criada com sucesso!");
+        } else {
+          toast.info("Sua solicitação de cadastro de cultivar foi criada!");
+        }
       } else {
         setResponse("-1");
       }
+      return true;
     }
   };
 
-  const editarCultivar = async (e: React.FormEvent, cultivarId: string) => {
-    e.preventDefault();
-
+  const editarCultivar = async (cultivarId: string) => {
     if (!name) {
       toast.error("Nome é um campo obrigatório para atualizar uma cultivar!");
     } else if (token) {
@@ -60,7 +78,7 @@ const useCultivarForm = (id: string) => {
 
   useEffect(() => {
     if (response === "1") {
-      redirect(`/cultivars/${id}`);
+      window.location.reload();
     }
   }, [response, id]);
 

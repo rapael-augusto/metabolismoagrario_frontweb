@@ -50,6 +50,7 @@ export default function InitialSlide() {
             placeholder="Selecione uma cultura"
             options={cropsOptions}
             onChange={handleCropChange}
+            required
           />
           <CustomSelect
             type="form"
@@ -58,6 +59,7 @@ export default function InitialSlide() {
             placeholder="Selecione um cultivar"
             options={cultivarsOptions}
             onChange={handleCultivarChange}
+            required
           />
           <InputDefault
             type="number"
@@ -68,6 +70,7 @@ export default function InitialSlide() {
             min={0}
             classe={styles.inputDefault}
             placeholder={""}
+            required
           />
           <InputDefault
             type="number"
@@ -78,6 +81,7 @@ export default function InitialSlide() {
             onChange={handleAreaChange}
             classe={styles.inputDefault}
             placeholder={""}
+            required
           />
         </>
       </Slide.Main>

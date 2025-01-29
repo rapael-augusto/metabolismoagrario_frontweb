@@ -1,30 +1,36 @@
-import React, { useState } from "react";
-import Image from "next/image";
+import React, { useMemo, useState } from "react";
 import "../../styles/table/table.css";
 import StatusColumn from "./columns/status";
-import { FaEye, FaGavel, FaPencil, FaTrash } from "react-icons/fa6";
+import { IconType } from "react-icons";
+import { ReviewStatus } from "@/types/cultivarTypes";
 
 interface TableProps {
   data: any[];
-  columns: { header: string; accessor: string; type?: string }[];
-  onView?: (id: string) => void;
-  onEdit?: (id: string) => void;
-  onChangeStatus?: (id: string) => void;
-  onDelete: (id: string) => void;
+  columns: TableColumn[];
+  actions?: TableAction[];
   translations?: { [key: string]: { [key: string]: string } };
-  permissions?: { [key: string]: boolean };
   perPage?: number;
+}
+
+export interface TableColumn {
+  header: string;
+  accessor: string;
+  type?: string;
+  visible?: boolean;
+}
+
+export interface TableAction {
+  icon: IconType;
+  title: string;
+  onClick: (row: any) => void;
+  visible?: (row: any) => boolean;
 }
 
 const Table: React.FC<TableProps> = ({
   data,
   columns,
-  onView,
-  onDelete,
-  onEdit,
-  onChangeStatus,
+  actions,
   translations,
-  permissions = {},
   perPage = 4,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,7 +44,12 @@ const Table: React.FC<TableProps> = ({
       : "Não informado";
   };
 
-  const displayValue = (value: any): string => {
+  const displayValue = (row: any, accessor: string): string => {
+    const keys = accessor.split(".");
+    let value = row;
+    for (const key of keys) {
+      value = value ? value[key] : undefined;
+    }
     return value === null || value === undefined || value === ""
       ? "Não informado"
       : String(value);
@@ -62,62 +73,64 @@ const Table: React.FC<TableProps> = ({
         <table className="table-container">
           <thead>
             <tr>
-              <th scope="col" style={{ textAlign: "center" }}>
-                Ações
-              </th>
-              {columns.map((col) => (
-                <th key={col.accessor} scope="col">
-                  <span title={col.header}>{col.header}</span>
+              {actions && (
+                <th scope="col" style={{ textAlign: "center" }}>
+                  Ações
                 </th>
-              ))}
+              )}
+              {columns.map(
+                (col) =>
+                  (col.visible ?? true) && (
+                    <th key={col.accessor} scope="col">
+                      <span title={col.header}>{col.header}</span>
+                    </th>
+                  )
+              )}
             </tr>
           </thead>
           <tbody>
             {paginatedData.map((row: any, index) => (
               <tr key={row.id}>
-                <td className="actions-col" style={{ textAlign: "center" }}>
-                  <div>
-                    {row.status === "Pending" &&
-                      permissions["changeStatus"] &&
-                      onChangeStatus && (
-                        <FaGavel
-                          onClick={() => onChangeStatus(row.id)}
-                          title="Editar"
-                        />
-                      )}
-                    {onView && (
-                      <FaEye
-                        onClick={() => onView(row.id)}
-                        title="Visualizar"
-                      />
-                    )}
-                    {onEdit && (
-                      <FaPencil onClick={() => onEdit(row.id)} title="Editar" />
-                    )}
-                    <FaTrash
-                      onClick={() => onDelete(row.id)}
-                      className="pointer-cursor"
-                      title="Excluir"
-                    />
-                  </div>
-                </td>
+                {actions && (
+                  <td className="actions-col" style={{ textAlign: "center" }}>
+                    <div>
+                      {actions.map((action, index) => {
+                        if (action.visible && !action.visible(row)) return null;
+                        return (
+                          <action.icon
+                            key={`action_${index}`}
+                            onClick={() => action.onClick(row)}
+                            title={action.title}
+                          />
+                        );
+                      })}
+                    </div>
+                  </td>
+                )}
 
                 {columns.map((col) => {
+                  const colVisible = col.visible ?? true;
                   const text =
                     translations && translations[col.accessor]
                       ? getTranslation(
-                          row[col.accessor],
+                          displayValue(row, col.accessor),
                           translations[col.accessor]
                         )
-                      : displayValue(row[col.accessor]);
+                      : displayValue(row, col.accessor);
                   return (
-                    <td key={col.accessor}>
-                      {col.type && col.type == "STATUS" ? (
-                        <StatusColumn status={row[col.accessor]} />
-                      ) : (
-                        <span title={text}>{text}</span>
-                      )}
-                    </td>
+                    colVisible && (
+                      <td key={col.accessor}>
+                        {col.type && col.type === "STATUS" ? (
+                          <StatusColumn
+                            status={
+                              displayValue(row, col.accessor) as ReviewStatus
+                            }
+                          />
+                        ) : (
+                          <span title={text}>{text}</span>
+                        )}
+                      </td>
+                    )
                   );
                 })}
               </tr>
