@@ -10,6 +10,7 @@ import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import styles from "@/styles/home/login.module.css";
 import { toast } from "react-toastify";
+import InputPassword from "@/components/forms/inputPassword";
 
 //pagina de login
 
@@ -89,10 +90,9 @@ const Home = () => {
                   value={email}
                 />
 
-                <InputDefault
+                <InputPassword
                   type={"password"}
                   placeholder={"Informe sua senha"}
-                  classe={"form-input-box"}
                   label={"Senha"}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setPassword((e.target as HTMLInputElement).value)
@@ -101,7 +101,8 @@ const Home = () => {
                 />
                 <div className={styles.forgotPasswordContainer}>
                   <Link
-                    href="/forgot-password"
+                    id="esq"
+                    href="/forgotPassword"
                     className={styles.forgotPassword}
                   >
                     Esqueceu a senha?
