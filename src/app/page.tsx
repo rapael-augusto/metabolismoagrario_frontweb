@@ -117,10 +117,6 @@ const Home = () => {
                   onclick={loginEvento}
                 />
               </div>
-
-              <p className={styles.formFooter}>
-                Não possui conta? <Link href="/register">Crie agora</Link>
-              </p>
             </main>
           </form>
         </div>

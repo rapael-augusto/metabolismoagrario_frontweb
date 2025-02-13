@@ -7,7 +7,7 @@ import Styles from "@/styles/layout/footer.module.css";
 
 export const Footer: React.FunctionComponent = () => {
   return (
-    <footer className={Styles.footer}>
+    <div className={Styles.footer}>
       <div className={Styles.mainFooter}>
         <div className={Styles.imgFlex}>
           <Image
@@ -72,6 +72,6 @@ export const Footer: React.FunctionComponent = () => {
           </a>
         </div>
       </div>
-    </footer>
+    </div>
   );
 };

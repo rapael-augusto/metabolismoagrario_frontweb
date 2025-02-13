@@ -80,18 +80,6 @@
   opacity: 1;
 }
 
-.formFooter {
-  text-align: center;
-  padding-bottom: 1rem;
-  padding-top: 1rem;
-}
-
-.formFooter > a {
-  color: var(--brown);
-  font-weight: bold;
-  text-decoration: none;
-}
-
 @media (max-width: 950px) {
   .mainWrapper {
     height: auto;
