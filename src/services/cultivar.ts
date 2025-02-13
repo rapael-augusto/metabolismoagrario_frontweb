@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import Axios from "./api";
-import { CultivarParams } from "@/types/cultivarTypes";
+import { CultivarParams, ReviewStatus } from "@/types/cultivarTypes";
 
 export class cultivarService {
   private token: string | null;
@@ -64,6 +64,60 @@ export class cultivarService {
         .catch((error) => {
           return { status: -1, mensagem: error.response.data.message };
         });
+    }
+  }
+
+  async listCultivarsReviews() {
+    const { data } = await Axios.get("cultivars/review/list");
+    return data;
+  }
+
+  // @Patch('cultivars/review/update/:reviewId')
+  async approveCultivarReview(
+    reviewId: string,
+    data: {
+      status: "Approved" | "Declined";
+      justification: string;
+    }
+  ) {
+    try {
+      return await Axios.patch(`cultivars/review/update/${reviewId}`, {
+        ...data,
+      });
+    } catch (error: any) {
+      return { status: -1, mensagem: error.response.data.message };
+    }
+  }
+
+  // @Delete('cultivars/review/:reviewId')
+  async deleteCultivarReview(reviewId: string) {
+    try {
+      await Axios.delete(`cultivars/review/${reviewId}`);
+      toast.success("A solicitação foi removida!");
+      return { status: 1, mensagem: "ok" };
+    } catch (error: any) {
+      return { status: -1, mensagem: error.response.data.message };
+    }
+  }
+
+  // @Post('cultivars/review/:cropId')
+  async createCultivarReview(cropId: string, cultivarData: CultivarParams) {
+    try {
+      return await Axios.post(`cultivars/review/${cropId}`, cultivarData);
+    } catch (error: any) {
+      return { status: -1, mensagem: error.response.data.message };
+    }
+  }
+
+  // @Patch('cultivars/review/updateCultivar/:reviewId')
+  async updateCultivarByReview(reviewId: string, cultivarData: CultivarParams) {
+    try {
+      return await Axios.patch(
+        `cultivars/review/updateCultivar/${reviewId}`,
+        cultivarData
+      );
+    } catch (error: any) {
+      return { status: -1, mensagem: error.response.data.message };
     }
   }
 }

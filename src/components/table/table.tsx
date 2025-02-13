@@ -1,23 +1,35 @@
-import React, { useState } from "react";
-import Image from "next/image";
+import React, { useMemo, useState } from "react";
 import "../../styles/table/table.css";
+import StatusColumn from "./columns/status";
+import { IconType } from "react-icons";
+import { ReviewStatus } from "@/types/cultivarTypes";
 
 interface TableProps {
   data: any[];
-  columns: { header: string; accessor: string }[];
-  onView?: (id: string) => void;
-  onEdit?: (id: string) => void;
-  onDelete: (id: string) => void;
+  columns: TableColumn[];
+  actions?: TableAction[];
   translations?: { [key: string]: { [key: string]: string } };
   perPage?: number;
+}
+
+export interface TableColumn {
+  header: string;
+  accessor: string;
+  type?: string;
+  visible?: boolean;
+}
+
+export interface TableAction {
+  icon: IconType;
+  title: string;
+  onClick: (row: any) => void;
+  visible?: (row: any) => boolean;
 }
 
 const Table: React.FC<TableProps> = ({
   data,
   columns,
-  onView,
-  onDelete,
-  onEdit,
+  actions,
   translations,
   perPage = 4,
 }) => {
@@ -32,7 +44,12 @@ const Table: React.FC<TableProps> = ({
       : "Não informado";
   };
 
-  const displayValue = (value: any): string => {
+  const displayValue = (row: any, accessor: string): string => {
+    const keys = accessor.split(".");
+    let value = row;
+    for (const key of keys) {
+      value = value ? value[key] : undefined;
+    }
     return value === null || value === undefined || value === ""
       ? "Não informado"
       : String(value);
@@ -52,68 +69,68 @@ const Table: React.FC<TableProps> = ({
   return (
     <div style={{ width: "100%" }}>
       <div className="table-wrapper">
-        {/* Adicionando um contêiner para rolagem */}
         <table className="table-container">
           <thead>
             <tr>
-              {columns.map((col) => (
-                <th key={col.accessor} scope="col">
-                  <span title={col.header}>{col.header}</span>
+              {columns.map(
+                (col) =>
+                  (col.visible ?? true) && (
+                    <th key={col.accessor} scope="col">
+                      <span title={col.header}>{col.header}</span>
+                    </th>
+                  )
+              )}
+              {actions && (
+                <th scope="col" style={{ textAlign: "center" }}>
+                  Ações
                 </th>
-              ))}
-              <th scope="col">Ações</th>
+              )}
             </tr>
           </thead>
           <tbody>
             {paginatedData.map((row: any, index) => (
               <tr key={row.id}>
                 {columns.map((col) => {
+                  const colVisible = col.visible ?? true;
                   const text =
                     translations && translations[col.accessor]
                       ? getTranslation(
-                          row[col.accessor],
+                          displayValue(row, col.accessor),
                           translations[col.accessor]
                         )
-                      : displayValue(row[col.accessor]);
-
+                      : displayValue(row, col.accessor);
                   return (
-                    <td key={col.accessor}>
-                      <span title={text}>{text}</span>
-                    </td>
+                    colVisible && (
+                      <td key={col.accessor}>
+                        {col.type && col.type === "STATUS" ? (
+                          <StatusColumn
+                            status={
+                              displayValue(row, col.accessor) as ReviewStatus
+                            }
+                          />
+                        ) : (
+                          <span title={text}>{text}</span>
+                        )}
+                      </td>
+                    )
                   );
                 })}
-
-                <td className="actions-col">
-                  {onView && (
-                    <Image
-                      src={"/eye.svg"}
-                      alt="visualizar"
-                      width={24}
-                      height={24}
-                      onClick={() => onView(row.id)}
-                      title="Visualizar"
-                    />
-                  )}
-                  {onEdit && (
-                    <Image
-                      src={"/pencil.svg"}
-                      alt="editar"
-                      width={20}
-                      height={20}
-                      onClick={() => onEdit(row.id)}
-                      title="Editar"
-                    />
-                  )}
-                  <Image
-                    src={"/delete.svg"}
-                    alt="excluir"
-                    width={24}
-                    height={24}
-                    onClick={() => onDelete(row.id)}
-                    className="pointer-cursor"
-                    title="Excluir"
-                  />
-                </td>
+                {actions && (
+                  <td className="actions-col" style={{ textAlign: "center" }}>
+                    <div>
+                      {actions.map((action, index) => {
+                        if (action.visible && !action.visible(row)) return null;
+                        return (
+                          <action.icon
+                            key={`action_${index}`}
+                            onClick={() => action.onClick(row)}
+                            title={action.title}
+                          />
+                        );
+                      })}
+                    </div>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

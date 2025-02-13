@@ -1,10 +1,15 @@
 :root {
   --primary-color: #7f975d;
   --light-green: #80ad6b;
-  --text-muted: #868686; /* Corrigido */
+  --text-muted: #6c757d; /* Corrigido */
   --white: #fff;
   --brown: #b18c69;
   --black: #000;
+  --border-divider: #eaeaea;
+  --warning: #ffbc11;
+  --danger: #c91432;
+  --info: #4976ba;
+  --success: #138636;
 }
 
 * {

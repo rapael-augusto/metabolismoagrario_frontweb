@@ -4,6 +4,7 @@ a {
 }
 
 .modulo-box {
+  color: var(--primary-color);
   width: 250px;
   height: 230px;
   border: 1px solid transparent;
@@ -15,13 +16,13 @@ a {
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+  gap: 1.25rem;
   transition: transform 0.2s;
 }
 
 .modulo-box img {
   width: 60px;
   height: auto;
-  margin-bottom: 20px;
 }
 
 .modulo-box span {

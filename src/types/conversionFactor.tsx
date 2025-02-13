@@ -7,4 +7,4 @@ export type PPL_Constants = {
   BELOWGROUND_INDEX: number;
   WEED_AERIAL_FACTOR: number;
   WEED_BELOWGROUND_INDEX: number;
-}
+};

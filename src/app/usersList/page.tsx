@@ -8,9 +8,11 @@ import { redirect } from "next/navigation";
 import NavButton from "@/components/layout/navigationButton";
 import Image from "next/image";
 import Auth from "@/services/auth";
-import Table from "@/components/table/table"; // Importando o componente Table
+import Table, { TableAction } from "@/components/table/table"; // Importando o componente Table
 import SearchForm from "@/components/forms/SearchForm";
 import { toast } from "react-toastify";
+import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { getRoleFromStorage, initializeRoleInStorage } from "@/utils/authUtils";
 
 interface DataUserType {
   id: string;
@@ -22,6 +24,12 @@ interface DataUserType {
 const UsersList = () => {
   const [dados, setDados] = useState<DataUserType[]>([]);
   const [filtredData, setFiltredData] = useState<DataUserType[]>([]);
+  const [role, setRole] = useState<string | null>(null);
+  useEffect(() => {
+    initializeRoleInStorage();
+    const roleFromStorage = getRoleFromStorage();
+    setRole(roleFromStorage);
+  }, []);
 
   useEffect(() => {
     const token = sessionStorage.getItem("@token");
@@ -84,6 +92,26 @@ const UsersList = () => {
     { header: "Tipo", accessor: "role" },
   ];
 
+  const actions: TableAction[] = [
+    {
+      icon: FaEye,
+      title: "Visualizar",
+      onClick: (row: any) => handleView(row.id),
+    },
+    {
+      icon: FaEdit,
+      title: "Editar",
+      onClick: (row: any) => handleEdit(row.id),
+      visible: (row: any) => role === "ADMIN",
+    },
+    {
+      icon: FaTrash,
+      title: "Deletar",
+      onClick: (row: any) => handleDelete(row.id),
+      visible: (row: any) => role === "ADMIN",
+    },
+  ];
+
   return (
     <Layout>
       <div className="cropsPage">
@@ -105,9 +133,7 @@ const UsersList = () => {
           <Table
             data={filtredData}
             columns={columns}
-            onView={(id) => handleView(id)}
-            onEdit={(id) => handleEdit(id)}
-            onDelete={(id) => handleDelete(id)}
+            actions={actions}
             translations={{}}
           />
         </div>
