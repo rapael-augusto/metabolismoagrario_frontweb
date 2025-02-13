@@ -47,7 +47,7 @@ export const CalculatorContext = React.createContext<CalculatorProps>(
   {} as CalculatorProps
 );
 
-const initialConstants: PPL_Constants = {
+const initialConstantsValues: PPL_Constants = {
   HARVEST_INDEX: 0,
   AERIAL_RESIDUE_INDEX: 0,
   PRODUCT_RESIDUE_INDEX: 0,
@@ -58,7 +58,7 @@ const initialConstants: PPL_Constants = {
   WEED_BELOWGROUND_INDEX: 0,
 };
 
-const initialconstantValues: SelectedPPL_Constants = {
+const initialConstants: SelectedPPL_Constants = {
   HARVEST_INDEX: "",
   AERIAL_RESIDUE_INDEX: "",
   PRODUCT_RESIDUE_INDEX: "",
@@ -87,10 +87,11 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
   const [filterCriteria, setFilterCriteria] = useState<
     Partial<filteredConstantsType>
   >({});
-  const [constantValues, setConstantValues] =
-    useState<PPL_Constants>(initialConstants);
+  const [constantValues, setConstantValues] = useState<PPL_Constants>(
+    initialConstantsValues
+  );
   const [selectedConstants, setSelectedConstants] =
-    useState<SelectedPPL_Constants>(initialconstantValues);
+    useState<SelectedPPL_Constants>(initialConstants);
   const [calculations, setCalculations] = useState<any>(null);
 
   useEffect(() => {
@@ -108,7 +109,7 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
         setCultivarId("");
         setCultivarScientificName(response.scientificName);
         setConstants([]);
-        setConstantValues(initialConstants);
+        setConstantValues(initialConstantsValues);
         setArea(0);
         setHarvestedProduction(0);
         setCalculations(null);
@@ -122,7 +123,7 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
     const response = await cropsAPI.findOneCultivar(cultivarId);
     if (response) {
       setConstants(response.constants);
-      // selecionar a primeira constante de cada tipo
+      const newConstantValues = { ...initialConstantsValues };
       const firstConstantsSelected = response.constants.reduce(
         (acc: Partial<PPL_Constants>, item: dadosConstants) => {
           if (!(item.type in acc)) {
@@ -133,21 +134,16 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
         },
         {}
       );
-      Object.assign(constantValues, firstConstantsSelected);
+      Object.assign(newConstantValues, firstConstantsSelected);
+      setConstantValues(newConstantValues);
     }
   };
 
   const handleCalculate = () => {
     if (area > 0 && harvestedProduction > 0 && cultivarId) {
-      const ppl_constants: PPL_Constants = Object.fromEntries(
-        Object.keys(constantValues).map((key) => [
-          key,
-          constants.find((item) => item.type === key)?.value ?? 0,
-        ])
-      ) as PPL_Constants;
       const calculator = usePPLCalculator({
         cultivar: { name: cultivarScientificName },
-        constants: ppl_constants,
+        constants: constantValues,
         area,
         harvestedProduction,
       });
@@ -199,6 +195,7 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
       return toast.warning("Você não selecionou nenhuma constante.");
     updateConstantValue(type, constant.value, true);
     setIsModalOpen(false);
+    resetFilter();
   };
 
   const filteredConstants = useMemo(() => {
@@ -238,9 +235,11 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
     if (!artifical) handleConstantChange(key, "");
     setConstantValues((prev) => ({
       ...prev,
-      [key]: value,
+      [key]: Number(value),
     }));
   };
+
+  console.log("teste:", constantValues);
 
   return (
     <CalculatorContext.Provider

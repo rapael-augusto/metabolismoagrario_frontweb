@@ -8,21 +8,18 @@ interface ModalProps {
   isModalOpen: boolean;
   handleModalOpen: (isOpen: boolean) => void;
   reviewSelected?: CultivarReviewType;
-  handleApprove: (approve: boolean, justification: string) => Promise<void>;
 }
 
-export default function ModalApproveCultivar({
+export default function ModalShowCultivarReview({
   isModalOpen,
   handleModalOpen,
   reviewSelected,
-  handleApprove,
 }: ModalProps) {
-  const [justification, setJustification] = useState("");
   return (
     <Modal isOpen={isModalOpen} size="sm">
       <Modal.Header
-        title={`Aprovar o cadastro da cultivar`}
-        description="Verifique as informações da cultivar antes da ação."
+        title={`Visualizar informações`}
+        description=""
         onClose={() => handleModalOpen(false)}
       />
       <Modal.Main>
@@ -67,6 +64,23 @@ export default function ModalApproveCultivar({
                     classe=""
                     placeholder=""
                   />
+                  {reviewSelected.reviewed_at && (
+                    <InputDefault
+                      label="Data de aprovação"
+                      value={new Date(
+                        reviewSelected.reviewed_at
+                      ).toLocaleDateString("pt-BR", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      })}
+                      onChange={() => null}
+                      type="text"
+                      disabled
+                      classe=""
+                      placeholder=""
+                    />
+                  )}
                 </div>
               </>
             )}
@@ -77,18 +91,14 @@ export default function ModalApproveCultivar({
             </label>
             <textarea
               name="justification"
-              value={justification}
-              onChange={(e) => setJustification(e.target.value)}
+              value={reviewSelected?.justification}
+              readOnly
+              disabled
+              style={{ resize: "none" }}
             ></textarea>
           </div>
         </>
       </Modal.Main>
-      <Modal.Footer
-        cancelText="Rejeitar"
-        submitText="Aprovar"
-        onCancel={() => handleApprove(false, justification)}
-        onSubmit={() => handleApprove(true, justification)}
-      />
     </Modal>
   );
 }

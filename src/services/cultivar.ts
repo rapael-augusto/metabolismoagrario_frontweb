@@ -73,10 +73,16 @@ export class cultivarService {
   }
 
   // @Patch('cultivars/review/update/:reviewId')
-  async approveCultivarReview(reviewId: string, status: ReviewStatus) {
+  async approveCultivarReview(
+    reviewId: string,
+    data: {
+      status: "Approved" | "Declined";
+      justification: string;
+    }
+  ) {
     try {
       return await Axios.patch(`cultivars/review/update/${reviewId}`, {
-        status,
+        ...data,
       });
     } catch (error: any) {
       return { status: -1, mensagem: error.response.data.message };

@@ -241,12 +241,14 @@ const constant = ({ params }: Props) => {
               text="Voltar"
               type="voltar"
             />
-            <NavButton
-              Url={`/criarConstant/${params.id}`}
-              page="list"
-              text="Cadastrar fator de conversão"
-              type="cadastrar"
-            />
+            {role === "ADMIN" && (
+              <NavButton
+                Url={`/criarConstant/${params.id}`}
+                page="list"
+                text="Cadastrar fator de conversão"
+                type="cadastrar"
+              />
+            )}
           </div>
 
           <Table

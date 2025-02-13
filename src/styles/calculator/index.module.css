@@ -60,7 +60,7 @@
 
 .sectionMain {
   padding: 0rem 1.5rem;
-  max-height: 35rem;
+  max-height: 40rem;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #4caf50 #e0e0e0;
@@ -219,4 +219,45 @@
 
 .listConstantsButton:hover {
   opacity: 0.8;
+}
+
+.calculationLegends {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.calculationLegends h3 {
+  font-size: 1.25rem;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.calculationLegends ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.calculationLegends li {
+  margin-bottom: 10px;
+}
+
+.calculationItem {
+  font-size: 1rem;
+  color: #555;
+}
+
+.calculationFormula {
+  display: block;
+  background-color: #f2f2f2;
+  padding: 8px;
+  border-radius: 4px;
+  font-family: "Courier New", monospace;
+  font-size: 0.9rem;
+  color: #333;
+  border: 1px solid #ddd;
+  margin-top: 8px;
 }

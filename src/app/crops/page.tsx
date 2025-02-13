@@ -129,14 +129,16 @@ const Crops = ({ params }: Props) => {
         <SearchForm placeholder="Pesquisa por nome" onSearch={handleSearch} />
         <div className="container-button-crops">
           <NavButton Url="/home" text={"Voltar"} type="voltar" page="list" />
-          <div>
-            <button
-              onClick={() => setModalCreateVisible(true)}
-              className="navButton-cadastrar-list"
-            >
-              Cadastrar Cultura
-            </button>
-          </div>
+          {role === "ADMIN" && (
+            <div>
+              <button
+                onClick={() => setModalCreateVisible(true)}
+                className="navButton-cadastrar-list"
+              >
+                Cadastrar Cultura
+              </button>
+            </div>
+          )}
         </div>
         <Table
           data={filtredData}
