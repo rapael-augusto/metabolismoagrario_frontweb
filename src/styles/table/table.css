@@ -93,3 +93,43 @@
 .pagePrevButton:hover {
   filter: opacity(0.6);
 }
+
+.statusColumnWrapper {
+  width: 8rem;
+  padding: 0.5rem 0.4rem;
+  font-weight: bold;
+  border-radius: 0.45rem;
+  text-align: center;
+}
+
+.statusColumnWrapper.default {
+  background-color: var(--text-muted);
+  color: var(--white);
+}
+
+.statusColumnWrapper.error {
+  background-color: var(--danger);
+  color: var(--white);
+}
+
+.statusColumnWrapper.warning {
+  background-color: var(--warning);
+  color: var(--white);
+}
+
+.actions-col > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  gap: 0.45rem;
+  text-align: center;
+}
+
+.actions-col > div > svg {
+  cursor: pointer;
+}
+
+.actions-col > div > img {
+  cursor: pointer;
+}

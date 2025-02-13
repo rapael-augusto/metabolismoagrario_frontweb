@@ -9,12 +9,12 @@ interface CalculationProps {
 
 export const Calculation = (props: CalculationProps) => {
   const canNotCalculate = isNaN(props.result) || !isFinite(props.result);
-
   return (
     <div className={`${styles.calculationBox}`}>
       {canNotCalculate ? (
         <>
-          <b>Não foi possível calular</b>
+          <h5>Não foi possível calular</h5>
+          <p>{props.name}</p>
         </>
       ) : (
         <>

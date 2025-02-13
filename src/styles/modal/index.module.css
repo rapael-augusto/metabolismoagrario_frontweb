@@ -1,0 +1,137 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 4rem 1rem;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  60% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modalContainer {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  max-height: calc(100vh - 2rem);
+  background-color: var(--white);
+  border-radius: 0.5rem;
+  animation: fadeIn 200ms;
+}
+
+.modalContainer.lg {
+  width: 80rem;
+}
+
+.modalContainer.md {
+  width: 65rem;
+}
+
+.modalContainer.sm {
+  width: 40rem;
+}
+
+.modalContainer > header {
+  width: 100%;
+  padding: 1.5rem 2rem 0.8rem 2rem;
+  border-bottom: 4px solid var(--border-divider);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.modalInfoWrapper {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.modalInfoWrapper > div {
+  width: 80%;
+}
+
+.modalInfoWrapper > span {
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modalInfoWrapper span:hover {
+  color: var(--text-muted);
+}
+
+.modalContainer > main {
+  display: flex;
+  flex: 1 1 auto;
+  height: fit-content;
+  flex-direction: column;
+  width: 100%;
+  padding: 0.8rem 2rem;
+}
+
+.modalContainer > footer {
+  width: 100%;
+  padding: 1.5rem 2rem;
+  background-color: var(--white);
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.modalContainer > footer div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cancelButton,
+.confirmButton {
+  padding: 0.75rem 1.5rem;
+  outline: none;
+  border: none;
+  background-color: var(--white);
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.cancelButton {
+  border: 1px solid var(--text-muted);
+}
+
+.cancelButton:hover {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+.confirmButton {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: 1px solid var(--light-green);
+}
+
+.confirmButton:hover {
+  background-color: var(--white);
+  color: var(--primary-color);
+}

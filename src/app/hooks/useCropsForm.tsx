@@ -5,6 +5,7 @@ import { responseCropsCreate } from "../../types/cropsTypes";
 import { toast } from "react-toastify";
 
 const useCropsForm = () => {
+  const [createModalOpen, setCreateModalOpen] = useState(false);
   const [name, setName] = useState("");
   const [scientificName, setScientificName] = useState("");
   const [response, setResponse] = useState<1 | -1>(-1);
@@ -40,13 +41,12 @@ const useCropsForm = () => {
     }
   };
 
-  const cadastroCrops = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const cadastroCrops = async () => {
     if (!name) {
       toast.error("Nome é um campo obrigatório para cadastrar uma cultura!", {
         autoClose: 2500,
       });
+      return false;
     } else if (!scientificName) {
       toast.error(
         "Nome científico é um campo obrigatório para cadastrar uma cultura!",
@@ -54,6 +54,7 @@ const useCropsForm = () => {
           autoClose: 2500,
         }
       );
+      return false;
     } else {
       const session = sessionStorage.getItem("@token");
       const service = new cropsService(session);
@@ -69,6 +70,7 @@ const useCropsForm = () => {
       } else {
         setResponse(-1);
       }
+      return true;
     }
   };
 
@@ -81,6 +83,8 @@ const useCropsForm = () => {
   return {
     name,
     setName,
+    createModalOpen,
+    setCreateModalOpen,
     scientificName,
     setScientificName,
     cadastroCrops,

@@ -24,7 +24,10 @@ export const Header: React.FunctionComponent = () => {
         <div
           className={`${Styles.mainHeader} ${userName ? "" : Styles.onlyLogo}`}
         >
-          <Link href="/home" className={Styles.logoWrapper}>
+          <Link
+            href={`${sessao ? "/home" : "/"}`}
+            className={Styles.logoWrapper}
+          >
             <Image
               src="/logo_provisoriaHeader.svg"
               alt="Logo"

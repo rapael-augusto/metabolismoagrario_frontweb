@@ -28,9 +28,29 @@ const soilTranslation: any = {
   Other: "Outro",
 };
 
+const filterOptionsTranlation: any = {
+  type: "Tipo",
+  climate: "Clima",
+  biome: "Bioma",
+  soil: "Solo",
+  irrigation: "Irrigação",
+  cultivationSystem: "Sistema de Cultivo",
+};
+
+const translationsMap: any = {
+  type: typeTranslation,
+  biome: {},
+  climate: {},
+  soil: soilTranslation,
+  irrigation: irrigationTranslation,
+  cultivationSystem: cultivationSystemTranslation,
+};
+
 export {
   typeTranslation,
   irrigationTranslation,
   cultivationSystemTranslation,
   soilTranslation,
+  translationsMap,
+  filterOptionsTranlation,
 };

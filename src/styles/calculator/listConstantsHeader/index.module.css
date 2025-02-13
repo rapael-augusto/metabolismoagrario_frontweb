@@ -1,0 +1,83 @@
+.listConstantsHeader {
+  padding: 0.8rem 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.listConstantsHeader > button {
+  padding: 0.5rem 1rem;
+  max-width: 12rem;
+  height: 3rem;
+  outline: none;
+  border: 1px solid var(--black);
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: var(--white);
+  transition: all 200ms;
+}
+
+.listConstantsHeader > button:hover {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+.filterButtonsContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.filterButtonsWrapper {
+  display: flex;
+  gap: 0.25rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.filterButton {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  gap: 4px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: min-content;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  color: var(--text-muted);
+  transition: all 200ms;
+}
+
+.filterButton:disabled {
+  background-color: #ddd;
+  padding: 5px 6px;
+  cursor: not-allowed;
+}
+
+.filterButton:hover {
+  color: var(--white);
+  background-color: var(--black);
+}
+
+@media (max-width: 480px) {
+  .listConstantsHeader {
+    flex-direction: column-reverse;
+    gap: 0.4rem;
+  }
+  .listConstantsHeader > button {
+    max-width: 100%;
+  }
+  .filterButtonsContainer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
