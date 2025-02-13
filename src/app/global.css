@@ -37,3 +37,7 @@ input::-ms-reveal,
 input::-ms-clear {
   display: none;
 }
+
+textarea:read-only {
+  background-color: #e9ecef;
+}

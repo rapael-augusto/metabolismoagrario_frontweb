@@ -2,7 +2,6 @@ import { CultivarReviewType } from "@/app/reviews/page";
 import Modal from "../modal";
 import InputDefault from "../forms/inputDefault";
 import styles from "@/styles/cultivar/modals/modalAprrove.module.css";
-import { useState } from "react";
 
 interface ModalProps {
   isModalOpen: boolean;
@@ -85,18 +84,20 @@ export default function ModalShowCultivarReview({
               </>
             )}
           </div>
-          <div className={styles.justificationContainer}>
-            <label htmlFor="justification">
-              <strong>Justificativa</strong>
-            </label>
-            <textarea
-              name="justification"
-              value={reviewSelected?.justification}
-              readOnly
-              disabled
-              style={{ resize: "none" }}
-            ></textarea>
-          </div>
+          {reviewSelected?.justification && (
+            <div className={styles.justificationContainer}>
+              <label htmlFor="justification">
+                <strong>Justificativa</strong>
+              </label>
+              <textarea
+                name="justification"
+                value={reviewSelected?.justification}
+                readOnly
+                disabled
+                style={{ resize: "none" }}
+              ></textarea>
+            </div>
+          )}
         </>
       </Modal.Main>
     </Modal>
