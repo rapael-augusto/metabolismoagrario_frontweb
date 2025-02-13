@@ -9,31 +9,31 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { redirect } from "next/navigation";
 import { cultivarService } from "@/services/cultivar";
-import {
-  CultivarParams,
-  cultivarsData,
-  ReviewStatus,
-} from "@/types/cultivarTypes";
-import { FaCheck, FaEdit, FaGavel, FaTimes, FaTrash } from "react-icons/fa";
+import { cultivarsData, ReviewStatus } from "@/types/cultivarTypes";
+import { FaEye, FaGavel, FaTrash } from "react-icons/fa";
 import { getRoleFromStorage, initializeRoleInStorage } from "@/utils/authUtils";
 import ModalApproveCultivar from "@/components/cultivars/modalApproveCultivar";
 import ModalEditCultivar from "@/components/cultivars/modalEditCultivar";
 import ModalRemoveCultivarReview from "@/components/cultivars/modalRemoveCultivarReview";
+import ModalShowCultivarReview from "@/components/cultivars/modalShowCultivarReview";
 
 export interface CultivarReviewType {
   id: string;
   status: ReviewStatus;
   userId: string;
+  justification: string;
   cultivarId: string;
   createdAt: string;
   reviewed_at: string | null;
   Cultivar: cultivarsData;
+  requestedBy: { name: string; email: string };
 }
 
 export default function Reviews() {
   const [dados, setDados] = useState<CultivarReviewType[]>([]);
   const [role, setRole] = useState<string | null>(null);
   const [search, setSearch] = useState<string>("");
+  const [isModalShowOpen, setModalShowOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [removeModalOpen, setRemoveModalOpen] = useState<boolean>(false);
@@ -70,9 +70,16 @@ export default function Reviews() {
       type: "STATUS",
     },
     { header: "Nome", accessor: "Cultivar.name" },
+    { header: "Solicitante", accessor: "requestedBy.name" },
+    { header: "Justificativa", accessor: "justification" },
   ];
 
   const actions: TableAction[] = [
+    {
+      icon: FaEye,
+      title: "Visualizar",
+      onClick: (row: any) => handleOpenShowModal(row.id),
+    },
     {
       icon: FaGavel,
       title: "Aprovar/rejeitar",
@@ -99,17 +106,33 @@ export default function Reviews() {
     setSelectedReview(review);
   };
 
+  const handleOpenShowModal = (id: string) => {
+    const review = dados.find((item) => item.id === id);
+    setModalShowOpen(true);
+    setSelectedReview(review);
+  };
+
   const handleOpenRemoveModal = (id: string) => {
     const review = dados.find((item) => item.id === id);
     setRemoveModalOpen(true);
     setSelectedReview(review);
   };
 
-  const handleApproveCultivar = async (approved: boolean) => {
+  const handleApproveCultivar = async (
+    approved: boolean,
+    justification: string
+  ) => {
     const service = new cultivarService(null);
     if (selectedReview?.id) {
       const status = approved ? "Approved" : "Declined";
-      await service.approveCultivarReview(selectedReview.id, status);
+      const response = await service.approveCultivarReview(selectedReview.id, {
+        status,
+        justification,
+      });
+      if (response.status === -1) {
+        toast.error("Houve um erro ao tentar atualizar a solicitação!");
+        return;
+      }
       setDados((prevDados) =>
         prevDados.filter((review) => review.id !== selectedReview.id)
       );
@@ -140,6 +163,11 @@ export default function Reviews() {
         />
         {selectedReview && (
           <>
+            <ModalShowCultivarReview
+              reviewSelected={selectedReview}
+              handleModalOpen={(isOpen: boolean) => setModalShowOpen(isOpen)}
+              isModalOpen={isModalShowOpen}
+            />
             <ModalApproveCultivar
               reviewSelected={selectedReview}
               handleApprove={handleApproveCultivar}

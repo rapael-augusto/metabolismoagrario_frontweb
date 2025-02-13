@@ -8,55 +8,39 @@
 }
 
 .table-container {
-  width: 100% !important;
+  width: 100%;
+  table-layout: auto;
+  margin-bottom: 1rem;
+  color: #212529;
   border-collapse: collapse;
-  white-space: nowrap;
 }
 
 .table-container > thead {
-  display: table-header-group;
-  vertical-align: middle;
-  unicode-bidi: isolate;
-  border-color: inherit;
   background-color: var(--light-green);
   color: var(--white);
 }
 
-.table-container th {
-  text-align: inherit;
-  vertical-align: bottom;
-  border-bottom: 2px solid #dee2e6;
-}
 .table-container th,
 .table-container td {
-  padding: 0.85rem;
-  vertical-align: top;
-  border-top: 1px solid #dee2e6;
-}
-
-.table-container tbody tr:nth-of-type(odd) {
-  background-color: rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  border-bottom: 1px solid #dee2e6;
+  white-space: nowrap;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
 }
 
 .table-container td {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding: 2rem 1rem 2rem 1rem;
 }
 
-.actions-col > div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
-  gap: 0.45rem;
+.table-container th:nth-last-child(1),
+.table-container td:nth-last-child(1) {
   text-align: center;
 }
 
-.actions-col > div > svg {
-  cursor: pointer;
-}
-
-.actions-col > div > img {
+.actions-col > img {
   cursor: pointer;
 }
 
@@ -131,4 +115,21 @@
 .statusColumnWrapper.warning {
   background-color: var(--warning);
   color: var(--white);
+}
+
+.actions-col > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  gap: 0.45rem;
+  text-align: center;
+}
+
+.actions-col > div > svg {
+  cursor: pointer;
+}
+
+.actions-col > div > img {
+  cursor: pointer;
 }

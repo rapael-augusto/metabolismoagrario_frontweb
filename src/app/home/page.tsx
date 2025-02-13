@@ -36,6 +36,11 @@ const Home = () => {
       return (
         <>
           <Modulo URL="/crops" text="Culturas" imageUrl="/vaso.svg" />
+          <Modulo
+            URL="/calculator"
+            text="Calculadora"
+            imageUrl="/calculate.svg"
+          />
           <Modulo URL="/reviews" text="Minhas Solicitações" icon={FaGavel} />
         </>
       );

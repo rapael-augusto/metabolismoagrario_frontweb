@@ -2,15 +2,11 @@
 
 import { useState } from "react";
 import Layout from "@/components/layout/layout";
-import InputDefault from "@/components/forms/inputDefault";
 import styles from "@/styles/forgotPassword/resetPassword.module.css";
-import { FaUnlockAlt } from "react-icons/fa";
 import { useEffect } from "react";
 import Auth from "@/services/auth";
-import { useRouter, redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { VscEye } from "react-icons/vsc";
-import { VscEyeClosed } from "react-icons/vsc";
 import InputPassword from "@/components/forms/inputPassword";
 
 interface Props {

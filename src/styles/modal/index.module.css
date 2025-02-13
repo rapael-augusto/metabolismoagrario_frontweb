@@ -82,7 +82,6 @@
   display: flex;
   flex: 1 1 auto;
   height: fit-content;
-  background-color: var(--white);
   flex-direction: column;
   width: 100%;
   padding: 0.8rem 2rem;

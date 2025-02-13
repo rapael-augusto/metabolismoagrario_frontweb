@@ -11,7 +11,7 @@ export default function ResultsSlide() {
     <Slide>
       <Slide.Header
         title="Resultados"
-        description="Os cálculos abaixo fornecem uma ideia do que se pode esperar."
+        description="Confira os resultados e as formulas listadas abaixo."
       />
       <Slide.Main>
         <>
@@ -26,6 +26,28 @@ export default function ResultsSlide() {
                     unity={calculations[calculation].unity}
                   />
                 ))}
+              </div>
+              <div className={styles.calculationLegends}>
+                <h3>Formulas</h3>
+                <ul>
+                  {Object.keys(calculations).map((calculation, index) => {
+                    const canNotCalculate =
+                      isNaN(Number(calculations[calculation].result)) ||
+                      !isFinite(Number(calculations[calculation].result));
+                    return (
+                      !canNotCalculate && (
+                        <li key={index} className={styles.calculationItem}>
+                          <label>
+                            <b>{calculations[calculation].name}</b>
+                          </label>
+                          <span className={styles.calculationFormula}>
+                            {calculations[calculation].calculation}
+                          </span>
+                        </li>
+                      )
+                    );
+                  })}
+                </ul>
               </div>
             </div>
           )}

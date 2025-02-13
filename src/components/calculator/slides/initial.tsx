@@ -3,8 +3,6 @@ import Slide from "./slide";
 import InputDefault from "@/components/forms/inputDefault";
 import styles from "@/styles/calculator/index.module.css";
 import { ChangeEvent, useContext } from "react";
-import { dataCropsType } from "@/types/cropsTypes";
-import { cultivarsData } from "@/types/cultivarTypes";
 import { CalculatorContext } from "@/contexts/calculatorContext";
 
 export default function InitialSlide() {

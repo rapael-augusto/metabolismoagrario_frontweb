@@ -69,15 +69,9 @@ const Table: React.FC<TableProps> = ({
   return (
     <div style={{ width: "100%" }}>
       <div className="table-wrapper">
-        {/* Adicionando um contêiner para rolagem */}
         <table className="table-container">
           <thead>
             <tr>
-              {actions && (
-                <th scope="col" style={{ textAlign: "center" }}>
-                  Ações
-                </th>
-              )}
               {columns.map(
                 (col) =>
                   (col.visible ?? true) && (
@@ -86,28 +80,16 @@ const Table: React.FC<TableProps> = ({
                     </th>
                   )
               )}
+              {actions && (
+                <th scope="col" style={{ textAlign: "center" }}>
+                  Ações
+                </th>
+              )}
             </tr>
           </thead>
           <tbody>
             {paginatedData.map((row: any, index) => (
               <tr key={row.id}>
-                {actions && (
-                  <td className="actions-col" style={{ textAlign: "center" }}>
-                    <div>
-                      {actions.map((action, index) => {
-                        if (action.visible && !action.visible(row)) return null;
-                        return (
-                          <action.icon
-                            key={`action_${index}`}
-                            onClick={() => action.onClick(row)}
-                            title={action.title}
-                          />
-                        );
-                      })}
-                    </div>
-                  </td>
-                )}
-
                 {columns.map((col) => {
                   const colVisible = col.visible ?? true;
                   const text =
@@ -133,6 +115,22 @@ const Table: React.FC<TableProps> = ({
                     )
                   );
                 })}
+                {actions && (
+                  <td className="actions-col" style={{ textAlign: "center" }}>
+                    <div>
+                      {actions.map((action, index) => {
+                        if (action.visible && !action.visible(row)) return null;
+                        return (
+                          <action.icon
+                            key={`action_${index}`}
+                            onClick={() => action.onClick(row)}
+                            title={action.title}
+                          />
+                        );
+                      })}
+                    </div>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
