@@ -117,7 +117,7 @@ const Crops = ({ params }: Props) => {
 				<h2 className="titulo-crops">Lista de culturas</h2>
 				<SearchForm placeholder="Pesquisa por nome" onSearch={handleSearch} />
 				<div className="container-button-crops">
-					<NavButton Url="/home" text={"Voltar"} type="voltar" page="list" />
+					<NavButton Url="/modules" text={"Voltar"} type="voltar" page="list" />
 					{user && user.role === "ADMIN" && (
 						<div>
 							<button

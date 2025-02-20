@@ -15,6 +15,7 @@ import { CalculatorContext } from "@/contexts/calculatorContext";
 import ListConstants from "./modal/listContants";
 import ListConstantsHeader from "./modal/listConstantsHeader";
 import Modal from "../modal";
+import { useAuthContext } from "@/contexts/auth/authContext";
 
 const Calculator = () => {
   const router = useRouter();
@@ -29,6 +30,8 @@ const Calculator = () => {
     handleCloseModal,
     handleConfirmModal,
   } = useContext(CalculatorContext);
+
+  const { user } = useAuthContext();
 
   const [activeSlide, setActiveSlide] = useState<slidesCalculatorEnum>(
     slidesCalculatorEnum.INITIAL
@@ -52,8 +55,10 @@ const Calculator = () => {
   };
 
   const handleSlideNavigateBack = () => {
-    if (activeSlide === slidesCalculatorEnum.INITIAL)
-      return router.push("home");
+    if (activeSlide === slidesCalculatorEnum.INITIAL) {
+      if (user) return router.push("home");
+      else return router.back();
+    }
     setActiveSlide(activeSlide - 1);
   };
 
