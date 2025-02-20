@@ -1,29 +1,27 @@
 "use client";
+import { PPlCalculationsReturn } from "@/hooks/usePPLCalculator";
 import styles from "@/styles/calculation/index.module.css";
 
 interface CalculationProps {
-  name: string;
-  result: number;
-  unity: string;
+	calculation: PPlCalculationsReturn;
 }
 
-export const Calculation = (props: CalculationProps) => {
-  const canNotCalculate = isNaN(props.result) || !isFinite(props.result);
-  return (
-    <div className={`${styles.calculationBox}`}>
-      {canNotCalculate ? (
-        <>
-          <h5>Não foi possível calular</h5>
-          <p>{props.name}</p>
-        </>
-      ) : (
-        <>
-          <b>
-            {props.result.toFixed(2)} {props.unity}
-          </b>
-          <p>{props.name}</p>
-        </>
-      )}
-    </div>
-  );
+export const Calculation = ({ calculation }: CalculationProps) => {
+	return (
+		<div className={`${styles.calculationBox}`}>
+			{calculation.canNotCalculate ? (
+				<>
+					<h5>Não foi possível calular</h5>
+					<p>{calculation.name}</p>
+				</>
+			) : (
+				<>
+					<b>
+						{calculation.result.toFixed(2)} {calculation.unity}
+					</b>
+					<p>{calculation.name}</p>
+				</>
+			)}
+		</div>
+	);
 };
