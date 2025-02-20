@@ -38,7 +38,8 @@ interface CalculatorProps {
 	handleConstantChange: (key: keyof PPL_Constants, id: string) => void;
 	updateConstantValue: (
 		key: keyof PPL_Constants,
-		value: string | number
+		value: string | number,
+		artificial?: boolean
 	) => void;
 	handleConfirmModal: () => void;
 }
@@ -80,6 +81,9 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 	const [harvestedProduction, setHarvestedProduction] = useState<number>(0);
 	const [crops, setCrops] = useState<dataCropsType[]>([]);
 	const [selectedCrop, setSelectedCrop] = useState<string>("");
+	const [personalConstans, setPersonalConstants] = useState<PPL_Constants[]>(
+		[]
+	);
 	const [cultivars, setCultivars] = useState<cultivarsData[]>([]);
 	const [cultivarId, setCultivarId] = useState<string>("");
 	const [constants, setConstants] = useState<Array<filteredConstantsType>>([]);
@@ -100,7 +104,7 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 
 	const handleCropChange = async (cropId: string) => {
 		setSelectedCrop(cropId);
-		if (cropId) {
+		if (cropId !== "other") {
 			const cropsAPI = new cropsService();
 			const response = await cropsAPI.findOne(cropId);
 			if (response && response.cultivars) {
@@ -122,19 +126,6 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 		const response = await cropsAPI.findOneCultivar(cultivarId);
 		if (response) {
 			setConstants(response.constants);
-			const newConstantValues = { ...initialConstantsValues };
-			const firstConstantsSelected = response.constants.reduce(
-				(acc: Partial<PPL_Constants>, item: dadosConstants) => {
-					if (!(item.type in acc)) {
-						acc[item.type as keyof PPL_Constants] = item.value;
-						handleConstantChange(item.type as keyof PPL_Constants, item.id);
-					}
-					return acc;
-				},
-				{}
-			);
-			Object.assign(newConstantValues, firstConstantsSelected);
-			setConstantValues(newConstantValues);
 		}
 	};
 
@@ -181,7 +172,7 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 			setSelectedConstants(selectedConstantsBackup);
 			selectedConstantsBackup = null;
 		}
-		resetFilter();
+		updateFilter("type", "");
 		setIsModalOpen(false);
 	};
 
@@ -193,8 +184,8 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 		if (!constant)
 			return toast.warning("Você não selecionou nenhuma constante.");
 		updateConstantValue(type, constant.value, true);
+		updateFilter("type", "");
 		setIsModalOpen(false);
-		resetFilter();
 	};
 
 	const filteredConstants = useMemo(() => {
@@ -228,17 +219,47 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 	const updateConstantValue = (
 		key: keyof PPL_Constants,
 		value: string | number,
-		artifical: boolean = false
+		artificial: boolean = false
 	) => {
 		if (isNaN(Number(value))) return toast.error("Você deve digitar um número");
-		if (!artifical) handleConstantChange(key, "");
+		if (!artificial) {
+			handleConstantChange(key, "");
+			setPersonalConstants((prev) => ({
+				...prev,
+				[key]: Number(value),
+			}));
+		} else {
+			setPersonalConstants((prev) => {
+				const updatedConstants = { ...prev };
+				delete updatedConstants[key];
+				return updatedConstants;
+			});
+		}
 		setConstantValues((prev) => ({
 			...prev,
 			[key]: Number(value),
 		}));
 	};
 
-	console.log("teste:", constantValues);
+	// console.log("personalConstants", personalConstans);
+	// console.log("teste:", constantValues);
+
+	useEffect(() => {
+		if (filterCriteria["type"]) return;
+		const newConstantValues = { ...initialConstantsValues };
+		const firstConstantsSelected = filteredConstants.reduce(
+			(acc: Partial<PPL_Constants>, item: dadosConstants) => {
+				if (!(item.type in acc)) {
+					acc[item.type as keyof PPL_Constants] = item.value;
+					handleConstantChange(item.type as keyof PPL_Constants, item.id);
+				}
+				return acc;
+			},
+			{}
+		);
+		Object.assign(newConstantValues, firstConstantsSelected);
+		setConstantValues(newConstantValues);
+	}, [filteredConstants]);
 
 	return (
 		<CalculatorContext.Provider
