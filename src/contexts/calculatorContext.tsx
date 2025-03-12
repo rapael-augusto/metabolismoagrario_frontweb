@@ -81,9 +81,6 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 	const [harvestedProduction, setHarvestedProduction] = useState<number>(0);
 	const [crops, setCrops] = useState<dataCropsType[]>([]);
 	const [selectedCrop, setSelectedCrop] = useState<string>("");
-	const [personalConstans, setPersonalConstants] = useState<PPL_Constants[]>(
-		[]
-	);
 	const [cultivars, setCultivars] = useState<cultivarsData[]>([]);
 	const [cultivarId, setCultivarId] = useState<string>("");
 	const [constants, setConstants] = useState<Array<filteredConstantsType>>([]);
@@ -184,7 +181,6 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 		if (!constant)
 			return toast.warning("Você não selecionou nenhuma constante.");
 		updateConstantValue(type, constant.value, true);
-		updateFilter("type", "");
 		setIsModalOpen(false);
 	};
 
@@ -222,19 +218,7 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 		artificial: boolean = false
 	) => {
 		if (isNaN(Number(value))) return toast.error("Você deve digitar um número");
-		if (!artificial) {
-			handleConstantChange(key, "");
-			setPersonalConstants((prev) => ({
-				...prev,
-				[key]: Number(value),
-			}));
-		} else {
-			setPersonalConstants((prev) => {
-				const updatedConstants = { ...prev };
-				delete updatedConstants[key];
-				return updatedConstants;
-			});
-		}
+		if (!artificial) handleConstantChange(key, "");
 		setConstantValues((prev) => ({
 			...prev,
 			[key]: Number(value),
@@ -246,10 +230,19 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 
 	useEffect(() => {
 		if (filterCriteria["type"]) return;
-		const newConstantValues = { ...initialConstantsValues };
+		const newConstantValues = { ...constantValues };
 		const firstConstantsSelected = filteredConstants.reduce(
 			(acc: Partial<PPL_Constants>, item: dadosConstants) => {
 				if (!(item.type in acc)) {
+					const selectedConstant = filteredConstants.find(
+						(constant) =>
+							constant.id ===
+							selectedConstants[item.type as keyof PPL_Constants]
+					);
+					if (selectedConstant) {
+						acc[item.type as keyof PPL_Constants] = selectedConstant.value;
+						return acc;
+					}
 					acc[item.type as keyof PPL_Constants] = item.value;
 					handleConstantChange(item.type as keyof PPL_Constants, item.id);
 				}
@@ -260,6 +253,8 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 		Object.assign(newConstantValues, firstConstantsSelected);
 		setConstantValues(newConstantValues);
 	}, [filteredConstants]);
+
+	console.log("selected: ", selectedConstants);
 
 	return (
 		<CalculatorContext.Provider
