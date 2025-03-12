@@ -199,8 +199,8 @@ const CriarConstant = ({ params }: Props) => {
 					{soil === "Other" && (
 						<InputDefault
 							classe="form-input-boxConst"
-							label="Solo Personalizado"
-							placeholder="Digite o solo"
+							label="Novo tipo"
+							placeholder="Digite o novo tipo"
 							value={customSoil}
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 								setCustomSoil(e.target.value)
