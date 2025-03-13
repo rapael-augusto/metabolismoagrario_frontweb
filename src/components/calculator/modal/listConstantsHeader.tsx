@@ -9,6 +9,7 @@ import {
 import ListFilters from "./filter/listFilters";
 import { dadosConstants } from "@/app/(public)/constant/[id]/page";
 import Modal from "@/components/modal";
+import { toast } from "react-toastify";
 
 export default function ListConstantsHeader() {
 	const { filterCriteria, updateFilter } = useContext(CalculatorContext);
@@ -28,10 +29,12 @@ export default function ListConstantsHeader() {
 	const handleReset = (filterName: string) => {
 		setFilters((prevFilters) => ({ ...prevFilters, [filterName]: "" }));
 	};
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(true);
 
 	const handleOpenModal = () => setIsModalOpen(true);
-	const handleCloseModal = () => setIsModalOpen(false);
+	const handleCloseModal = () => {
+		setIsModalOpen(false);
+	};
 	const handleConfirmModal = () => {
 		Object.entries(filters).map(([key, value]) => {
 			updateFilter(key as keyof dadosConstants, value);
@@ -47,32 +50,31 @@ export default function ListConstantsHeader() {
 	return (
 		<div className={styles.listConstantsHeader}>
 			<div className={styles.filterButtonsContainer}>
-				{Object.keys(filterCriteria).length > 0 && (
-					<>
-						<h4>Filtrando por: </h4>
-						<div className={styles.filterButtonsWrapper}>
-							{Object.entries(filterCriteria).map(
-								([key, value]) =>
-									value && (
-										<button
-											key={value}
-											onClick={(e) =>
-												handleRemoveFilter(key as keyof dadosConstants)
-											}
-											className={styles.filterButton}
-											disabled={key === "type"}
-										>
-											<span>
-												{filterOptionsTranlation[key]}:{" "}
-												<b>{translationsMap[key][value] ?? value}</b>
-											</span>
-											{key !== "type" && <FaTimes />}
-										</button>
-									)
-							)}
-						</div>
-					</>
-				)}
+				<>
+					<h4>Filtrando por: </h4>
+					<div className={styles.filterButtonsWrapper}>
+						{Object.entries(filterCriteria).map(
+							([key, value]) =>
+								key !== "type" &&
+								value && (
+									<button
+										key={value}
+										onClick={(e) =>
+											handleRemoveFilter(key as keyof dadosConstants)
+										}
+										className={styles.filterButton}
+										disabled={key === "type"}
+									>
+										<span>
+											{filterOptionsTranlation[key]}:{" "}
+											<b>{translationsMap[key][value] ?? value}</b>
+										</span>
+										{key !== "type" && <FaTimes />}
+									</button>
+								)
+						)}
+					</div>
+				</>
 			</div>
 			<button onClick={handleOpenModal}>
 				<FaFilter />
