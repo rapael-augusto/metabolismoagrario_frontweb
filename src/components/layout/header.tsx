@@ -34,7 +34,7 @@ export const Header: React.FunctionComponent = () => {
 						) : (
 							<div>
 								<Link href="/login" className={Styles.loginButton}>
-									Acessar o sistema
+									Fazer Login
 								</Link>
 							</div>
 						)}

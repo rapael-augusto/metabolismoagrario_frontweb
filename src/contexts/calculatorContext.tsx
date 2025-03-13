@@ -81,6 +81,9 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 	const [harvestedProduction, setHarvestedProduction] = useState<number>(0);
 	const [crops, setCrops] = useState<dataCropsType[]>([]);
 	const [selectedCrop, setSelectedCrop] = useState<string>("");
+	const [personalConstans, setPersonalConstants] = useState<PPL_Constants[]>(
+		[]
+	);
 	const [cultivars, setCultivars] = useState<cultivarsData[]>([]);
 	const [cultivarId, setCultivarId] = useState<string>("");
 	const [constants, setConstants] = useState<Array<filteredConstantsType>>([]);

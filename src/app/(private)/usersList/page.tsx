@@ -14,9 +14,10 @@ import { toast } from "react-toastify";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { getRoleFromStorage, initializeRoleInStorage } from "@/utils/authUtils";
 import { useAuthContext } from "@/contexts/auth/authContext";
+import ModalViewUser from "@/components/users/modalViewUser"
 
 interface DataUserType {
-	id: string;
+	id: string; 
 	name: string;
 	email: string;
 	role: "ADMIN" | "OPERATOR";
@@ -26,6 +27,8 @@ const UsersList = () => {
 	const [dados, setDados] = useState<DataUserType[]>([]);
 	const [filtredData, setFiltredData] = useState<DataUserType[]>([]);
 	const { user } = useAuthContext();
+	const [modalCreateVisible, setModalCreateVisible] = useState(false);
+	const [selectedUserId, setSelectedUserId] = useState("");
 
 	useEffect(() => {
 		const auth = new Auth();
@@ -37,7 +40,8 @@ const UsersList = () => {
 	}, []);
 
 	const handleView = (id: string) => {
-		window.location.href = `/user/${id}`;
+		setModalCreateVisible(true);
+		setSelectedUserId(id);
 	};
 
 	const handleEdit = (id: string) => {
@@ -99,6 +103,9 @@ const UsersList = () => {
 		},
 	];
 
+	const handleVisible = (isVisible: boolean) => {
+		setModalCreateVisible(isVisible);
+	}
 	return (
 		<Layout>
 			<div className="cropsPage">
@@ -125,6 +132,13 @@ const UsersList = () => {
 					/>
 				</div>
 			</div>
+			{ selectedUserId && 
+			<ModalViewUser
+							visible={modalCreateVisible}
+							handleVisible={handleVisible}
+							userId={selectedUserId}
+			/>
+			}
 		</Layout>
 	);
 };

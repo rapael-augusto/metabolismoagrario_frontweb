@@ -17,6 +17,7 @@ a {
   border-radius: 10px;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
   gap: 1.25rem;
+  transition: transform 0.2s;
 }
 
 .modulo-box img {
@@ -34,4 +35,8 @@ a {
   color: var(--light-green);
   font-weight: bold;
   font-size: 1.35rem;
+}
+
+.modulo-box:hover {
+  transform: translateY(-5px);
 }
