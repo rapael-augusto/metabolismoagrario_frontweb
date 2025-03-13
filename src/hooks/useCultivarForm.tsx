@@ -1,21 +1,17 @@
 import { useState, useEffect } from "react";
 import { cropsService } from "@/services/crops";
-import { redirect, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { cultivarService } from "@/services/cultivar";
-import { getRoleFromStorage, initializeRoleInStorage } from "@/utils/authUtils";
+import { useAuthContext } from "@/contexts/auth/authContext";
 
 const useCultivarForm = (id: string) => {
 	const [name, setName] = useState("");
 	const [response, setResponse] = useState("");
-	const [role, setRole] = useState<string | null>(null);
-	useEffect(() => {
-		initializeRoleInStorage();
-		const roleFromStorage = getRoleFromStorage();
-		setRole(roleFromStorage);
-	}, []);
-	const router = useRouter();
+	const { user } = useAuthContext();
+
 	const cadastroCultivar = async () => {
+		if (!user) return;
+
 		if (!name) {
 			toast.error("Nome é um campo obrigatório para cadastrar uma cultivar!");
 			return false;
@@ -23,7 +19,7 @@ const useCultivarForm = (id: string) => {
 			const cultivarSer = new cultivarService();
 			const service = new cropsService();
 			let respostaRequisicao = null;
-			if (role === "ADMIN") {
+			if (user.role === "ADMIN") {
 				respostaRequisicao = await service.createCultivar(id, { name });
 			} else {
 				respostaRequisicao = await cultivarSer.createCultivarReview(id, {
@@ -34,7 +30,7 @@ const useCultivarForm = (id: string) => {
 				const { status } = respostaRequisicao;
 				setResponse(status.toString()); // Converter status para string se necessário
 
-				if (role === "ADMIN") {
+				if (user.role === "ADMIN") {
 					toast.success("A cultivar foi criada com sucesso!");
 				} else {
 					toast.info("Sua solicitação de cadastro de cultivar foi criada!");
