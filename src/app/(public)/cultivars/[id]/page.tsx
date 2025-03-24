@@ -78,7 +78,7 @@ const Cultivars = ({ params }: Props) => {
 	}, [dados, filterCriteria]);
 
 	const handleView = (id: string) => {
-		window.location.href = `/constant/${id}`;
+		window.location.href = `/cultivars/view/${id}`;
 	};
 
 	const handleEdit = (id: string) => {

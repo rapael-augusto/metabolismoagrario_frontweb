@@ -27,17 +27,9 @@ export const Header: React.FunctionComponent = () => {
 						<p className={Styles.logoTitle}>Metabolismo Agrário</p>
 					</Link>
 					<div className={Styles.menuWrapper}>
-						{user ? (
-							<ul className={Styles.listItem}>
-								<UserOpt />
-							</ul>
-						) : (
-							<div>
-								<Link href="/login" className={Styles.loginButton}>
-									Fazer Login
-								</Link>
-							</div>
-						)}
+						<ul className={Styles.listItem}>
+							<UserOpt />
+						</ul>
 					</div>
 				</div>
 			</div>
