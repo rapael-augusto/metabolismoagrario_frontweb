@@ -6,3 +6,10 @@
   height: max-content;
   flex-direction: column;
 }
+
+.constantsWrapper {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}

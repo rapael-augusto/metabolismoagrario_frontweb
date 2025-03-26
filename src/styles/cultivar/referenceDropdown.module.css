@@ -1,89 +1,89 @@
 .referenceDropdown {
-	border: 1px solid #ccc;
-	border-radius: 8px;
-	margin-bottom: 16px;
-	overflow: hidden;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  overflow: hidden;
 }
 
 .toggleButton {
-	width: 100%;
-	padding: 12px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	background-color: #f9f9f9;
-	border: none;
-	cursor: pointer;
-	font-size: 16px;
-	font-weight: bold;
-	transition: all 0.3s ease;
+  width: 100%;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
 }
 
 .toggleButton:hover {
-	color: var(--white);
-	background-color: var(--light-green);
+  color: var(--white);
+  background-color: var(--light-green);
 }
 
 .content {
-	max-height: 0;
-	padding: 0;
-	opacity: 0;
-	background-color: #fff;
-	transition: max-height 0.3s ease, opacity 0.3s ease;
+  max-height: 0;
+  padding: 0;
+  opacity: 0;
+  background-color: #fff;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
 }
 
 .referenceDropdown.open .content {
-	max-height: fit-content;
-	padding: 12px;
-	opacity: 1;
-	transition: max-height 0.3s ease, opacity 0.3s ease;
+  max-height: fit-content;
+  padding: 12px;
+  opacity: 1;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
 }
 
 .environmentGroup {
-	margin-bottom: 16px;
+  margin-bottom: 16px;
 }
 
 .characteristicsGrid {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-	gap: 12px;
-	margin-bottom: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .characteristicCard {
-	padding: 12px;
-	border: 1px solid #eee;
-	border-radius: 8px;
-	background-color: #fafafa;
-	font-size: 14px;
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background-color: #fafafa;
+  font-size: 14px;
 }
 
 .characteristicCard strong {
-	display: block;
-	margin-bottom: 4px;
-	color: #333;
+  display: block;
+  margin-bottom: 4px;
+  color: #333;
 }
 
 .constantsTitle {
-	font-size: 14px;
-	color: #555;
-	margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
 }
 
 .constantsList {
-	list-style: none;
-	padding: 0;
-	margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .constantItem {
-	padding: 8px;
-	border: 1px solid #eee;
-	border-radius: 4px;
-	margin-bottom: 8px;
-	font-size: 14px;
+  padding: 8px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  font-size: 14px;
 }
 
 .constantItem div {
-	margin-bottom: 4px;
+  margin-bottom: 4px;
 }

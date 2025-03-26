@@ -2,52 +2,36 @@ import { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import Styles from "@/styles/cultivar/referenceDropdown.module.css";
 import EnvironmentDropdown from "./environmentDropdown";
-
-interface EnvironmentData {
-	id: string;
-	climate: string | null;
-	biome: string | null;
-	customBiome: string | null;
-	irrigation: string | null;
-	countryId: string;
-	soil: string | null;
-	customSoil: string | null;
-	cultivationSystem: string | null;
-	createdAt: string;
-	updatedAt: string;
-	constants: Constant[];
-}
-
-interface Constant {
-	id: string;
-	value: number;
-	type: string;
-	comment: string | null;
-}
+import { EnvironmentData } from "@/types/cultivarTypes";
 
 export default function ReferenceDropdown({
-	environmentData,
-	title,
+  environmentData,
+  title,
 }: {
-	environmentData: EnvironmentData[];
-	title: string;
+  key: string;
+  environmentData: EnvironmentData[];
+  title: string;
 }) {
-	const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-	return (
-		<div className={`${Styles.referenceDropdown} ${isOpen ? Styles.open : ""}`}>
-			<button
-				onClick={() => setIsOpen(!isOpen)}
-				className={Styles.toggleButton}
-			>
-				{title}
-				{isOpen ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
-			</button>
-			<div className={Styles.content}>
-				{environmentData.map((environment, index) => (
-					<EnvironmentDropdown environment={environment} index={index} />
-				))}
-			</div>
-		</div>
-	);
+  return (
+    <div className={`${Styles.referenceDropdown} ${isOpen ? Styles.open : ""}`}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={Styles.toggleButton}
+      >
+        {title}
+        {isOpen ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
+      </button>
+      <div className={Styles.content}>
+        {environmentData.map((environment, index) => (
+          <EnvironmentDropdown
+            key={environment.environment.id}
+            environmentData={environment}
+            index={index}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }
