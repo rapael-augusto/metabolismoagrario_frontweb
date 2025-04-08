@@ -4,9 +4,11 @@ import { slidesCalculatorEnum } from "@/components/calculator/calculatorSlidesTy
 import { cropsService } from "@/services/crops";
 import { PPL_Constants } from "@/types/conversionFactor";
 import { dataCropsType } from "@/types/cropsTypes";
-import { cultivarsData } from "@/types/cultivarTypes";
+import { Constant, cultivarsData, Reference } from "@/types/cultivarTypes";
 import React, { ReactNode, useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
+import { ReferenceService } from "@/services/reference";
+import { cultivarService } from "@/services/cultivar";
 
 type SelectedPPL_Constants = { [key in keyof PPL_Constants]: string };
 type filteredConstantsType = dadosConstants;
@@ -18,19 +20,17 @@ interface CalculatorProps {
 	cultivars: cultivarsData[];
 	selectedCrop: string;
 	cultivarId: string;
-	filteredConstants: Array<filteredConstantsType>;
 	constantValues: PPL_Constants;
+	constants: ConstantsMap;
 	selectedConstants: SelectedPPL_Constants;
 	calculations: any;
-	isModalOpen: boolean;
 	filterCriteria: Partial<filteredConstantsType>;
+	filteredReferences: Reference[];
 	handleCropChange: (crop: string) => void;
 	handleCultivarChange: (cultivar: string) => void;
 	setArea: (area: number) => void;
 	setHarvestedProduction: (production: number) => void;
 	handleCalculate: () => void;
-	handleOpenModal: (key: keyof PPL_Constants) => void;
-	handleCloseModal: () => void;
 	updateFilter: (
 		key: keyof filteredConstantsType,
 		value?: string | number
@@ -41,7 +41,7 @@ interface CalculatorProps {
 		value: string | number,
 		artificial?: boolean
 	) => void;
-	handleConfirmModal: () => void;
+	selectConstants: (constants: Constant[]) => void;
 }
 
 export const CalculatorContext = React.createContext<CalculatorProps>(
@@ -72,6 +72,15 @@ const initialConstants: SelectedPPL_Constants = {
 
 let selectedConstantsBackup: SelectedPPL_Constants | null = null;
 
+interface IConstantValue {
+	value: number;
+	personal: boolean;
+}
+
+type ConstantsMap = {
+	[K in keyof PPL_Constants]: IConstantValue;
+};
+
 export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [cultivarScientificName, setCultivarScientificName] = useState<
@@ -81,12 +90,10 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 	const [harvestedProduction, setHarvestedProduction] = useState<number>(0);
 	const [crops, setCrops] = useState<dataCropsType[]>([]);
 	const [selectedCrop, setSelectedCrop] = useState<string>("");
-	const [personalConstans, setPersonalConstants] = useState<PPL_Constants[]>(
-		[]
-	);
 	const [cultivars, setCultivars] = useState<cultivarsData[]>([]);
+	const [references, setReferences] = useState<Reference[]>([]);
 	const [cultivarId, setCultivarId] = useState<string>("");
-	const [constants, setConstants] = useState<Array<filteredConstantsType>>([]);
+	const [constants, setConstants] = useState<ConstantsMap>({} as ConstantsMap);
 	const [filterCriteria, setFilterCriteria] = useState<
 		Partial<filteredConstantsType>
 	>({});
@@ -111,7 +118,7 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 				setCultivars(response.cultivars);
 				setCultivarId("");
 				setCultivarScientificName(response.scientificName);
-				setConstants([]);
+				setConstants({} as ConstantsMap);
 				setConstantValues(initialConstantsValues);
 				setArea(0);
 				setHarvestedProduction(0);
@@ -122,10 +129,14 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 
 	const handleCultivarChange = async (cultivarId: string) => {
 		setCultivarId(cultivarId);
-		const cropsAPI = new cropsService();
-		const response = await cropsAPI.findOneCultivar(cultivarId);
-		if (response) {
-			setConstants(response.constants);
+		const service = new cultivarService();
+		try {
+			const data = await service.findOne(cultivarId);
+			setReferences(data.references);
+		} catch (error) {
+			toast.error("Erro ao buscar dados da cultivar");
+			console.error("Erro ao buscar cultivar:", error);
+			return;
 		}
 	};
 
@@ -158,8 +169,6 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 		}
 	};
 
-	const resetFilter = () => setFilterCriteria({});
-
 	const handleOpenModal = (key: keyof PPL_Constants) => {
 		console.log("backup: ", selectedConstantsBackup);
 		selectedConstantsBackup = { ...selectedConstants };
@@ -175,28 +184,6 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 		updateFilter("type", "");
 		setIsModalOpen(false);
 	};
-
-	const handleConfirmModal = () => {
-		const type = filterCriteria["type"] as keyof PPL_Constants;
-		if (!type) return toast.error("Houve um erro ao tentar confirmar!");
-		const constantId = selectedConstants[type];
-		const constant = constants.find((item) => item.id === constantId);
-		if (!constant)
-			return toast.warning("Você não selecionou nenhuma constante.");
-		updateConstantValue(type, constant.value, true);
-		setIsModalOpen(false);
-	};
-
-	const filteredConstants = useMemo(() => {
-		return constants.filter((constant) =>
-			Object.entries(filterCriteria).every(([key, value]) =>
-				value
-					? String(constant[key as keyof filteredConstantsType]) ===
-					  String(value)
-					: true
-			)
-		);
-	}, [constants, filterCriteria]);
 
 	const updateFilter = (
 		key: keyof filteredConstantsType,
@@ -228,63 +215,82 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 		}));
 	};
 
-	// console.log("personalConstants", personalConstans);
-	// console.log("teste:", constantValues);
+	const filteredReferences = useMemo(() => {
+		if (!filterCriteria || Object.keys(filterCriteria).length === 0) {
+			return references;
+		}
 
-	useEffect(() => {
-		if (filterCriteria["type"]) return;
-		const newConstantValues = { ...constantValues };
-		const firstConstantsSelected = filteredConstants.reduce(
-			(acc: Partial<PPL_Constants>, item: dadosConstants) => {
-				if (!(item.type in acc)) {
-					const selectedConstant = filteredConstants.find(
-						(constant) =>
-							constant.id ===
-							selectedConstants[item.type as keyof PPL_Constants]
-					);
-					if (selectedConstant) {
-						acc[item.type as keyof PPL_Constants] = selectedConstant.value;
-						return acc;
+		return references
+			.map((reference) => {
+				const filteredEnvironments = reference.environments.filter(
+					(envData) => {
+						const env = envData.environment;
+
+						return (
+							(!filterCriteria.climate ||
+								env.climate === filterCriteria.climate) &&
+							(!filterCriteria.biome ||
+								env.biome === filterCriteria.biome ||
+								env.customBiome === filterCriteria.biome) &&
+							(!filterCriteria.irrigation ||
+								env.irrigation === filterCriteria.irrigation) &&
+							(!filterCriteria.country ||
+								env.countryId === filterCriteria.country) &&
+							(!filterCriteria.soil ||
+								env.soil === filterCriteria.soil ||
+								env.customSoil === filterCriteria.soil) &&
+							(!filterCriteria.cultivationSystem ||
+								env.cultivationSystem === filterCriteria.cultivationSystem)
+						);
 					}
-					acc[item.type as keyof PPL_Constants] = item.value;
-					handleConstantChange(item.type as keyof PPL_Constants, item.id);
-				}
-				return acc;
-			},
-			{}
-		);
-		Object.assign(newConstantValues, firstConstantsSelected);
-		setConstantValues(newConstantValues);
-	}, [filteredConstants]);
+				);
 
-	console.log("selected: ", selectedConstants);
+				return {
+					...reference,
+					environments: filteredEnvironments,
+				};
+			})
+			.filter((reference) => reference.environments.length > 0);
+	}, [filterCriteria, references]);
+
+	const selectConstants = (data: Constant[]) => {
+		const newConstants: ConstantsMap = {} as ConstantsMap;
+
+		data.forEach((constant) => {
+			newConstants[constant.type] = {
+				value: constant.value,
+				personal: false,
+			};
+		});
+
+		setConstants(newConstants);
+	};
+
+	console.log(constants);
 
 	return (
 		<CalculatorContext.Provider
 			value={{
 				area,
 				calculations,
-				filteredConstants,
 				crops,
 				cultivarId,
 				cultivars,
 				harvestedProduction,
 				selectedCrop,
-				isModalOpen,
 				constantValues,
 				selectedConstants,
 				filterCriteria,
-				handleCloseModal,
+				filteredReferences,
 				handleCropChange,
 				handleCultivarChange,
 				handleCalculate,
 				setArea,
 				setHarvestedProduction,
-				handleOpenModal,
 				updateFilter,
 				handleConstantChange,
 				updateConstantValue,
-				handleConfirmModal,
+				selectConstants,
 			}}
 		>
 			{children}

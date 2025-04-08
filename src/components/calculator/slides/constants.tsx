@@ -9,17 +9,14 @@ import { CalculatorContext } from "@/contexts/calculatorContext";
 import ListConstantsHeader from "../modal/listConstantsHeader";
 
 export default function ConstantsSlide() {
-	const { constantValues, handleOpenModal, updateConstantValue } =
-		useContext(CalculatorContext);
+	const { constantValues, updateConstantValue } = useContext(CalculatorContext);
 
 	return (
 		<Slide>
 			<Slide.Header
 				title="Constantes"
 				description="Algumas constantes podem ser carregadas através dos dados armazenados, complete ou altere alguma informação."
-			>
-				<ListConstantsHeader />
-			</Slide.Header>
+			></Slide.Header>
 			<Slide.Main>
 				{Object.keys(constantValues).map((key, index) => (
 					<div className={styles.constantInputWrapper} key={`${key}_wrapper`}>
@@ -35,14 +32,6 @@ export default function ConstantsSlide() {
 							classe={styles.inputDefault}
 							placeholder={""}
 						/>
-						<aside>
-							<button
-								className={styles.listConstantsButton}
-								onClick={() => handleOpenModal(key as keyof PPL_Constants)}
-							>
-								<FaList></FaList>
-							</button>
-						</aside>
 					</div>
 				))}
 			</Slide.Main>

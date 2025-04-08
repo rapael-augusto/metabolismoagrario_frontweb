@@ -83,7 +83,7 @@ export default function ListConstantsHeader() {
 
 			<Modal size={"md"} isOpen={isModalOpen}>
 				<Modal.Header
-					title="Filtrar constantes"
+					title="Filtrar Referências"
 					description="Escolha os filtros desejados para refinar os resultados. Os filtros aplicados serão exibidos na parte superior, e você pode removê-los individualmente."
 					onClose={handleCloseModal}
 				/>

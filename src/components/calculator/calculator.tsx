@@ -15,6 +15,7 @@ import { CalculatorContext } from "@/contexts/calculatorContext";
 import ListConstants from "./modal/listContants";
 import Modal from "../modal";
 import { useAuthContext } from "@/contexts/auth/authContext";
+import ReferencesSlide from "./slides/references";
 
 const Calculator = () => {
 	const router = useRouter();
@@ -22,12 +23,9 @@ const Calculator = () => {
 	const {
 		area,
 		harvestedProduction,
-		isModalOpen,
 		cultivarId,
 		calculations,
 		handleCalculate,
-		handleCloseModal,
-		handleConfirmModal,
 	} = useContext(CalculatorContext);
 
 	const { user } = useAuthContext();
@@ -49,6 +47,7 @@ const Calculator = () => {
 
 	const slidesComponents = {
 		[slidesCalculatorEnum.INITIAL]: <InitialSlide />,
+		[slidesCalculatorEnum.REFERENCES]: <ReferencesSlide />,
 		[slidesCalculatorEnum.CONSTANTS]: <ConstantsSlide />,
 		[slidesCalculatorEnum.RESULTS]: <ResultsSlide />,
 	};
@@ -117,22 +116,6 @@ const Calculator = () => {
 					)}
 				</div>
 				{slidesComponents[activeSlide]}
-				<Modal size="md" isOpen={isModalOpen}>
-					<Modal.Header
-						title="Fatores de conversão"
-						description="Escolha o fator de conversão que deseja utilizar nesse cálculo"
-						onClose={handleCloseModal}
-					></Modal.Header>
-					<Modal.Main>
-						<ListConstants />
-					</Modal.Main>
-					<Modal.Footer
-						onCancel={handleCloseModal}
-						onSubmit={handleConfirmModal}
-						cancelText="Cancelar"
-						submitText="Confirmar"
-					/>
-				</Modal>
 			</main>
 		</div>
 	);
