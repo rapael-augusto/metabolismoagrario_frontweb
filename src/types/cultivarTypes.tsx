@@ -33,6 +33,7 @@ export interface Environment {
 }
 
 export interface EnvironmentData {
+  id: string;
   environment: Environment;
   constants: Constant[];
 }

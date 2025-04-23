@@ -28,7 +28,8 @@ const initialConstants: TCultivarConstants[] = Object.entries({
 
 const useConstantForm = (params: { id: string }) => {
   const router = useRouter();
-
+  const [loading, setLoading] = useState(false);
+  const [references, setReferences] = useState<string[]>([]);
   const [constantsFormData, setConstantsFormData] =
     useState<TCultivarConstants[]>(initialConstants);
   const [environmentFormData, setEnvironmentFormData] =
@@ -51,13 +52,33 @@ const useConstantForm = (params: { id: string }) => {
 
   useEffect(() => {
     fetchCountries();
+    fetchReferences();
   }, []);
 
   const fetchCountries = async () => {
     try {
+      setLoading(true);
       const service = new countriesService(null);
       const response = await service.listAll();
       setCountries(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Erro ao carregar os países:", error);
+    }
+  };
+
+  const fetchReferences = async () => {
+    try {
+      setLoading(true);
+      const service = new ReferenceService();
+      const response = await service.getNameOfAll();
+
+      if (!response.success) {
+        return toast.error("Houve um erro ao carregar referências cadastradas");
+      }
+      const titles = response.data.map((item: { title: string }) => item.title);
+      setReferences(titles);
+      setLoading(false);
     } catch (error) {
       console.error("Erro ao carregar os países:", error);
     }
@@ -137,10 +158,12 @@ const useConstantForm = (params: { id: string }) => {
   };
 
   return {
+    loading,
     countries,
     constantsFormData,
     environmentFormData,
     referenceFormData,
+    references,
     createCustomBiome,
     handleConstantChange,
     handleEnvironmentChange,

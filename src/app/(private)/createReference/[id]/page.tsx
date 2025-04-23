@@ -27,6 +27,8 @@ interface Props {
 
 const CriarConstant = ({ params }: Props) => {
   const {
+    loading,
+    references,
     countries,
     referenceFormData,
     constantsFormData,
@@ -47,33 +49,24 @@ const CriarConstant = ({ params }: Props) => {
           onSubmit={() => handleCreateReference(params.id)}
         >
           <h3>Informações sobre a Referência</h3>
-          <div className={styles.constantsWrapper}>
-            {typeSelectOptions.map((constantType) => {
-              const constant = constantsFormData.find(
-                (c) => c.type === (constantType.value as keyof PPL_Constants)
-              );
-              return (
-                <div key={constantType.value}>
-                  <p>{constantType.label}</p>
-                  <InputDefault
-                    classe="form-input-boxConst"
-                    label="Valor"
-                    placeholder="Digite o valor da referência"
-                    onChange={(e) =>
-                      handleConstantChange(
-                        constantType.value as keyof PPL_Constants,
-                        Number(e.target.value)
-                      )
-                    }
-                    type="number"
-                    required
-                    value={constant?.value ?? ""}
-                    min={0}
-                  />
-                </div>
-              );
-            })}
-          </div>
+
+          <InputDefault
+            classe="form-input-boxConst"
+            label="Título"
+            placeholder="Título da referência, EX: Livro X, Autor (2000)"
+            onChange={(e) => handleReferenceChange("title", e.target.value)}
+            type="text"
+            value={referenceFormData.title}
+          />
+
+          <InputDefault
+            classe="form-input-boxConst"
+            label="Observações"
+            placeholder="Observações sobre a referência, EX: Retirado da página Y"
+            onChange={(e) => handleReferenceChange("comment", e.target.value)}
+            type="text"
+            value={referenceFormData.comment ?? null}
+          />
 
           <div className="container-2-column">
             <CustomSelect
@@ -137,32 +130,41 @@ const CriarConstant = ({ params }: Props) => {
             />
           </div>
 
-          <InputDefault
-            classe="form-input-boxConst"
-            label="Referência"
-            placeholder="Título da referência, EX: Livro X, Autor (2000)"
-            onChange={(e) => handleReferenceChange("title", e.target.value)}
-            type="text"
-            value={referenceFormData.title}
-          />
-
-          <InputDefault
-            classe="form-input-boxConst"
-            label="Observações"
-            placeholder="Observações sobre a referência, EX: Retirado da página Y"
-            onChange={(e) => handleReferenceChange("comment", e.target.value)}
-            type="text"
-            value={referenceFormData.comment ?? null}
-          />
+          <div className={styles.constantsWrapper}>
+            {typeSelectOptions.map((constantType) => {
+              const constant = constantsFormData.find(
+                (c) => c.type === (constantType.value as keyof PPL_Constants)
+              );
+              return (
+                <div key={constantType.value}>
+                  <InputDefault
+                    classe="form-input-boxConst"
+                    label={constantType.label}
+                    placeholder="Digite o valor da referência"
+                    onChange={(e) =>
+                      handleConstantChange(
+                        constantType.value as keyof PPL_Constants,
+                        Number(e.target.value)
+                      )
+                    }
+                    type="number"
+                    required
+                    value={constant?.value ?? 0}
+                    min={0}
+                  />
+                </div>
+              );
+            })}
+          </div>
 
           <div className="footer-formConst">
             <NavButton
-              Url={`/constant/${params.id}`}
+              Url={`/cultivars/view/${params.id}`}
               page="form"
               text="Voltar"
               type="voltar"
             />
-            <Button texto="Cadastrar" classe="form-button" />
+            <Button texto="Cadastrar" classe="form-button" disabled={loading} />
           </div>
         </form>
       </div>
