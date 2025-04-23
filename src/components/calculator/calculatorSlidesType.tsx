@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 
 export enum slidesCalculatorEnum {
   INITIAL,
+  REFERENCES,
   CONSTANTS,
   RESULTS,
 }
@@ -10,6 +11,10 @@ export const navigationsItems = [
   {
     title: "Informações",
     slide: slidesCalculatorEnum.INITIAL,
+  },
+  {
+    title: "Referências",
+    slide: slidesCalculatorEnum.REFERENCES,
   },
   {
     title: "Fatores de conversão",

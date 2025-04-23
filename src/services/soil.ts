@@ -10,11 +10,7 @@ export class soilService {
 
   async createSoil(data: createSoil) {
     try {
-      const response = await Axios.post('/customSoil', data, {
-        headers: {
-          Authorization: this.token ? `Bearer ${this.token}` : ''
-        }
-      });
+      const response = await Axios.post("/customSoil", data);
       return response.data;
     } catch (error) {
       console.error("Erro ao criar o solo personalizado:", error);

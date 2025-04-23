@@ -27,20 +27,13 @@ interface Props {
 
 const CriarConstant = ({ params }: Props) => {
 	const {
-		type,
 		reference,
 		value,
 		comment,
-		climate,
 		biome,
-		irrigation,
 		soil,
 		customSoil,
 		customBiome,
-		authorName,
-		title,
-		year,
-		source,
 		errorMessage,
 		countries,
 		handleTypeChange,
@@ -50,20 +43,13 @@ const CriarConstant = ({ params }: Props) => {
 		handleBiomeChange,
 		handleSoilChange,
 		handleCountryChange,
-		setAuthorName,
-		setTitle,
-		setYear,
-		setSource,
 		setSoil,
 		setReference,
 		setValue,
 		setComment,
-		setCountry,
 		setCustomSoil,
 		setCustomBiome,
 		cadastroConstant,
-		createCustomSoil,
-		createCustomBiome,
 	} = useConstantForm(params);
 
 	const renderCountriesList = () => {

@@ -1,0 +1,68 @@
+.cultivarCardContainer {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.headerButton {
+  background-color: var(--primary-color);
+  padding: 0.75rem 1rem;
+  border-radius: 0.4rem;
+  font-weight: bold;
+  color: var(--white);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  margin-bottom: 16px;
+}
+
+.headerButton:hover {
+  background-color: var(--light-green);
+}
+
+.cultivarCard {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+}
+
+.infoSection {
+  margin-bottom: 32px;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.referenceSection {
+  margin-top: 24px;
+}
+
+.dropdownsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.noReferenceTitle {
+  text-align: center;
+  padding: 1rem;
+  font-weight: bold;
+}
