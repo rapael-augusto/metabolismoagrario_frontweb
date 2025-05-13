@@ -14,12 +14,16 @@ import { FaChevronLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/auth/authContext";
 import { CultivarView } from "@/types/cultivarTypes";
+import React from "react";
 
-interface Props {
-  params: { id: string };
+interface PageParams {
+  id: string;
 }
 
-const ViewCultivar = ({ params }: Props) => {
+const ViewCultivar = ({ params }: { params: Promise<PageParams> }) => {
+
+    const { id } = React.use(params); 
+
   const [cultivar, setCultivar] = useState<CultivarView | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
@@ -29,7 +33,7 @@ const ViewCultivar = ({ params }: Props) => {
     const service = new cultivarService();
     const fetchCultivar = async () => {
       try {
-        const data = await service.findOne(params.id);
+        const data = await service.findOne(id);
         setCultivar(data);
       } catch (error) {
         console.error("Erro ao buscar cultivar:", error);
@@ -38,7 +42,7 @@ const ViewCultivar = ({ params }: Props) => {
       }
     };
     fetchCultivar();
-  }, [params.id]);
+  }, [id]);
 
   return (
     <Layout>
@@ -76,7 +80,7 @@ const ViewCultivar = ({ params }: Props) => {
                 <h3 className={Styles.sectionTitle}>Referências</h3>
                 {user && (
                   <Link
-                    href={`/createReference/${params.id}`}
+                    href={`/createReference/${id}`}
                     className={Styles.headerButton}
                   >
                     Criar Referência
