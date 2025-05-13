@@ -8,9 +8,10 @@ interface StatusColumnProps {
 
 export default function StatusColumn({ status }: StatusColumnProps) {
   const statusMap = {
-    Approved: "success",
-    Pending: "warning",
-    Declined: "danger",
+    APPROVED: "success",
+    PENDING: "warning",
+    REJECTED: "danger",
+    CHANGES_REQUESTED: "info",
   };
   const className = statusMap[status] || "default";
 

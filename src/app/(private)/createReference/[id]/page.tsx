@@ -46,7 +46,7 @@ const CriarConstant = ({ params }: Props) => {
         </div>
         <form
           className="form-container"
-          onSubmit={() => handleCreateReference(params.id)}
+          onSubmit={async () => await handleCreateReference(params.id)}
         >
           <h3>Informações sobre a Referência</h3>
 
