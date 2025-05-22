@@ -149,9 +149,7 @@ export default function Reviews() {
         prevDados.filter((review) => review.id !== selectedReview.id)
       );
     }
-    toast.success(
-      approved ? "A cultivar foi aprovada!" : "A cultivar foi rejeitada!"
-    );
+    toast.success(`O registro foi ${approved ? "aprovado" : "rejeitado"}!`);
     setIsModalOpen(false);
   };
 

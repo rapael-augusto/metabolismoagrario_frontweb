@@ -4,6 +4,11 @@ import { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import ConstantsDropdown from "./constantsDropdown";
 import { EnvironmentData } from "@/types/cultivarTypes";
+import {
+  cultivationSystemTranslation,
+  irrigationTranslation,
+  soilTranslation,
+} from "@/utils/translationsOptions";
 
 export default function EnvironmentDropdown({
   environmentData,
@@ -45,11 +50,17 @@ export default function EnvironmentDropdown({
             )}
             <div className={Styles.characteristicCard}>
               <strong>Irrigação:</strong>{" "}
-              {environmentData.environment.irrigation || "Não informado"}
+              {(environmentData.environment.irrigation &&
+                irrigationTranslation[
+                  environmentData.environment.irrigation
+                ]) ||
+                "Não informado"}
             </div>
             <div className={Styles.characteristicCard}>
               <strong>Solo:</strong>{" "}
-              {environmentData.environment.soil || "Não informado"}
+              {(environmentData.environment.soil &&
+                soilTranslation[environmentData.environment.soil]) ||
+                "Não informado"}
             </div>
             {environmentData.environment.customSoil && (
               <div className={Styles.characteristicCard}>
@@ -59,7 +70,11 @@ export default function EnvironmentDropdown({
             )}
             <div className={Styles.characteristicCard}>
               <strong>Sistema de Cultivo:</strong>{" "}
-              {environmentData.environment.cultivationSystem || "Não informado"}
+              {(environmentData.environment.cultivationSystem &&
+                cultivationSystemTranslation[
+                  environmentData.environment.cultivationSystem
+                ]) ||
+                "Não informado"}
             </div>
           </div>
           <ConstantsDropdown

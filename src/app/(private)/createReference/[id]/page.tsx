@@ -22,13 +22,12 @@ import styles from "@/styles/constant/createConstant.module.css";
 import { PPL_Constants } from "@/types/conversionFactor";
 import { useState } from "react";
 import React from "react";
+import { useParams } from "next/navigation";
+import AutoCompleteTextInput from "@/components/forms/autoCompleteTextInput";
 
-interface PageParams {
-  id: string;
-}
-
-const CriarConstant = ({ params }: { params: Promise<PageParams> }) => {
-  const { id } = React.use(params);
+const CriarConstant = () => {
+  const params = useParams();
+  const id = typeof params.id === "string" ? params.id : "";
 
   const {
     loading,
@@ -44,12 +43,12 @@ const CriarConstant = ({ params }: { params: Promise<PageParams> }) => {
 
   const [parteAtual, setParteAtual] = useState<number>(1);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (parteAtual === 1) {
       setParteAtual(2);
     } else {
-      handleCreateReference(id);
+      await handleCreateReference(id);
     }
   };
 
@@ -75,21 +74,21 @@ const CriarConstant = ({ params }: { params: Promise<PageParams> }) => {
             </div>
           </div>
         </div>
-        <form
-          className="form-container"
-          onSubmit={async () => await handleCreateReference(params.id)}
-        >
+        <form className="form-container" onSubmit={handleSubmit}>
           {parteAtual === 1 && (
             <>
               <h3>Informações sobre a Referência</h3>
 
-              <InputDefault
-                classe="form-input-boxConst"
+              <AutoCompleteTextInput
                 label="Título"
                 placeholder="Título da referência, EX: Livro X, Autor (2000)"
-                onChange={(e) => handleReferenceChange("title", e.target.value)}
+                handleOnChange={(e: string) =>
+                  handleReferenceChange("title", e)
+                }
                 type="text"
                 value={referenceFormData.title}
+                suggestions={references}
+                disclaimer="Referências já cadastradas no banco"
               />
 
               <InputDefault
