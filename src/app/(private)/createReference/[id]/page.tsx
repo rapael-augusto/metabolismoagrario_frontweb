@@ -28,13 +28,14 @@ import AutoCompleteTextInput from "@/components/forms/autoCompleteTextInput";
 const CriarConstant = () => {
   const params = useParams();
   const id = typeof params.id === "string" ? params.id : "";
-
+  const value = false;
   const {
     loading,
     references,
     countries,
     referenceFormData,
     constantsFormData,
+    environmentFormData,
     handleConstantChange,
     handleEnvironmentChange,
     handleReferenceChange,
@@ -111,6 +112,7 @@ const CriarConstant = () => {
                   onChange={(value) =>
                     handleEnvironmentChange("climate", value)
                   }
+                  value={environmentFormData.climate}
                   required
                 />
                 <CustomSelect
@@ -119,6 +121,7 @@ const CriarConstant = () => {
                   placeholder="Selecione o Bioma"
                   options={biomeSelectOptions}
                   onChange={(value) => handleEnvironmentChange("biome", value)}
+                  value={environmentFormData.biome}
                   required
                 />
               </div>
@@ -135,6 +138,7 @@ const CriarConstant = () => {
                   onChange={(value) =>
                     handleEnvironmentChange("country", value)
                   }
+                  value={environmentFormData.country}
                   required
                 />
                 <CustomSelect
@@ -145,6 +149,7 @@ const CriarConstant = () => {
                   onChange={(value) =>
                     handleEnvironmentChange("cultivationSystem", value)
                   }
+                  value={environmentFormData.cultivationSystem}
                   required
                 />
               </div>
@@ -156,6 +161,7 @@ const CriarConstant = () => {
                   placeholder="Selecione o Solo"
                   options={soilSelectOptions}
                   onChange={(value) => handleEnvironmentChange("soil", value)}
+                  value={environmentFormData.soil}
                   required
                 />
                 <CustomSelect
@@ -166,6 +172,7 @@ const CriarConstant = () => {
                   onChange={(value) =>
                     handleEnvironmentChange("irrigation", value)
                   }
+                  value={environmentFormData.irrigation}
                   required
                 />
               </div>
@@ -207,8 +214,9 @@ const CriarConstant = () => {
                         }
                         type="number"
                         required
-                        value={constant?.value ?? 0}
+                        value={Number(constant?.value).toString() ?? 0}
                         min={0}
+                        step="0.1"
                       />
                     </div>
                   );

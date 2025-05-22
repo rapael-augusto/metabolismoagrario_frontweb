@@ -56,7 +56,7 @@ export const usePPLCalculator = ({
 
 	const getTotalAerialBiomass = (): PPlCalculationsReturn => {
 		const productivity = getProductivity();
-		const formula = `${productivity.name} / ${"HARVEST_INDEX"}`;
+		const formula = `${productivity.name} / ${typeTranslation["HARVEST_INDEX"]}`;
 		if (productivity.canNotCalculate || constants.HARVEST_INDEX <= 0)
 			return {
 				name: "Biomassa aérea total",
@@ -86,7 +86,7 @@ export const usePPLCalculator = ({
 
 	const getResidueBiomass = (): PPlCalculationsReturn => {
 		const totalAerialBiomass = getTotalAerialBiomass();
-		const formula = `${"AERIAL_RESIDUE_INDEX"} * ${totalAerialBiomass.name}`;
+		const formula = `${typeTranslation["AERIAL_RESIDUE_INDEX"]} * ${totalAerialBiomass.name}`;
 		if (
 			totalAerialBiomass.canNotCalculate ||
 			constants.AERIAL_RESIDUE_INDEX <= 0
@@ -119,7 +119,7 @@ export const usePPLCalculator = ({
 
 	const getDryMatterBiomass = (): PPlCalculationsReturn => {
 		const productivity = getProductivity();
-		const formula = `${productivity.name} * ${"PRODUCT_DRY_MATTER_FACTOR"}`;
+		const formula = `${productivity.name} * ${typeTranslation["PRODUCT_DRY_MATTER_FACTOR"]}`;
 		if (productivity.canNotCalculate || constants.PRODUCT_DRY_MATTER_FACTOR < 0)
 			return {
 				name: "Biomassa colhida em matéria seca",
@@ -149,7 +149,7 @@ export const usePPLCalculator = ({
 
 	const getResidueDryMatterBiomass = (): PPlCalculationsReturn => {
 		const residueBiomass = getResidueBiomass();
-		const formula = `${residueBiomass.name} * ${"RESIDUE_DRY_MATTER_FACTOR"}`;
+		const formula = `${residueBiomass.name} * ${typeTranslation["RESIDUE_DRY_MATTER_FACTOR"]}`;
 		if (
 			residueBiomass.canNotCalculate ||
 			constants.RESIDUE_DRY_MATTER_FACTOR < 0
