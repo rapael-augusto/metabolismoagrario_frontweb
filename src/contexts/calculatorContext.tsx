@@ -20,6 +20,8 @@ interface CalculatorProps {
   filterCriteria: Partial<dadosConstants>;
   filteredReferences: Reference[];
   loadingState: string;
+  activeReferenceId: string | null;
+  setActiveReferenceId: (id: string | null) => void;
   handleCropChange: (crop: string) => void;
   handleCultivarChange: (cultivar: string) => void;
   setArea: (area: number) => void;
@@ -64,6 +66,7 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
     {}
   );
   const [calculations, setCalculations] = useState<any>(null);
+  const [activeReferenceId, setActiveReferenceId] = useState<string | null>(null);
 
   useEffect(() => {
     const cropsAPI = new cropsService();
@@ -240,6 +243,8 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
         updateFilter,
         updateConstantValue,
         selectConstants,
+        activeReferenceId,
+        setActiveReferenceId,
       }}
     >
       {children}

@@ -22,14 +22,12 @@ import styles from "@/styles/constant/createConstant.module.css";
 import { PPL_Constants } from "@/types/conversionFactor";
 import { useState } from "react";
 import React from "react";
+import { useParams } from "next/navigation";
 
-interface PageParams {
-  id: string;
-}
+const CriarConstant = () => {
 
-const CriarConstant = ({ params }: { params: Promise<PageParams> }) => {
-
-  const { id } = React.use(params); 
+  const params = useParams();
+  const id = params.id as string;
 
   const {
     loading,
