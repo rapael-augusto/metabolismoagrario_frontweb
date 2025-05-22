@@ -1,5 +1,6 @@
 export const translationStatusType = {
-  Approved: "Aprovado",
-  Declined: "Reprovado",
-  Pending: "Pendente",
+  APPROVED: "Aprovado",
+  REJECTED: "Reprovado",
+  PENDING: "Pendente",
+  CHANGES_REQUESTED: "A revisar",
 };

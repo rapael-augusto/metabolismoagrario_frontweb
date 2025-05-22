@@ -9,7 +9,11 @@ export type CreateCultivarResponseType = {
   mensagem: string;
 };
 
-export type ReviewStatus = "Approved" | "Pending" | "Declined";
+export type ReviewStatus =
+  | "APPROVED"
+  | "PENDING"
+  | "REJECTED"
+  | "CHANGES_REQUESTED";
 
 export type cultivarsData = {
   id: string;
@@ -43,6 +47,7 @@ export interface Constant {
   value: number;
   type: keyof PPL_Constants;
   comment?: string | null;
+  status: ReviewStatus;
 }
 
 export interface Reference {

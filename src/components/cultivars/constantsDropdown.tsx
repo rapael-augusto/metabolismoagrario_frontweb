@@ -1,6 +1,7 @@
 "use client";
 import Styles from "@/styles/cultivar/referenceDropdown.module.css";
 import { Constant } from "@/types/cultivarTypes";
+import { translationsMap, typeTranslation } from "@/utils/translationsOptions";
 import { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
@@ -26,7 +27,7 @@ export default function ConstantsDropdown({
             {constants.map((constant) => (
               <li key={constant.id} className={Styles.constantItem}>
                 <div>
-                  <strong>Tipo:</strong> {constant.type}
+                  <strong>Tipo:</strong> {typeTranslation[constant.type]}
                 </div>
                 <div>
                   <strong>Valor:</strong> {constant.value}

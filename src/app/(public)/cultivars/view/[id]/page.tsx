@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { cultivarService } from "@/services/cultivar";
 import Link from "next/link";
 import { FaChevronLeft } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/auth/authContext";
 import { CultivarView } from "@/types/cultivarTypes";
 import React from "react";
@@ -20,9 +20,8 @@ interface PageParams {
   id: string;
 }
 
-const ViewCultivar = ({ params }: { params: Promise<PageParams> }) => {
-
-    const { id } = React.use(params); 
+const ViewCultivar = () => {
+  const { id } = useParams();
 
   const [cultivar, setCultivar] = useState<CultivarView | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
