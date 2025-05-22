@@ -3,7 +3,6 @@ import { useState } from "react";
 import "@/styles/layout/dropdown.css";
 import Image from "next/image";
 import { useAuthContext } from "@/contexts/auth/authContext";
-import { useAuth } from "@/utils/authContext";
 
 const UserOpt: React.FC = () => {
 	const { user, logout } = useAuthContext();
