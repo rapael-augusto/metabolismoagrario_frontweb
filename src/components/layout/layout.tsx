@@ -3,6 +3,7 @@ import { Header } from "./header";
 import { Footer } from "./footer";
 
 const Layout: React.FC<any> = ({ children }) => {
+	
 	return (
 		<div className="layout-box">
 			<Header />

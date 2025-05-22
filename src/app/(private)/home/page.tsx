@@ -11,7 +11,7 @@ const Home = () => {
 	const { user } = useAuthContext();
 
 	if (!user) return;
-
+	
 	const renderLayout = () => {
 		console.log("Role no renderLayout:", user.role);
 		if (user.role === "ADMIN") {

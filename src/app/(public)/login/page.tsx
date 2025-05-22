@@ -38,7 +38,11 @@ const Home = () => {
       const { status, message, user } = await auth.login(dadosLogin);
       if (status === 1) {
         handleSetUser(user);
-        toast.success("Bem-vindo!");
+        toast.success("Bem-vindo!",{
+          style: {  
+            backgroundColor: "var(--primary-color)"
+          }
+        });
       } else {
         toast.error("Email e/ou senha inválidos!");
       }

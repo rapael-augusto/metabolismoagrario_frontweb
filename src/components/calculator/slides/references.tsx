@@ -16,7 +16,7 @@ export default function ReferencesSlide() {
   );
   const [selectedConstants, setSelectedConstants] = useState<Constant[]>([]);
   const [environmentSelectedId, setEnvironmentSelectedId] = useState("");
-
+  const {activeReferenceId, setActiveReferenceId} = useContext(CalculatorContext);
   const handleReferenceClick = (reference: Reference) => {
     setSelectedReference(reference);
     setIsModalOpen(true);
@@ -39,7 +39,13 @@ export default function ReferencesSlide() {
   const handleSubmit = () => {
     selectConstants(selectedConstants);
     setIsModalOpen(false);
+    setActiveReferenceId(
+    selectedConstants.length > 0 ? selectedReference?.id || null : activeReferenceId
+    );
   };
+
+    console.log("Selected Constants:", selectedConstants);
+    console.log("Active Reference ID:", activeReferenceId);
 
   return (
     <Slide>
@@ -62,7 +68,9 @@ export default function ReferencesSlide() {
             {references.map((reference) => (
               <div
                 key={reference.id}
-                className={styles.referenceItem}
+                className={`${styles.referenceItem} ${
+                  activeReferenceId === reference.id ? styles.selected : ''
+                }`}
                 onClick={() => handleReferenceClick(reference)}
               >
                 <h3>{reference.title}</h3>
