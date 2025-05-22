@@ -76,7 +76,9 @@ const useConstantForm = (params: { id: string }) => {
       if (!response.success) {
         return toast.error("Houve um erro ao carregar referências cadastradas");
       }
-      const titles = response.data.map((item: { title: string }) => item.title);
+      const titles: string[] = response.data.map(
+        (item: { title: string }) => item.title
+      );
       setReferences(titles);
       setLoading(false);
     } catch (error) {

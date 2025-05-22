@@ -275,6 +275,7 @@
 }
 
 .referenceItem {
+  position: relative;
   padding: 1rem;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -290,6 +291,23 @@
 .referenceItem:hover {
   background-color: #f5f5f5;
   border-color: #ccc;
+}
+
+.referenceItem.selected {
+  border: 2px solid #4caf50;
+  background-color: #f8fff8;
+}
+
+.referenceItem.selected::after {
+  content: "✓ Selecionado";
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: #4caf50;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
 }
 
 .referenceItem h3 {
