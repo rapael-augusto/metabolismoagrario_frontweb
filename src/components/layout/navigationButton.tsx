@@ -7,11 +7,12 @@ interface navButtonParams {
 	type: "voltar" | "cadastrar";
 	text: string;
 	page: "list" | "form";
+	classe?: string;
 }
 
 const NavButton: React.FC<navButtonParams> = ({ Url, text, type, page }) => {
 	return (
-		<Link className={`navButton-${type}-${page}`} type="button" href={Url}>
+		<Link className={`navButton-${type}-${page}  `} type="button" href={Url}>
 			{text}
 		</Link>
 	);

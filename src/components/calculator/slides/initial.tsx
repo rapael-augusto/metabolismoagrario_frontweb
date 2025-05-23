@@ -67,8 +67,8 @@ export default function InitialSlide() {
           <InputDefault
             type="number"
             label="Produção colhida"
-            value={harvestedProduction}
-            onChange={(e) => setHarvestedProduction(Number(e.target.value))}
+            value={Number(harvestedProduction).toString()}
+            onChange={(e) => setHarvestedProduction(Number(e.target.value.toString()))}
             step="0.1"
             min={0}
             classe={styles.inputDefault}
@@ -78,7 +78,7 @@ export default function InitialSlide() {
           <InputDefault
             type="number"
             label="Área (ha)"
-            value={area}
+            value={Number(area).toString()}
             step="0.1"
             min={0}
             onChange={handleAreaChange}
