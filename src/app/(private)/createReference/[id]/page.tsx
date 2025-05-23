@@ -28,7 +28,7 @@ import AutoCompleteTextInput from "@/components/forms/autoCompleteTextInput";
 const CriarConstant = () => {
   const params = useParams();
   const id = typeof params.id === "string" ? params.id : "";
-  const value = false;
+
   const {
     loading,
     references,
@@ -233,7 +233,6 @@ const CriarConstant = () => {
                   texto="Cadastrar"
                   classe="form-button"
                   disabled={loading}
-                  onclick={() => handleCreateReference(id)}
                 />
               </div>
             </>
