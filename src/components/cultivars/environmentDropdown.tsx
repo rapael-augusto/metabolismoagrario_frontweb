@@ -1,9 +1,11 @@
 "use client";
 import Styles from "@/styles/cultivar/referenceDropdown.module.css";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import ConstantsDropdown from "./constantsDropdown";
 import { EnvironmentData } from "@/types/cultivarTypes";
+import { selectContext } from "@/app/(public)/cultivars/view/[id]/page";
+import { bookContext } from "./referenceDropdown";
 import {
   cultivationSystemTranslation,
   irrigationTranslation,
@@ -17,14 +19,39 @@ export default function EnvironmentDropdown({
   environmentData: EnvironmentData;
   index: number;
 }) {
+
+  const {isBookSelected, toggleEnvironmentSelection} = useContext(bookContext);
+  const enterSelectingState = useContext(selectContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [isEnvironmentSelected, setIsEnvironmentSelected] = useState(false);
+
+  useEffect(() => {
+    if(isBookSelected && !isEnvironmentSelected){
+      setIsEnvironmentSelected(true);
+      toggleEnvironmentSelection(index, true);
+    }
+  }, [isBookSelected]);
+
+  useEffect(() => {
+    setIsEnvironmentSelected(false);
+  }, [enterSelectingState]);
+
+  const handleEnvironmentSelection = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsEnvironmentSelected(!isEnvironmentSelected);
+    toggleEnvironmentSelection(index, !isEnvironmentSelected);
+  };
+
   return (
-    <div className={`${Styles.referenceDropdown} ${isOpen ? Styles.open : ""}`}>
+    <div className={`${!isEnvironmentSelected ? Styles.referenceDropdown : Styles.referenceDropdownRed} ${isOpen ? Styles.open : ""}`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={Styles.toggleButton}
       >
-        Ambiente {index + 1}
+        <div className={Styles.checkboxContainer}>
+          {enterSelectingState ? <input type="checkbox" className={Styles.checkbox} onChange={(e) => e.stopPropagation()} onClick={handleEnvironmentSelection} checked={isEnvironmentSelected} readOnly /> : null}
+          Ambiente {index + 1}
+        </div>
         {isOpen ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
       </button>
       {isOpen && (
@@ -81,6 +108,7 @@ export default function EnvironmentDropdown({
             key={`${environmentData.environment.id}_constants`}
             constants={environmentData.constants}
           />
+          {enterSelectingState ? null : <button className={Styles.editButton}>Editar Referência</button>}
         </div>
       )}
     </div>

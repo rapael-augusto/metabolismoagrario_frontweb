@@ -35,7 +35,13 @@ const filterOptionsTranlation: any = {
   soil: "Solo",
   irrigation: "Irrigação",
   cultivationSystem: "Sistema de Cultivo",
+  country: "País",
 };
+
+const filterReferenceTranslation: any = {
+  title: "Título",
+  comment: "Observações"
+}
 
 const translationsMap: any = {
   type: typeTranslation,
@@ -53,4 +59,5 @@ export {
   soilTranslation,
   translationsMap,
   filterOptionsTranlation,
+  filterReferenceTranslation,
 };

@@ -24,6 +24,9 @@ import { useState } from "react";
 import React from "react";
 import { useParams } from "next/navigation";
 import AutoCompleteTextInput from "@/components/forms/autoCompleteTextInput";
+import { IEnvironmentData, IReferenceFormData } from "@/types/cultivarTypes";
+import { toast } from "react-toastify";
+import { filterOptionsTranlation, filterReferenceTranslation } from "@/utils/translationsOptions";
 
 const CriarConstant = () => {
   const params = useParams();
@@ -41,9 +44,19 @@ const CriarConstant = () => {
     handleReferenceChange,
     handleCreateReference,
   } = useConstantForm({ id });
-
   const [parteAtual, setParteAtual] = useState<number>(1);
-
+  const camposEnvironment: (keyof IEnvironmentData)[] = [
+    "climate",
+    "biome",
+    "country",
+    "cultivationSystem",
+    "soil",
+    "irrigation",
+  ];
+  const camposReference: (keyof IReferenceFormData)[] = [
+    "title",
+    "comment"
+  ]
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (parteAtual === 1) {
@@ -187,7 +200,27 @@ const CriarConstant = () => {
                   texto="Próximo"
                   classe="form-button"
                   disabled={loading}
-                  onclick={() => setParteAtual(2)}
+                  tipo="button"
+                  onclick={() => {
+                    const environmentNaoPreenchido = camposEnvironment.filter(
+                      (campo) => environmentFormData[campo] === undefined
+                    );
+                    const referenceNaoPreenchido = camposReference.filter(
+                      (campo) => !referenceFormData[campo] || referenceFormData[campo]?.length < 3
+                    )
+                    if(environmentNaoPreenchido.length > 0 || referenceNaoPreenchido.length > 0){
+                      const traducaoEnvironment = environmentNaoPreenchido.map(
+                        campo => filterOptionsTranlation[campo] || campo
+                      );
+                      const traducaoReference = referenceNaoPreenchido.map(
+                        campo => filterReferenceTranslation[campo] || campo
+                      )
+                      toast.error(`Por favor preencha adequadamente os campos: ${traducaoReference.join(", ")}, ${traducaoEnvironment.join(", ")}`);
+                      return;
+                    } else {
+                      setParteAtual(2);
+                    }
+                  }}
                 />
               </div>
             </>
@@ -227,6 +260,7 @@ const CriarConstant = () => {
                   texto="Voltar"
                   classe="form-button"
                   disabled={loading}
+                  tipo="button"
                   onclick={() => setParteAtual(1)}
                 />
                 <Button
