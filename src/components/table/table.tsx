@@ -3,6 +3,7 @@ import "@/styles/table/table.css";
 import StatusColumn from "./columns/status";
 import { IconType } from "react-icons";
 import { ReviewStatus } from "@/types/cultivarTypes";
+import { FiInfo } from "react-icons/fi";
 
 interface TableProps {
   data: any[];
@@ -88,51 +89,65 @@ const Table: React.FC<TableProps> = ({
             </tr>
           </thead>
           <tbody>
-            {paginatedData.map((row: any, index) => (
-              <tr key={row.id}>
-                {columns.map((col) => {
-                  const colVisible = col.visible ?? true;
-                  const text =
-                    translations && translations[col.accessor]
-                      ? getTranslation(
-                          displayValue(row, col.accessor),
-                          translations[col.accessor]
-                        )
-                      : displayValue(row, col.accessor);
-                  return (
-                    colVisible && (
-                      <td key={col.accessor}>
-                        {col.type && col.type === "STATUS" ? (
-                          <StatusColumn
-                            status={
-                              displayValue(row, col.accessor) as ReviewStatus
-                            }
-                          />
-                        ) : (
-                          <span title={text}>{text}</span>
-                        )}
-                      </td>
-                    )
-                  );
-                })}
-                {actions && (
-                  <td className="actions-col" style={{ textAlign: "center" }}>
-                    <div>
-                      {actions.map((action, index) => {
-                        if (action.visible && !action.visible(row)) return null;
-                        return (
-                          <action.icon
-                            key={`action_${index}`}
-                            onClick={() => action.onClick(row)}
-                            title={action.title}
-                          />
-                        );
-                      })}
-                    </div>
-                  </td>
-                )}
+            {paginatedData.length === 0 ? (
+              <tr className="empty-row">
+                <td colSpan={columns.length + (actions ? 1 : 0)}>
+                  <div className="empty-state">
+                    <FiInfo className="empty-icon" />
+                    <span className="empty-message">
+                      Nenhum registro encontrado.
+                    </span>
+                  </div>
+                </td>
               </tr>
-            ))}
+            ) : (
+              paginatedData.map((row: any, index) => (
+                <tr key={row.id}>
+                  {columns.map((col) => {
+                    const colVisible = col.visible ?? true;
+                    const text =
+                      translations && translations[col.accessor]
+                        ? getTranslation(
+                            displayValue(row, col.accessor),
+                            translations[col.accessor]
+                          )
+                        : displayValue(row, col.accessor);
+                    return (
+                      colVisible && (
+                        <td key={col.accessor}>
+                          {col.type && col.type === "STATUS" ? (
+                            <StatusColumn
+                              status={
+                                displayValue(row, col.accessor) as ReviewStatus
+                              }
+                            />
+                          ) : (
+                            <span title={text}>{text}</span>
+                          )}
+                        </td>
+                      )
+                    );
+                  })}
+                  {actions && (
+                    <td className="actions-col" style={{ textAlign: "center" }}>
+                      <div>
+                        {actions.map((action, index) => {
+                          if (action.visible && !action.visible(row))
+                            return null;
+                          return (
+                            <action.icon
+                              key={`action_${index}`}
+                              onClick={() => action.onClick(row)}
+                              title={action.title}
+                            />
+                          );
+                        })}
+                      </div>
+                    </td>
+                  )}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

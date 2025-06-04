@@ -133,3 +133,31 @@
 .actions-col > div > img {
   cursor: pointer;
 }
+
+.empty-row {
+  background-color: transparent;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+  gap: 0.5rem;
+}
+
+.empty-icon {
+  color: #9ca3af;
+  font-size: 1.5rem;
+}
+
+.empty-message {
+  font-style: normal;
+}
+
+.actions-header {
+  text-align: center;
+}
