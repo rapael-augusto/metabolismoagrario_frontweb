@@ -1,7 +1,12 @@
 .cultivarCardContainer {
   display: flex;
-  justify-content: center;
+  align-items: center;
   padding: 10px;
+}
+
+.buttonSection {
+  display: flex;
+  gap: 1rem;
 }
 
 .headerButton {
@@ -17,6 +22,40 @@
 
 .headerButton:hover {
   background-color: var(--light-green);
+}
+
+.selectButton {
+  background-color: #4976ba;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 0.4rem;
+  font-weight: bold;
+  color: var(--white);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  margin-bottom: 16px;
+}
+
+.selectButton:hover {
+  background-color: #335484;
+  border-color: #335484;
+}
+
+.deleteButton {
+  background-color: #c91432;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 0.4rem;
+  font-weight: bold;
+  color: var(--white);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  margin-bottom: 16px;
+}
+
+.deleteButton:hover {
+  background-color: #720b1c;
+  border-color: #720b1c;
 }
 
 .cultivarCard {

@@ -11,15 +11,13 @@ import useRegisterForm from "@/hooks/useRegisterForm";
 import { useEffect, useState } from "react";
 import Auth from "@/services/auth";
 import { UserRoles } from "@/types/authType";
+import { useParams } from "next/navigation";
 
-interface Props {
-	params: { userId: string };
-}
-
-const editUser = ({ params }: Props) => {
+const editUser = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const { user, setUser, editUser, options } = useRegisterForm();
-	const { userId } = params;
+	const params = useParams();
+	const { userId } = params as { userId: string };
 
 	useEffect(() => {
 		const authService = new Auth();
