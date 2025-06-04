@@ -3,4 +3,5 @@ export default interface buttonType {
   classe: string;
   onclick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   disabled?: boolean;
+  tipo?: "button" | "submit";
 }

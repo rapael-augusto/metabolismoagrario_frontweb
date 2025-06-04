@@ -66,7 +66,7 @@ export default function InitialSlide() {
           />
           <InputDefault
             type="number"
-            label="Produção colhida"
+            label="Produção colhida (t)"
             value={Number(harvestedProduction).toString()}
             onChange={(e) => setHarvestedProduction(Number(e.target.value.toString()))}
             step="0.1"

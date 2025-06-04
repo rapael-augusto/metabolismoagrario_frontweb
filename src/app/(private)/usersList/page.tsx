@@ -15,6 +15,8 @@ import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { getRoleFromStorage, initializeRoleInStorage } from "@/utils/authUtils";
 import { useAuthContext } from "@/contexts/auth/authContext";
 import ModalViewUser from "@/components/users/modalViewUser"
+import ModalEditUser from "@/components/users/modalEditUser";
+import ModalRegisterUser from "@/components/users/modalRegisterUser";
 
 interface DataUserType {
 	id: string; 
@@ -28,6 +30,8 @@ const UsersList = () => {
 	const [filtredData, setFiltredData] = useState<DataUserType[]>([]);
 	const { user } = useAuthContext();
 	const [modalCreateVisible, setModalCreateVisible] = useState(false);
+	const [modalEditVisible, setModalEditVisible] = useState(false);
+	const [modalRegisterVisible, setModalRegisterVisible] = useState(false);
 	const [selectedUserId, setSelectedUserId] = useState("");
 
 	useEffect(() => {
@@ -45,8 +49,13 @@ const UsersList = () => {
 	};
 
 	const handleEdit = (id: string) => {
-		window.location.href = `/usersList/edit/${id}`;
+		setModalEditVisible(true);
+		setSelectedUserId(id);
 	};
+
+	const handleRegister = () => {
+		setModalRegisterVisible(true);
+	}
 
 	const handleDelete = useCallback(
 		async (id: string) => {
@@ -103,9 +112,18 @@ const UsersList = () => {
 		},
 	];
 
-	const handleVisible = (isVisible: boolean) => {
+	const handleCreateVisible = (isVisible: boolean) => {
 		setModalCreateVisible(isVisible);
 	}
+
+	const handleEditVisible = (isVisible: boolean) => {
+		setModalEditVisible(isVisible);
+	}
+
+	const handleRegisterVisible = (isVisible : boolean) => {
+		setModalRegisterVisible(isVisible);
+	}
+
 	return (
 		<Layout>
 			<div className="cropsPage">
@@ -116,12 +134,7 @@ const UsersList = () => {
 				<div className="list-crops">
 					<div className="container-button-crops">
 						<NavButton Url="/home" text={"Voltar"} type="voltar" page="list" />
-						<NavButton
-							Url="/register"
-							text={"Cadastrar usuário"}
-							type="cadastrar"
-							page="list"
-						/>
+						<button className="register-button" onClick={() => handleRegister()}>Cadastrar usuário</button>
 					</div>
 
 					<Table
@@ -133,11 +146,22 @@ const UsersList = () => {
 				</div>
 			</div>
 			{ selectedUserId && 
-			<ModalViewUser
-							visible={modalCreateVisible}
-							handleVisible={handleVisible}
-							userId={selectedUserId}
-			/>
+			<>
+				<ModalViewUser
+								visible={modalCreateVisible}
+								handleVisible={handleCreateVisible}
+								userId={selectedUserId}
+				/>
+				<ModalEditUser
+								visible={modalEditVisible}
+								handleVisible={handleEditVisible}
+								userId={selectedUserId}
+				/>
+				<ModalRegisterUser 
+								visible={modalRegisterVisible}
+								handleVisible={handleRegisterVisible}
+				/>
+			</>
 			}
 		</Layout>
 	);

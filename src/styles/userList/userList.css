@@ -6,3 +6,21 @@
 .result-col-email{
     width: 400px;
 } 
+
+.register-button {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background-color: transparent;
+  border: 1px solid #4c6444;
+  background-color: #4c6444;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all ease 0.4s;
+  cursor: pointer;
+}

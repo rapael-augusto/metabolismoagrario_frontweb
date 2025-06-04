@@ -1,11 +1,17 @@
 import React from "react";
 import buttonType from "@/types/buttonType";
 
-const Button: React.FC<buttonType> = ({ texto, classe, onclick, disabled }) => {
+const Button: React.FC<buttonType> = ({
+  texto,
+  classe,
+  onclick,
+  disabled = false,
+  tipo = "submit",
+}) => {
   return (
     <button
       onClick={onclick}
-      type="submit"
+      type={tipo}
       className={classe}
       disabled={disabled}
     >
