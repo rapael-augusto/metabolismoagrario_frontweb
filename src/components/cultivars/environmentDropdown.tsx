@@ -19,14 +19,14 @@ export default function EnvironmentDropdown({
   environmentData: EnvironmentData;
   index: number;
 }) {
-
-  const {isBookSelected, toggleEnvironmentSelection} = useContext(bookContext);
+  const { isBookSelected, toggleEnvironmentSelection } =
+    useContext(bookContext);
   const enterSelectingState = useContext(selectContext);
   const [isOpen, setIsOpen] = useState(false);
   const [isEnvironmentSelected, setIsEnvironmentSelected] = useState(false);
 
   useEffect(() => {
-    if(isBookSelected && !isEnvironmentSelected){
+    if (isBookSelected && !isEnvironmentSelected) {
       setIsEnvironmentSelected(true);
       toggleEnvironmentSelection(index, true);
     }
@@ -43,13 +43,28 @@ export default function EnvironmentDropdown({
   };
 
   return (
-    <div className={`${!isEnvironmentSelected ? Styles.referenceDropdown : Styles.referenceDropdownRed} ${isOpen ? Styles.open : ""}`}>
+    <div
+      className={`${
+        !isEnvironmentSelected
+          ? Styles.referenceDropdown
+          : Styles.referenceDropdownRed
+      } ${isOpen ? Styles.open : ""}`}
+    >
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={Styles.toggleButton}
       >
         <div className={Styles.checkboxContainer}>
-          {enterSelectingState ? <input type="checkbox" className={Styles.checkbox} onChange={(e) => e.stopPropagation()} onClick={handleEnvironmentSelection} checked={isEnvironmentSelected} readOnly /> : null}
+          {enterSelectingState ? (
+            <input
+              type="checkbox"
+              className={Styles.checkbox}
+              onChange={(e) => e.stopPropagation()}
+              onClick={handleEnvironmentSelection}
+              checked={isEnvironmentSelected}
+              readOnly
+            />
+          ) : null}
           Ambiente {index + 1}
         </div>
         {isOpen ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
@@ -67,14 +82,10 @@ export default function EnvironmentDropdown({
             </div>
             <div className={Styles.characteristicCard}>
               <strong>Bioma:</strong>{" "}
-              {environmentData.environment.biome || "Não informado"}
+              {environmentData.environment.biome === "Other"
+                ? environmentData.environment.customBiome
+                : environmentData.environment.biome || "Não informado"}
             </div>
-            {environmentData.environment.customBiome && (
-              <div className={Styles.characteristicCard}>
-                <strong>Bioma Personalizado:</strong>{" "}
-                {environmentData.environment.customBiome || "Não informado"}
-              </div>
-            )}
             <div className={Styles.characteristicCard}>
               <strong>Irrigação:</strong>{" "}
               {(environmentData.environment.irrigation &&
@@ -85,16 +96,12 @@ export default function EnvironmentDropdown({
             </div>
             <div className={Styles.characteristicCard}>
               <strong>Solo:</strong>{" "}
-              {(environmentData.environment.soil &&
-                soilTranslation[environmentData.environment.soil]) ||
-                "Não informado"}
+              {environmentData.environment.soil === "Other"
+                ? environmentData.environment.customSoil || "Não informado"
+                : (environmentData.environment.soil &&
+                    soilTranslation[environmentData.environment.soil]) ||
+                  "Não informado"}
             </div>
-            {environmentData.environment.customSoil && (
-              <div className={Styles.characteristicCard}>
-                <strong>Solo Personalizado:</strong>{" "}
-                {environmentData.environment.customSoil || "Não informado"}
-              </div>
-            )}
             <div className={Styles.characteristicCard}>
               <strong>Sistema de Cultivo:</strong>{" "}
               {(environmentData.environment.cultivationSystem &&
@@ -108,7 +115,9 @@ export default function EnvironmentDropdown({
             key={`${environmentData.environment.id}_constants`}
             constants={environmentData.constants}
           />
-          {enterSelectingState ? null : <button className={Styles.editButton}>Editar Referência</button>}
+          {enterSelectingState ? null : (
+            <button className={Styles.editButton}>Editar Referência</button>
+          )}
         </div>
       )}
     </div>
