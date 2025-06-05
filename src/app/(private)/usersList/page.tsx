@@ -14,12 +14,12 @@ import { toast } from "react-toastify";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { getRoleFromStorage, initializeRoleInStorage } from "@/utils/authUtils";
 import { useAuthContext } from "@/contexts/auth/authContext";
-import ModalViewUser from "@/components/users/modalViewUser"
+import ModalViewUser from "@/components/users/modalViewUser";
 import ModalEditUser from "@/components/users/modalEditUser";
 import ModalRegisterUser from "@/components/users/modalRegisterUser";
 
 interface DataUserType {
-	id: string; 
+	id: string;
 	name: string;
 	email: string;
 	role: "ADMIN" | "OPERATOR";
@@ -55,7 +55,7 @@ const UsersList = () => {
 
 	const handleRegister = () => {
 		setModalRegisterVisible(true);
-	}
+	};
 
 	const handleDelete = useCallback(
 		async (id: string) => {
@@ -114,15 +114,15 @@ const UsersList = () => {
 
 	const handleCreateVisible = (isVisible: boolean) => {
 		setModalCreateVisible(isVisible);
-	}
+	};
 
 	const handleEditVisible = (isVisible: boolean) => {
 		setModalEditVisible(isVisible);
-	}
+	};
 
-	const handleRegisterVisible = (isVisible : boolean) => {
+	const handleRegisterVisible = (isVisible: boolean) => {
 		setModalRegisterVisible(isVisible);
-	}
+	};
 
 	return (
 		<Layout>
@@ -134,7 +134,12 @@ const UsersList = () => {
 				<div className="list-crops">
 					<div className="container-button-crops">
 						<NavButton Url="/home" text={"Voltar"} type="voltar" page="list" />
-						<button className="register-button" onClick={() => handleRegister()}>Cadastrar usuário</button>
+						<button
+							className="register-button"
+							onClick={() => handleRegisterVisible(true)}
+						>
+							Cadastrar usuário
+						</button>
 					</div>
 
 					<Table
@@ -145,24 +150,24 @@ const UsersList = () => {
 					/>
 				</div>
 			</div>
-			{ selectedUserId && 
-			<>
-				<ModalViewUser
-								visible={modalCreateVisible}
-								handleVisible={handleCreateVisible}
-								userId={selectedUserId}
-				/>
-				<ModalEditUser
-								visible={modalEditVisible}
-								handleVisible={handleEditVisible}
-								userId={selectedUserId}
-				/>
-				<ModalRegisterUser 
-								visible={modalRegisterVisible}
-								handleVisible={handleRegisterVisible}
-				/>
-			</>
-			}
+			{selectedUserId && (
+				<>
+					<ModalViewUser
+						visible={modalCreateVisible}
+						handleVisible={handleCreateVisible}
+						userId={selectedUserId}
+					/>
+					<ModalEditUser
+						visible={modalEditVisible}
+						handleVisible={handleEditVisible}
+						userId={selectedUserId}
+					/>
+					<ModalRegisterUser
+						visible={modalRegisterVisible}
+						handleVisible={handleRegisterVisible}
+					/>
+				</>
+			)}
 		</Layout>
 	);
 };
