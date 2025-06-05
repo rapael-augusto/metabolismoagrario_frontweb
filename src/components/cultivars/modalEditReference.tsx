@@ -81,10 +81,10 @@ export default function ModalEditReference({
   };
 
   useEffect(() => {
-    if(!visible){
-        setParteAtual(1);
+    if (!visible) {
+      setParteAtual(1);
     }
-  }, [visible])
+  }, [visible]);
 
   return (
     <Modal isOpen={visible} size="lg">
@@ -195,33 +195,31 @@ export default function ModalEditReference({
           </>
         )}
         {parteAtual === 2 && (
-            <>
-              <div className={styles.constantsWrapper}>
-                {environmentData.constants?.map((constant) => (
-                  <div key={constant.type}>
-                    <InputDefault
-                      classe="form-input-boxConst"
-                      label={typeTranslation[constant.type]}
-                      placeholder="Digite o valor da referência"
-                      onChange={(e) =>
-                        handleConstantChange(
-                          constant.type as keyof PPL_Constants,
-                          Number(e.target.value)
-                        )
-                      }
-                      type="number"
-                      required
-                      value={
-                        constant.value?.toString() ?? ""
-                      }
-                      min={0}
-                      step="0.1"
-                    />
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
+          <>
+            <div className={styles.constantsWrapper}>
+              {environmentData.constants?.map((constant) => (
+                <div key={constant.type}>
+                  <InputDefault
+                    classe="form-input-boxConst"
+                    label={typeTranslation[constant.type]}
+                    placeholder="Digite o valor da referência"
+                    onChange={(e) =>
+                      handleConstantChange(
+                        constant.type as keyof PPL_Constants,
+                        Number(e.target.value)
+                      )
+                    }
+                    type="number"
+                    required
+                    value={constant.value?.toString() ?? ""}
+                    min={0}
+                    step="0.1"
+                  />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </Modal.Main>
       <Modal.Footer
         cancelText="Voltar"
