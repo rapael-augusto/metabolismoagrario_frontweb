@@ -125,6 +125,7 @@
   transition: background-color 0.2s ease;
   margin-bottom: 16px;
   align-self: end;
+  cursor: pointer
 }
 
 .editButton:hover {

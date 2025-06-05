@@ -16,10 +16,12 @@ export const bookContext = createContext<{
 export default function ReferenceDropdown({
   environmentData,
   title,
+  comment,
 }: {
   key: string;
   environmentData: EnvironmentData[];
   title: string;
+  comment: string | null | undefined;
 }) {
   const enterSelectingState = useContext(selectContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -75,6 +77,8 @@ export default function ReferenceDropdown({
             <EnvironmentDropdown
               key={environment.environment.id}
               environmentData={environment}
+              title={title}
+              comment={comment}
               index={index}
             />
           </bookContext.Provider>

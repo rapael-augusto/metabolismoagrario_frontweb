@@ -15,10 +15,7 @@ import ModalCreateCultivar from "@/components/cultivars/modalCreateCultivar";
 import ModalEditCultivar from "@/components/cultivars/modalEditCultivar";
 import { getSession } from "@/libs/sessionLib";
 import { useAuthContext } from "@/contexts/auth/authContext";
-
-interface Props {
-	params: { id: string };
-}
+import { useParams } from "next/navigation";
 
 interface FilterOptions {
 	key: keyof cultivarsData;
@@ -26,7 +23,7 @@ interface FilterOptions {
 	value: string;
 }
 
-const Cultivars = ({ params }: Props) => {
+const Cultivars = () => {
 	const [modalEditVisible, setModalEditVisible] = useState(false);
 	const [modalCreateVisible, setModalCreateVisible] = useState(false);
 	const [dados, setDados] = useState<cultivarsData[]>([]);
@@ -34,9 +31,11 @@ const Cultivars = ({ params }: Props) => {
 	const [filterCriteria, setFilterCriteria] = useState<FilterOptions[]>([]);
 	const [titulo, setTitulo] = useState<string | any>("");
 	const { user } = useAuthContext();
+	const params = useParams();
+	const id = typeof params.id === "string" ? params.id : "";
 	useEffect(() => {
 		const service = new cropsService();
-		service.findOne(params.id).then((response) => {
+		service.findOne(id).then((response) => {
 			setDados(response.cultivars);
 			setTitulo(response.name);
 		});
@@ -167,12 +166,12 @@ const Cultivars = ({ params }: Props) => {
 				<ModalCreateCultivar
 					handleVisible={handleVisible}
 					visible={modalCreateVisible}
-					id={params.id}
+					id={id}
 				/>
 				<ModalEditCultivar
 					visible={modalEditVisible}
 					handleVisible={(isVisible: boolean) => setModalEditVisible(isVisible)}
-					id={params.id}
+					id={id}
 					cultivarId={selectedCultivar?.id ?? ""}
 				/>
 			</div>

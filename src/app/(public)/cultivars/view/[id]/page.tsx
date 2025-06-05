@@ -69,7 +69,7 @@ const ViewCultivar = () => {
     <Layout>
       <div className="cropsPage">
         <h2 className="titulo-crops">
-          Detalhes da cultivar {cultivar && cultivar.name}
+          Detalhes da Cultivar {cultivar && cultivar.name}
         </h2>
         <div className="container-button-crops">
           <Link href="#" onClick={() => router.back()}>
@@ -115,17 +115,21 @@ const ViewCultivar = () => {
               </div>
               <div className={Styles.dropdownsContainer}>
                 {cultivar && cultivar.references.length > 0 ? (
-                  <>
-                    {cultivar.references.map((item, index) => (
+                    <>
+                    {cultivar.references.map((item, index) => {
+                      console.log(item.comment);
+                      return (
                       <selectContext.Provider value={enterSelectingState} key={`contextProvider${index}`}>
                         <ReferenceDropdown
-                          title={item.title}
-                          environmentData={item.environments}
-                          key={`referenceDropDown${index}`}
+                        title={item.title}
+                        comment={item.comment}
+                        environmentData={item.environments}
+                        key={`referenceDropDown${index}`}
                         />
                       </selectContext.Provider>
-                    ))}
-                  </>
+                      );
+                    })}
+                    </>
                 ) : (
                   <p className={Styles.noReferenceTitle}>
                     Nenhuma referência encontrada

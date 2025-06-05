@@ -11,19 +11,25 @@ import {
   irrigationTranslation,
   soilTranslation,
 } from "@/utils/translationsOptions";
+import ModalEditReference from "./modalEditReference";
 
 export default function EnvironmentDropdown({
   environmentData,
   index,
+  title,
+  comment,
 }: {
   environmentData: EnvironmentData;
   index: number;
+  title: string;
+  comment: string | null | undefined;
 }) {
 
   const {isBookSelected, toggleEnvironmentSelection} = useContext(bookContext);
   const enterSelectingState = useContext(selectContext);
   const [isOpen, setIsOpen] = useState(false);
   const [isEnvironmentSelected, setIsEnvironmentSelected] = useState(false);
+  const [modalEditVisible, setModalEditVisible] = useState(false);
 
   useEffect(() => {
     if(isBookSelected && !isEnvironmentSelected){
@@ -36,6 +42,14 @@ export default function EnvironmentDropdown({
     setIsEnvironmentSelected(false);
   }, [enterSelectingState]);
 
+  const handleEditVisible = (isVisible: boolean) => {
+		setModalEditVisible(isVisible);
+	}
+
+  const handleEdit = () => {
+		setModalEditVisible(true);
+	}
+  
   const handleEnvironmentSelection = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsEnvironmentSelected(!isEnvironmentSelected);
@@ -108,8 +122,17 @@ export default function EnvironmentDropdown({
             key={`${environmentData.environment.id}_constants`}
             constants={environmentData.constants}
           />
-          {enterSelectingState ? null : <button className={Styles.editButton}>Editar Referência</button>}
+          {enterSelectingState ? null : <button className={Styles.editButton} onClick={() => handleEdit()}>Editar Referência</button>}
         </div>
+      )}
+      {environmentData && (
+        <ModalEditReference
+          visible={modalEditVisible}
+          handleVisible={handleEditVisible}
+          environmentData={environmentData}
+          title={title}
+          comment={comment}
+        />
       )}
     </div>
   );
