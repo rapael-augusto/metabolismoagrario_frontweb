@@ -106,7 +106,7 @@
 }
 
 .cancelButton,
-.confirmButton {
+.confirmButton, .deleteButton {
 	padding: 0.75rem 1.5rem;
 	outline: none;
 	border: none;
@@ -140,6 +140,17 @@
 	color: var(--primary-color);
 }
 
+
+.deleteButton {
+	background-color: #c91432;
+	color: var(--white);
+}
+
+.deleteButton:hover {
+	background-color: var(--white);
+	color: #c91432;
+}
+
 .modalContainer.top-center {
 	margin-top: 0;
 	align-self: flex-start;
@@ -154,3 +165,4 @@
 	margin-bottom: 0;
 	align-self: flex-end;
 }
+

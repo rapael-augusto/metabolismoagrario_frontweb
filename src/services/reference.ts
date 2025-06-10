@@ -61,4 +61,24 @@ export class ReferenceService {
       };
     }
   }
+
+  async deleteEnvironment(referenceId: string, environmentId: string) {
+    try {
+      const { data } = await Axios.delete(
+        `/references/environment/${referenceId}`,
+        {
+          data: { environments: [environmentId] },
+        }
+      );
+      return {
+        success: true,
+        message: "Ambiente deletado com sucesso!",
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: error.response?.data?.message,
+      };
+    }
+  }
 }

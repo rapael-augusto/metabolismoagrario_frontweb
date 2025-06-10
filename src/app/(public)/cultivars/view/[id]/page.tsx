@@ -7,7 +7,7 @@ import NavButton from "@/components/layout/navigationButton";
 import InputDefault from "@/components/forms/inputDefault";
 import ReferenceDropdown from "@/components/cultivars/referenceDropdown";
 import Styles from "@/styles/cultivar/ViewCultivarPage.module.css";
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { cultivarService } from "@/services/cultivar";
 import Link from "next/link";
 import { FaChevronLeft } from "react-icons/fa";
@@ -20,15 +20,12 @@ interface PageParams {
   id: string;
 }
 
-export const selectContext = createContext<boolean>(false);
-
 const ViewCultivar = () => {
   const params = useParams();
   const id = typeof params === "object" && params !== null && "id" in params ? String((params as any).id) : undefined;
 
   const [cultivar, setCultivar] = useState<CultivarView | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [enterSelectingState, setEnterSelectingState] = useState<boolean>(false);
   const router = useRouter();
   const { user } = useAuthContext();
 
@@ -51,25 +48,11 @@ const ViewCultivar = () => {
     fetchCultivar();
   }, [id]);
 
-  function handleSelectReference(){
-    setEnterSelectingState(!enterSelectingState);
-    if(enterSelectingState){
-
-    }
-  }
-
-  function handleDeleteReference(){
-    if(enterSelectingState){
-
-    }
-    setEnterSelectingState(!enterSelectingState);
-  }
-
   return (
     <Layout>
       <div className="cropsPage">
         <h2 className="titulo-crops">
-          Detalhes da cultivar {cultivar && cultivar.name}
+          Detalhes da Cultivar {cultivar && cultivar.name}
         </h2>
         <div className="container-button-crops">
           <Link href="#" onClick={() => router.back()}>
@@ -107,25 +90,22 @@ const ViewCultivar = () => {
                     >
                       Criar Referência
                     </Link>
-                    { !enterSelectingState ? 
-                    <button className={Styles.selectButton} onClick={handleSelectReference}>Selecionar Referências</button>
-                    : <button className={Styles.deleteButton} onClick={handleDeleteReference}>Deletar Referências</button>}
                   </div>
                 )}
               </div>
               <div className={Styles.dropdownsContainer}>
                 {cultivar && cultivar.references.length > 0 ? (
-                  <>
+                    <>
                     {cultivar.references.map((item, index) => (
-                      <selectContext.Provider value={enterSelectingState} key={`contextProvider${index}`}>
                         <ReferenceDropdown
-                          title={item.title}
-                          environmentData={item.environments}
-                          key={`referenceDropDown${index}`}
+                        title={item.title}
+                        comment={item.comment}
+                        environmentData={item.environments}
+                        id={item.id}
+                        key={`referenceDropDown${index}`}
                         />
-                      </selectContext.Provider>
                     ))}
-                  </>
+                    </>
                 ) : (
                   <p className={Styles.noReferenceTitle}>
                     Nenhuma referência encontrada

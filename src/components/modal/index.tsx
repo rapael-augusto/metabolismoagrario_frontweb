@@ -72,23 +72,24 @@ Modal.Main = function Main({ children }: { children: ReactNode }) {
 };
 
 Modal.Footer = function Footer({
-	onCancel,
-	onSubmit,
-	cancelText,
-	submitText,
+  onCancel,
+  onSubmit,
+  cancelText,
+  submitText,
 }: ModalFooterProps) {
-	return (
-		<footer>
-			<div>
-				<button className={styles.cancelButton} onClick={onCancel}>
-					{cancelText}
-				</button>
-				{submitText && (
-					<button className={styles.confirmButton} onClick={onSubmit}>
-						{submitText}
-					</button>
-				)}
-			</div>
-		</footer>
-	);
+  return (
+    <footer>
+      <div>
+        <button className={styles.cancelButton} onClick={onCancel}>
+          {cancelText}
+        </button>
+        {submitText && (
+          <button className={submitText === "Deletar" ? styles.deleteButton : styles.confirmButton} onClick={onSubmit}>
+            {submitText}
+          </button>
+        )}
+      </div>
+    </footer>
+  );
 };
+

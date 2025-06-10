@@ -44,7 +44,7 @@ const ModalEditCrops = ({ id, visible, handleVisible }: ModalProps) => {
 	return (
 		<Modal isOpen={visible} size="md">
 			<Modal.Header
-				title="Editar cultura"
+				title="Editar Cultura"
 				description="Altere as informações da cultura."
 				onClose={() => handleVisible(false)}
 			/>
