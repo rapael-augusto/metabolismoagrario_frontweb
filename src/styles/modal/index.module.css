@@ -8,9 +8,10 @@
 	background-color: rgba(0, 0, 0, 0.25);
 	display: flex;
 	justify-content: center;
+	align-items: flex-start;
 	overflow-y: auto;
 	padding: 4rem 1rem;
-	animation: fadeIn 200ms !important;
+	animation: none 200ms !important;
 }
 
 @keyframes fadeIn {
@@ -32,10 +33,11 @@
 	display: flex;
 	flex-direction: column;
 	height: fit-content;
-	max-height: calc(100vh - 2rem);
+	max-height: calc(100vh - 8rem);
 	background-color: var(--white);
 	border-radius: 0.5rem;
 	animation: fadeIn 200ms;
+	margin: auto;
 }
 
 .modalContainer.lg {
@@ -86,6 +88,7 @@
 	flex-direction: column;
 	width: 100%;
 	padding: 1rem 2rem;
+	background-color: var(--white);
 }
 
 .modalContainer > footer {
@@ -137,6 +140,7 @@
 	color: var(--primary-color);
 }
 
+
 .deleteButton {
 	background-color: #c91432;
 	color: var(--white);
@@ -146,3 +150,19 @@
 	background-color: var(--white);
 	color: #c91432;
 }
+
+.modalContainer.top-center {
+	margin-top: 0;
+	align-self: flex-start;
+}
+
+.modalContainer.center {
+	margin: auto;
+}
+
+.modalContainer.bottom-center {
+	margin-top: auto;
+	margin-bottom: 0;
+	align-self: flex-end;
+}
+

@@ -87,7 +87,7 @@ export default function ReferencesSlide() {
 					</div>
 				)}
 
-				<Modal isOpen={isModalOpen} size="lg">
+				<Modal isOpen={isModalOpen} size="lg" position="top-center">
 					<Modal.Header
 						title={`Detalhes: ${selectedReference?.title || ""}`}
 						description={selectedReference?.comment || ""}
