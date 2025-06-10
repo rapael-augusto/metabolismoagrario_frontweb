@@ -103,7 +103,7 @@
 }
 
 .cancelButton,
-.confirmButton {
+.confirmButton, .deleteButton {
 	padding: 0.75rem 1.5rem;
 	outline: none;
 	border: none;
@@ -135,4 +135,14 @@
 .confirmButton:hover {
 	background-color: var(--white);
 	color: var(--primary-color);
+}
+
+.deleteButton {
+	background-color: #c91432;
+	color: var(--white);
+}
+
+.deleteButton:hover {
+	background-color: var(--white);
+	color: #c91432;
 }

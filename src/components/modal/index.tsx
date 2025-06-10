@@ -73,7 +73,7 @@ Modal.Footer = function Footer({
           {cancelText}
         </button>
         {submitText && (
-          <button className={styles.confirmButton} onClick={onSubmit}>
+          <button className={submitText === "Deletar" ? styles.deleteButton : styles.confirmButton} onClick={onSubmit}>
             {submitText}
           </button>
         )}

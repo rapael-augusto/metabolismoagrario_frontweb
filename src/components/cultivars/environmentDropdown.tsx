@@ -1,70 +1,70 @@
 "use client";
 import Styles from "@/styles/cultivar/referenceDropdown.module.css";
-import { useState, useContext, useEffect } from "react";
+import { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import ConstantsDropdown from "./constantsDropdown";
 import { EnvironmentData } from "@/types/cultivarTypes";
-import { selectContext } from "@/app/(public)/cultivars/view/[id]/page";
-import { bookContext } from "./referenceDropdown";
 import {
   cultivationSystemTranslation,
   irrigationTranslation,
   soilTranslation,
 } from "@/utils/translationsOptions";
 import ModalEditReference from "./modalEditReference";
+import { ReferenceService } from "@/services/reference";
+import ModalDeleteReference from "./modalDeleteReference";
 
 export default function EnvironmentDropdown({
   environmentData,
   index,
   title,
   comment,
+  referenceId,
 }: {
   environmentData: EnvironmentData;
   index: number;
   title: string;
   comment: string | null | undefined;
+  referenceId: string;
 }) {
-
-  const {isBookSelected, toggleEnvironmentSelection} = useContext(bookContext);
-  const enterSelectingState = useContext(selectContext);
   const [isOpen, setIsOpen] = useState(false);
-  const [isEnvironmentSelected, setIsEnvironmentSelected] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
-
-  useEffect(() => {
-    if(isBookSelected && !isEnvironmentSelected){
-      setIsEnvironmentSelected(true);
-      toggleEnvironmentSelection(index, true);
-    }
-  }, [isBookSelected]);
-
-  useEffect(() => {
-    setIsEnvironmentSelected(false);
-  }, [enterSelectingState]);
-
-  const handleEditVisible = (isVisible: boolean) => {
-		setModalEditVisible(isVisible);
-	}
-
-  const handleEdit = () => {
-		setModalEditVisible(true);
-	}
+  const [modalDeleteVisible, setModalDeleteVisible] = useState(false);
   
-  const handleEnvironmentSelection = (e: React.MouseEvent) => {
+  const handleEditVisible = (isVisible: boolean) => {
+    setModalEditVisible(isVisible);
+  };
+
+  const handleDeleteVisible = (isVisible: boolean) => {
+    setModalDeleteVisible(isVisible);
+  };
+
+  const handleEdit = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsEnvironmentSelected(!isEnvironmentSelected);
-    toggleEnvironmentSelection(index, !isEnvironmentSelected);
+    setModalEditVisible(true);
+  };
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setModalDeleteVisible(true);
   };
 
   return (
-    <div className={`${!isEnvironmentSelected ? Styles.referenceDropdown : Styles.referenceDropdownRed} ${isOpen ? Styles.open : ""}`}>
+    <div className={`${Styles.referenceDropdown} ${isOpen ? Styles.open : ""}`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={Styles.toggleButton}
       >
-        <div className={Styles.checkboxContainer}>
-          {enterSelectingState ? <input type="checkbox" className={Styles.checkbox} onChange={(e) => e.stopPropagation()} onClick={handleEnvironmentSelection} checked={isEnvironmentSelected} readOnly /> : null}
+        <div className={Styles.headerContainer}>
           Ambiente {index + 1}
+          <div className={Styles.buttonsContainer}>
+            <span className={Styles.actionEditButton} onClick={handleEdit} title={"Editar Ambiente"}>
+              <FaEdit />
+            </span>
+            <span className={Styles.actionDeleteButton} onClick={handleDelete} title={"Deletar Ambiente"}>
+              <FaTrash />
+            </span>
+          </div>
         </div>
         {isOpen ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
       </button>
@@ -122,17 +122,24 @@ export default function EnvironmentDropdown({
             key={`${environmentData.environment.id}_constants`}
             constants={environmentData.constants}
           />
-          {enterSelectingState ? null : <button className={Styles.editButton} onClick={() => handleEdit()}>Editar Referência</button>}
         </div>
       )}
       {environmentData && (
-        <ModalEditReference
-          visible={modalEditVisible}
-          handleVisible={handleEditVisible}
-          environmentData={environmentData}
-          title={title}
-          comment={comment}
-        />
+        <>
+          <ModalEditReference
+            visible={modalEditVisible}
+            handleVisible={handleEditVisible}
+            environmentData={environmentData}
+            title={title}
+            comment={comment}
+          />
+          <ModalDeleteReference 
+            visible={modalDeleteVisible}
+            handleVisible={handleDeleteVisible}
+            environmentId={environmentData.environment.id}
+            referenceId={referenceId}
+          />
+        </>
       )}
     </div>
   );
