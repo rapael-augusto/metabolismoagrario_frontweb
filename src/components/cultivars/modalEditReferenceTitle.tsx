@@ -1,120 +1,108 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Modal from "../modal";
 import "@/styles/form/form.css";
 import "@/styles/home/login.css";
-import styles from "@/styles/constant/createConstant.module.css";
-import AutoCompleteTextInput from "../forms/autoCompleteTextInput";
 import { useParams } from "next/navigation";
-import {
-	typeSelectOptions,
-	climateSelectOptions,
-	irrigationSelectOptions,
-	cultivationSystemSelectOptions,
-	biomeSelectOptions,
-	soilSelectOptions,
-} from "@/utils/selectOptions";
 import useConstantForm from "@/hooks/useConstantForm";
-import { IEnvironmentData, IReferenceFormData } from "@/types/cultivarTypes";
-import { EnvironmentData } from "@/types/cultivarTypes";
-import { PPL_Constants } from "@/types/conversionFactor";
+import { IReferenceFormData } from "@/types/cultivarTypes";
 import InputDefault from "../forms/inputDefault";
-import CustomSelect from "../layout/customSelect";
-import { typeTranslation } from "@/utils/translationsOptions";
 
 interface props {
-	visible: boolean;
-	handleVisible: (isVisible: boolean) => void;
-	data: IReferenceFormData & { id: string };
-	title: string;
-	comment?: string | null;
+  visible: boolean;
+  handleVisible: (isVisible: boolean) => void;
+  data: IReferenceFormData & { id: string };
 }
 
-export default function ModalEditReference({
-	visible,
-	handleVisible,
-	data,
-	title,
-	comment,
+export default function modalEditReferenceTitle({
+  visible,
+  handleVisible,
+  data,
 }: props) {
-	const [parteAtual, setParteAtual] = useState<number>(1);
 
-	const params = useParams();
-	const id = typeof params.id === "string" ? params.id : "";
-	const { handleReferenceChange, handleUpdateReference } = useConstantForm({
-		id,
-	});
+  const params = useParams();
+  const id = typeof params.id === "string" ? params.id : "";
+  const { handleReferenceChange, handleUpdateReference } = useConstantForm({
+    id,
+  });
+  const [referenceSelected, setReferenceSelected] = useState<{
+    id: string;
+    title: string | null;
+    comment: string | null | undefined;
+  } | null>({
+	id: data.id,
+	title: data.title,
+	comment: data.comment ?? null,
+  });
 
-	// const camposEnvironment: (keyof IEnvironmentData)[] = [
-	// 	"climate",
-	// 	"biome",
-	// 	"country",
-	// 	"cultivationSystem",
-	// 	"soil",
-	// 	"irrigation",
-	// ];
-	// const camposReference: (keyof IReferenceFormData)[] = ["title", "comment"];
+  // const camposEnvironment: (keyof IEnvironmentData)[] = [
+  // 	"climate",
+  // 	"biome",
+  // 	"country",
+  // 	"cultivationSystem",
+  // 	"soil",
+  // 	"irrigation",
+  // ];
+  // const camposReference: (keyof IReferenceFormData)[] = ["title", "comment"];
 
-	const handleSubmit = async () => {
-		await handleUpdateReference(data.id, {
-			title: data.title,
-			comment: data.comment,
-		});
-	};
+  const handleSubmit = async () => {
+    await handleUpdateReference(data.id, {
+      title: data.title,
+      comment: data.comment,
+    });
+	await new Promise(resolve => setTimeout(resolve, 500));
+	handleVisible(false);
+  };
 
-	const handleBack = () => {
-		if (parteAtual === 2) {
-			setParteAtual(1);
-		} else {
-			handleVisible(false);
-		}
-	};
-
-	useEffect(() => {
-		if (!visible) {
-			setParteAtual(1);
-		}
-	}, [visible]);
-
-	return (
-		<Modal isOpen={visible} size="lg">
-			<Modal.Header
-				title="Editar Referência"
-				description=""
-				onClose={() => handleVisible(false)}
-			/>
-			<Modal.Main>
-				<>
-					<InputDefault
-						classe="form-input-boxConst"
-						label="Título"
-						placeholder="Título da referência, EX: Livro X, Autor (2000)"
-						onChange={(e) => handleReferenceChange("title", e.target.value)}
-						type="text"
-						value={title ?? ""}
-					/>
-					<InputDefault
-						classe="form-input-boxConst"
-						label="Observações"
-						placeholder="Observações sobre a referência, EX: Retirado da página Y"
-						onChange={(e) => handleReferenceChange("comment", e.target.value)}
-						type="text"
-						value={comment ?? ""}
-					/>
-				</>
-			</Modal.Main>
-			<Modal.Footer
-				cancelText="Voltar"
-				submitText={"Atualizar"}
-				onCancel={() => handleVisible(false)}
-				onSubmit={handleSubmit}
-			/>
-		</Modal>
-	);
+  return (
+    <Modal isOpen={visible} size="lg">
+      <Modal.Header
+        title="Editar Referência"
+        description=""
+        onClose={() => handleVisible(false)}
+      />
+      <Modal.Main>
+        <>
+          <InputDefault
+            classe="form-input-boxConst"
+            label="Título"
+            placeholder="Título da referência, EX: Livro X, Autor (2000)"
+            onChange={(e) =>
+              setReferenceSelected({
+                id: referenceSelected?.id || "",
+                title: e.target.value,
+                comment: referenceSelected?.comment ?? null,
+              })
+            }
+            type="text"
+            value={referenceSelected?.title ?? ""}
+          />
+          <InputDefault
+            classe="form-input-boxConst"
+            label="Observações"
+            placeholder="Observações sobre a referência, EX: Retirado da página Y"
+            onChange={(e) => setReferenceSelected({
+				id: referenceSelected?.id || "",
+                title: referenceSelected?.title ?? null,
+                comment: e.target.value,
+			})}
+            type="text"
+            value={referenceSelected?.comment ?? ""}
+          />
+        </>
+      </Modal.Main>
+      <Modal.Footer
+        cancelText="Voltar"
+        submitText="Atualizar"
+        onCancel={() => handleVisible(false)}
+        onSubmit={handleSubmit}
+      />
+    </Modal>
+  );
 }
 
 {
-	/* <Modal isOpen={visible} size="lg">
+  /* <Modal isOpen={visible} size="lg">
 			<Modal.Header
 				title={
 					parteAtual === 1

@@ -24,7 +24,7 @@ export default function ModalDeleteReference({
     }
 
     return (
-        <Modal isOpen={visible} size="sm">
+        <Modal isOpen={visible} size="sm" position="top-center">
             <Modal.Header 
                 title="Deletar Referência"
                 description="Tem certeza que deseja deletar esta referência?"

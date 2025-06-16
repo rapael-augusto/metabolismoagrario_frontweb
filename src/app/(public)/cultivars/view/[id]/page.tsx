@@ -105,6 +105,7 @@ const ViewCultivar = () => {
 												comment={item.comment}
 												environmentData={item.environments}
 												id={item.id}
+												cultivarId={item.id}
 												key={`referenceDropDown${index}`}
 											/>
 										))}
