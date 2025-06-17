@@ -10,6 +10,7 @@ import { Constant, IReferenceFormData } from "@/types/cultivarTypes";
 import InputDefault from "../forms/inputDefault";
 import { typeTranslation } from "@/utils/translationsOptions";
 import { PPL_Constants } from "@/types/conversionFactor";
+import { toast } from "react-toastify";
 
 interface props {
   visible: boolean;
@@ -28,7 +29,7 @@ export default function ModalEditConstants({
 
   const id = referenceId;
   const { handleConstantChange, handleUpdateConstant } = useConstantForm({
-    id
+    id,
   });
 
   const updateConstant = (id: string, value: number) => {
@@ -40,20 +41,31 @@ export default function ModalEditConstants({
   };
 
   const handleSubmit = async () => {
-    const updatedConstants = constantsSelected.filter((constant: Constant) => {
-    const originalConstant = data.find((c: Constant) => c.id === constant.id);
-    return originalConstant && originalConstant.value !== constant.value;
-  });
+    try {
+      const updatedConstants = constantsSelected.filter(
+        (constant: Constant) => {
+          const originalConstant = data.find(
+            (c: Constant) => c.id === constant.id
+          );
+          return originalConstant && originalConstant.value !== constant.value;
+        }
+      );
 
-    if(updateConstant.length != 0){
+      if (updatedConstants.length === 0) {
+        toast.info(`Nenhuma constante foi alterada`);
+        return;
+      }
+
       await Promise.all(
-      updatedConstants.map((constant) =>
-        handleUpdateConstant(constant.id, {value: constant.value})
-      )
-    );
-    await new Promise(resolve => setTimeout(resolve, 500));
+        updatedConstants.map((constant) =>
+          handleUpdateConstant(constant.id, { value: constant.value })
+        )
+      );
+
+      toast.success("Constantes atualizadas com sucesso!");
+    } catch (error) {
+      toast.error("Erro ao atualizar. Tente novamente.");
     }
-    handleVisible(false);
   };
 
   return (
@@ -72,7 +84,9 @@ export default function ModalEditConstants({
                     classe="form-input-boxConst"
                     label={typeTranslation[constant.type]}
                     placeholder="Digite o valor da referência"
-                    onChange={(e) => updateConstant(constant.id, Number(e.target.value))}
+                    onChange={(e) =>
+                      updateConstant(constant.id, Number(e.target.value))
+                    }
                     type="number"
                     required
                     value={constant.value}

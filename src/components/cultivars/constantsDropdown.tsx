@@ -1,11 +1,10 @@
 "use client";
 import Styles from "@/styles/cultivar/referenceDropdown.module.css";
 import { Constant } from "@/types/cultivarTypes";
-import { translationsMap, typeTranslation } from "@/utils/translationsOptions";
+import { typeTranslation } from "@/utils/translationsOptions";
 import { useState } from "react";
 import { FaChevronDown, FaChevronUp, FaEdit } from "react-icons/fa";
-import ModalEditConstants from "./modalEditConstants";
-import constant from "@/app/(public)/constant/[id]/page";
+import ModalEditConstants from "../constants/modalEditConstants";
 
 export default function ConstantsDropdown({
   constants,

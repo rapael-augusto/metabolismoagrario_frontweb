@@ -73,7 +73,6 @@ export default function ModalEditEnvironment({
         cultivationSystem: environmentSelected.cultivationSystem ?? undefined,
       }
     );
-    await new Promise(resolve => setTimeout(resolve, 500));
     handleVisible(false);
   };
 

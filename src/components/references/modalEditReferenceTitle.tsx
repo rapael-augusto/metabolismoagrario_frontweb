@@ -27,12 +27,12 @@ export default function modalEditReferenceTitle({
   });
   const [referenceSelected, setReferenceSelected] = useState<{
     id: string;
-    title: string | null;
+    title: string;
     comment: string | null | undefined;
-  } | null>({
+  }>({
 	id: data.id,
 	title: data.title,
-	comment: data.comment ?? null,
+	comment: data.comment,
   });
 
   // const camposEnvironment: (keyof IEnvironmentData)[] = [
@@ -47,10 +47,9 @@ export default function modalEditReferenceTitle({
 
   const handleSubmit = async () => {
     await handleUpdateReference(data.id, {
-      title: data.title,
-      comment: data.comment,
+      title: referenceSelected.title,
+      comment: referenceSelected.comment,
     });
-	await new Promise(resolve => setTimeout(resolve, 500));
 	handleVisible(false);
   };
 

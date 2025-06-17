@@ -1,17 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { FaChevronDown, FaChevronUp, FaEdit } from "react-icons/fa";
 import Styles from "@/styles/cultivar/referenceDropdown.module.css";
 import EnvironmentDropdown from "./environmentDropdown";
 import { EnvironmentData } from "@/types/cultivarTypes";
-import ModalEditReferenceTitle from "./modalEditReferenceTitle";
-import { SelectionContext } from "@/contexts/referenceContext";
+import ModalEditReferenceTitle from "../references/modalEditReferenceTitle";
 
 export default function ReferenceDropdown({
   environmentData,
   title,
   comment,
   id,
-  cultivarId
+  cultivarId,
 }: {
   key: string;
   environmentData: EnvironmentData[];
@@ -67,13 +66,13 @@ export default function ReferenceDropdown({
         ))}
       </div>
 
-      { isModalEditVisible &&
+      {isModalEditVisible && (
         <ModalEditReferenceTitle
           visible={isModalEditVisible}
           handleVisible={handleEditVisible}
           data={{ id, title, comment }}
         />
-      }
+      )}
     </div>
   );
 }

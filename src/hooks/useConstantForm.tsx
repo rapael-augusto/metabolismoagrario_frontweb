@@ -163,57 +163,56 @@ const useConstantForm = (params: { id: string }) => {
 	};
 
 	const handleUpdateReference = async (
-		referenceId: string,
-		data: IReferenceFormData
-	) => {
-		const referenceService = new ReferenceService();
+    referenceId: string,
+    data: IReferenceFormData
+  ) => {
+    const referenceService = new ReferenceService();
 
-		const response = await referenceService.update(referenceId, data);
-		if (!response.success) {
-			toast.error(response.message);
-			return false;
-		}
+    const response = await referenceService.update(referenceId, data);
+    if (!response.success) {
+      toast.error(response.message);
+      return false;
+    }
 
-		toast.success(response.message);
-		return true;
-	};
+    window.location.reload();
+    return true;
+  };
 
-	const handleEnvironmentUpdate = async (
-		entities: {
-			referenceId: string;
-			cultivarId: string;
-			environmentId: string;
-		},
-		data: IEnvironmentData
-	) => {
-		const referenceService = new ReferenceService();
+  const handleEnvironmentUpdate = async (
+    entities: {
+      referenceId: string;
+      cultivarId: string;
+      environmentId: string;
+    },
+    data: IEnvironmentData
+  ) => {
+    const referenceService = new ReferenceService();
 
-		const response = await referenceService.updateEnvironment(entities, data);
-		if (!response.success) {
-			toast.error(response.message);
-			return false;
-		}
+    const response = await referenceService.updateEnvironment(entities, data);
+    if (!response.success) {
+      toast.error(response.message);
+      return false;
+    }
 
-		toast.success(response.message);
-		return true;
-	};
+    window.location.reload();
+    return true;
+  };
 
-	const handleUpdateConstant = async (
-		constantId: string,
-		data: { value: number }
-	) => {
-		const constantService = new ConstantService();
+  const handleUpdateConstant = async (
+    constantId: string,
+    data: { value: number }
+  ) => {
+    const constantService = new ConstantService();
 
-		const response = await constantService.update(constantId, data.value);
+    const response = await constantService.update(constantId, data.value);
 
-		if (!response.success) {
-			toast.error(response.message);
-			return false;
-		}
-
-		toast.success(response.message);
-		return true;
-	};
+    if (!response.success) {
+      toast.error(response.message);
+      return false;
+    }
+    window.location.reload();
+    return true;
+  };
 
 	return {
 		loading,

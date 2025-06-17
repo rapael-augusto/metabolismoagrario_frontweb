@@ -10,10 +10,10 @@ import {
   irrigationTranslation,
   soilTranslation,
 } from "@/utils/translationsOptions";
-import ModalEditReferenceTitle from "./modalEditReferenceTitle";
+import ModalEditReferenceTitle from "../references/modalEditReferenceTitle";
 import { ReferenceService } from "@/services/reference";
-import ModalDeleteReference from "./modalDeleteReference";
-import ModalEditEnvironment from "./modalEditEnvironment";
+import ModalDeleteReference from "../references/modalDeleteReference";
+import ModalEditEnvironment from "../environment/modalEditEnvironment";
 
 export default function EnvironmentDropdown({
   environmentData,
@@ -26,6 +26,7 @@ export default function EnvironmentDropdown({
   referenceId: string;
   cultivarId: string;
 }) {
+  console.log(referenceId);
   const [isOpen, setIsOpen] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
   const [modalDeleteVisible, setModalDeleteVisible] = useState(false);
@@ -139,8 +140,8 @@ export default function EnvironmentDropdown({
             handleVisible={handleEditVisible}
             data={{
               environmentId: environmentData.environment.id,
-              referenceId: environmentData.id,
-              cultivarId: cultivarId,
+              referenceId,
+              cultivarId,
               climate: environmentData.environment.climate ?? undefined,
               biome: environmentData.environment.biome ?? undefined,
               customBiome: environmentData.environment.customBiome ?? null,

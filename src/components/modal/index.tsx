@@ -29,7 +29,7 @@ export default function Modal({
 	isOpen,
 	position,
 }: ModalRootProps) {
-	const alignment = position ?? "center";
+	const alignment = position ?? "top-center";
 	return (
 		isOpen && (
 			<div className={styles.overlay}>
