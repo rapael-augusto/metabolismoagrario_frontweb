@@ -1,67 +1,79 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { useContext, useEffect, useState } from "react";
+import { FaChevronDown, FaChevronUp, FaEdit } from "react-icons/fa";
 import Styles from "@/styles/cultivar/referenceDropdown.module.css";
 import EnvironmentDropdown from "./environmentDropdown";
 import { EnvironmentData } from "@/types/cultivarTypes";
-import ModalEditReference from "./modalEditReference";
-
-export const bookContext = createContext<{
-	isBookSelected: boolean;
-	toggleEnvironmentSelection: (index: number, isSelected: boolean) => void;
-}>({
-	isBookSelected: false,
-	toggleEnvironmentSelection: () => {},
-});
+import ModalEditReferenceTitle from "./modalEditReferenceTitle";
+import { SelectionContext } from "@/contexts/referenceContext";
 
 export default function ReferenceDropdown({
-	environmentData,
-	title,
-	comment,
-	id,
+  environmentData,
+  title,
+  comment,
+  id,
+  cultivarId
 }: {
-	key: string;
-	environmentData: EnvironmentData[];
-	title: string;
-	comment: string | null | undefined;
-	id: string;
+  key: string;
+  environmentData: EnvironmentData[];
+  title: string;
+  comment: string | null | undefined;
+  id: string;
+  cultivarId: string;
 }) {
-	const [isOpen, setIsOpen] = useState(false);
-	const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isModalEditVisible, setIsModalEditVisible] = useState(false);
 
-	return (
-		<div className={`${Styles.referenceDropdown} ${isOpen ? Styles.open : ""}`}>
-			<button
-				onClick={() => {
-					setIsOpen(!isOpen);
-					console.log(isOpen);
-				}}
-				className={Styles.toggleButton}
-			>
-				<div className={Styles.checkboxContainer}>{title}</div>
-				{isOpen ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
-				<button onClick={() => setModalIsOpen(true)}>
-					Abrir modal de editar
-				</button>
-			</button>
-			<div className={Styles.content}>
-				{environmentData.map((environment, index) => (
-					<EnvironmentDropdown
-						key={environment.environment.id}
-						environmentData={environment}
-						title={title}
-						comment={comment}
-						index={index}
-						referenceId={id}
-					/>
-				))}
-			</div>
+  const handleEditVisible = (isVisible: boolean) => {
+    setIsModalEditVisible(isVisible);
+  };
 
-			<ModalEditReference
-				visible={modalIsOpen}
-				handleVisible={(isVisible: boolean) => setModalIsOpen(isVisible)}
-				title="Editar Referência"
-				data={{ id, title, comment }}
-			/>
-		</div>
-	);
+  const handleEdit = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsModalEditVisible(true);
+  };
+
+  return (
+    <div className={`${Styles.referenceDropdown} ${isOpen ? Styles.open : ""}`}>
+      <button
+        onClick={() => {
+          setIsOpen(!isOpen);
+          console.log(isOpen);
+        }}
+        className={Styles.toggleButton}
+      >
+        <div className={Styles.headerContainer}>
+          {title}
+          <div className={Styles.buttonsContainer}>
+            <span
+              className={Styles.actionEditButton}
+              onClick={handleEdit}
+              title={"Editar Livro"}
+            >
+              <FaEdit />
+            </span>
+          </div>
+        </div>
+        {isOpen ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
+      </button>
+      <div className={Styles.content}>
+        {environmentData.map((environment, index) => (
+          <EnvironmentDropdown
+            key={environment.environment.id}
+            environmentData={environment}
+            index={index}
+            referenceId={id}
+            cultivarId={cultivarId}
+          />
+        ))}
+      </div>
+
+      { isModalEditVisible &&
+        <ModalEditReferenceTitle
+          visible={isModalEditVisible}
+          handleVisible={handleEditVisible}
+          data={{ id, title, comment }}
+        />
+      }
+    </div>
+  );
 }

@@ -10,27 +10,26 @@ import {
   irrigationTranslation,
   soilTranslation,
 } from "@/utils/translationsOptions";
-import ModalEditReference from "./modalEditReference";
+import ModalEditReferenceTitle from "./modalEditReferenceTitle";
 import { ReferenceService } from "@/services/reference";
 import ModalDeleteReference from "./modalDeleteReference";
+import ModalEditEnvironment from "./modalEditEnvironment";
 
 export default function EnvironmentDropdown({
   environmentData,
   index,
-  title,
-  comment,
   referenceId,
+  cultivarId,
 }: {
   environmentData: EnvironmentData;
   index: number;
-  title: string;
-  comment: string | null | undefined;
   referenceId: string;
+  cultivarId: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
   const [modalDeleteVisible, setModalDeleteVisible] = useState(false);
-  
+
   const handleEditVisible = (isVisible: boolean) => {
     setModalEditVisible(isVisible);
   };
@@ -58,10 +57,18 @@ export default function EnvironmentDropdown({
         <div className={Styles.headerContainer}>
           Ambiente {index + 1}
           <div className={Styles.buttonsContainer}>
-            <span className={Styles.actionEditButton} onClick={handleEdit} title={"Editar Ambiente"}>
+            <span
+              className={Styles.actionEditButton}
+              onClick={handleEdit}
+              title={"Editar Ambiente"}
+            >
               <FaEdit />
             </span>
-            <span className={Styles.actionDeleteButton} onClick={handleDelete} title={"Deletar Ambiente"}>
+            <span
+              className={Styles.actionDeleteButton}
+              onClick={handleDelete}
+              title={"Deletar Ambiente"}
+            >
               <FaTrash />
             </span>
           </div>
@@ -121,19 +128,31 @@ export default function EnvironmentDropdown({
           <ConstantsDropdown
             key={`${environmentData.environment.id}_constants`}
             constants={environmentData.constants}
+            referenceId={referenceId}
           />
         </div>
       )}
       {environmentData && (
         <>
-          <ModalEditReference
+          <ModalEditEnvironment
             visible={modalEditVisible}
             handleVisible={handleEditVisible}
-            environmentData={environmentData}
-            title={title}
-            comment={comment}
+            data={{
+              environmentId: environmentData.environment.id,
+              referenceId: environmentData.id,
+              cultivarId: cultivarId,
+              climate: environmentData.environment.climate ?? undefined,
+              biome: environmentData.environment.biome ?? undefined,
+              customBiome: environmentData.environment.customBiome ?? null,
+              irrigation: environmentData.environment.irrigation ?? undefined,
+              country: environmentData.environment.countryName ?? undefined,
+              soil: environmentData.environment.soil ?? undefined,
+              customSoil: environmentData.environment.customSoil ?? null,
+              cultivationSystem:
+                environmentData.environment.cultivationSystem ?? undefined,
+            }}
           />
-          <ModalDeleteReference 
+          <ModalDeleteReference
             visible={modalDeleteVisible}
             handleVisible={handleDeleteVisible}
             environmentId={environmentData.environment.id}
