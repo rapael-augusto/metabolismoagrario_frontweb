@@ -10,13 +10,12 @@ import {
   IEnvironmentData,
   IReferenceFormData,
   IReviewUpdateData,
-  TCultivarConstants,
 } from "@/types/cultivarTypes";
 import { ConstantService } from "@/services/constant";
 
 type ConstantEntry = { type: keyof PPL_Constants; value: number };
 
-const useConstantForm = (params: { id: string }) => {
+const useReferenceForm = (params: { id: string }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [references, setReferences] = useState<string[]>([]);
@@ -84,11 +83,6 @@ const useConstantForm = (params: { id: string }) => {
     } catch (error) {
       console.error("Erro ao carregar os países:", error);
     }
-  };
-
-  const validateFields = () => {
-    const newErrors: string[] = [];
-    return newErrors.length === 0;
   };
 
   const createCustomSoil = async (name: string) => {
@@ -284,4 +278,4 @@ const useConstantForm = (params: { id: string }) => {
   };
 };
 
-export default useConstantForm;
+export default useReferenceForm;

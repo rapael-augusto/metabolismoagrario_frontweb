@@ -2,6 +2,7 @@ import { PPL_Constants } from "@/types/conversionFactor";
 import {
   IEnvironmentData,
   IReferenceFormData,
+  IReviewUpdateData,
   TCultivarConstants,
 } from "@/types/cultivarTypes";
 import Axios from "./api";
@@ -119,6 +120,24 @@ export class ReferenceService {
       return {
         data,
         success: true,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: error.response?.data?.message,
+      };
+    }
+  }
+
+  async updateReview(reviewId: string, updateData: IReviewUpdateData) {
+    try {
+      const { data } = await Axios.put(`/review/${reviewId}`, {
+        ...updateData,
+      });
+      return {
+        data,
+        success: true,
+        message: "Review atualizada com sucesso!",
       };
     } catch (error: any) {
       return {

@@ -117,6 +117,16 @@
   color: var(--white);
 }
 
+.statusColumnWrapper.warning {
+  background-color: var(--warning);
+  color: var(--white);
+}
+
+.statusColumnWrapper.info {
+  background-color: var(--info);
+  color: var(--white);
+}
+
 .actions-col > div {
   display: flex;
   align-items: center;

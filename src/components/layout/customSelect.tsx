@@ -6,7 +6,7 @@ interface SelectProps {
   label?: string;
   type: "form" | "filter";
   placeholder?: string;
-  value?: string;
+  value?: string | null;
   options: { value: string; label: string }[];
   onChange: (value: string) => void;
   required?: boolean;
@@ -46,7 +46,7 @@ const CustomSelect: React.FC<SelectProps> = ({
       </label>
 
       <select
-        value={value}
+        value={value ?? undefined}
         onChange={handleChange}
         required={required}
         disabled={disabled}

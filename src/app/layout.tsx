@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import { Slide, ToastContainer } from "react-toastify";
 import AuthProvider from "@/contexts/auth/authContext";
 import { Metadata, Viewport } from "next";
+import { ConfirmationProvider } from "@/contexts/confirmationModal/confirmationModalContext";
 
 export const metadata: Metadata = {
   title: "Metabolismo Agrário",
@@ -25,7 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>{children}</AuthProvider>
+        <ConfirmationProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </ConfirmationProvider>
         <ToastContainer
           position="top-center"
           autoClose={1500}

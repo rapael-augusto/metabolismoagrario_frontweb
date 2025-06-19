@@ -140,15 +140,26 @@
 	color: var(--primary-color);
 }
 
-
-.deleteButton {
-	background-color: #c91432;
-	color: var(--white);
+.danger {
+  background-color: #c91432 !important;
+  color: var(--white) !important;
+  border-color: #c91432 !important;
 }
 
-.deleteButton:hover {
-	background-color: var(--white);
-	color: #c91432;
+.warning {
+  background-color: var(--warning) !important;
+  color: var(--white) !important;
+  border-color: var(--warning) !important;
+}
+
+.danger:hover {
+  background-color: var(--white) !important;
+  color: #c91432 !important;
+}
+
+.warning:hover {
+  background-color: var(--white) !important;
+  color: var(--warning) !important;
 }
 
 .modalContainer.top-center {

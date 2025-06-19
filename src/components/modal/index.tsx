@@ -17,58 +17,59 @@ interface ModalHeaderProps {
 }
 
 interface ModalFooterProps {
-	cancelText: string;
-	onCancel?: () => void;
-	onSubmit?: () => void;
-	submitText?: string;
+  cancelText: string;
+  onCancel?: () => void;
+  onSubmit?: () => void;
+  submitText?: string;
+  submitVariant?: "default" | "danger" | "warning";
 }
 
 export default function Modal({
-	children,
-	size,
-	isOpen,
-	position,
+  children,
+  size,
+  isOpen,
+  position,
 }: ModalRootProps) {
-	const alignment = position ?? "top-center";
-	return (
-		isOpen && (
-			<div className={styles.overlay}>
-				<div
-					className={`${styles.modalContainer} ${size ? styles[size] : "md"} ${
-						styles[alignment]
-					}`}
-				>
-					{children}
-				</div>
-			</div>
-		)
-	);
+  const alignment = position ?? "top-center";
+  return (
+    isOpen && (
+      <div className={styles.overlay}>
+        <div
+          className={`${styles.modalContainer} ${size ? styles[size] : "md"} ${
+            styles[alignment]
+          }`}
+        >
+          {children}
+        </div>
+      </div>
+    )
+  );
 }
 
 Modal.Header = function Header({
-	title,
-	description,
-	onClose,
-	children,
+  title,
+  description,
+  onClose,
+  children,
 }: ModalHeaderProps) {
-	return (
-		<header>
-			<div className={styles.modalInfoWrapper}>
-				<div>
-					<h2>{title}</h2>
-					<p>{description}</p>
-				</div>
-				<span onClick={onClose}>
-					<FaTimes />
-				</span>
-			</div>
-			{children}
-		</header>
-	);
+  return (
+    <header>
+      <div className={styles.modalInfoWrapper}>
+        <div>
+          <h2>{title}</h2>
+          <p>{description}</p>
+        </div>
+        <span onClick={onClose}>
+          <FaTimes />
+        </span>
+      </div>
+      {children}
+    </header>
+  );
 };
 
 Modal.Main = function Main({ children }: { children: ReactNode }) {
-	return <main>{children}</main>;
+  return <main>{children}</main>;
 };
 
 Modal.Footer = function Footer({
@@ -76,6 +77,7 @@ Modal.Footer = function Footer({
   onSubmit,
   cancelText,
   submitText,
+  submitVariant,
 }: ModalFooterProps) {
   return (
     <footer>
@@ -84,7 +86,12 @@ Modal.Footer = function Footer({
           {cancelText}
         </button>
         {submitText && (
-          <button className={submitText === "Deletar" ? styles.deleteButton : styles.confirmButton} onClick={onSubmit}>
+          <button
+            className={`${styles.confirmButton} ${
+              submitVariant && styles[submitVariant]
+            }`}
+            onClick={onSubmit}
+          >
             {submitText}
           </button>
         )}

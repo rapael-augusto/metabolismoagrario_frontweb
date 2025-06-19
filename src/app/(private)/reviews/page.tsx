@@ -9,12 +9,12 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { cultivarService } from "@/services/cultivar";
 import { Constant, Environment, ReviewStatus } from "@/types/cultivarTypes";
-import { FaEye, FaGavel, FaTrash } from "react-icons/fa";
+import { FaEdit, FaEye, FaGavel, FaTrash } from "react-icons/fa";
 import ModalApproveCultivar from "@/components/cultivars/modalApproveCultivar";
-import ModalEditCultivar from "@/components/cultivars/modalEditCultivar";
 import ModalRemoveCultivarReview from "@/components/cultivars/modalRemoveCultivarReview";
 import ModalShowCultivarReview from "@/components/cultivars/modalShowCultivarReview";
 import { useAuthContext } from "@/contexts/auth/authContext";
+import ModalEditReview from "@/components/cultivars/modalEditReview";
 
 interface ICultivarView {
   id: string;
@@ -58,8 +58,6 @@ export default function Reviews() {
   const [removeModalOpen, setRemoveModalOpen] = useState<boolean>(false);
   const [selectedReview, setSelectedReview] = useState<CultivarReviewType>();
 
-  console.log(dados);
-
   const filtredData = useMemo(() => {
     return dados.filter((review, index) =>
       review.Cultivar.name.toLowerCase().includes(search)
@@ -98,6 +96,15 @@ export default function Reviews() {
         user ? user.role === "ADMIN" && row.status === "PENDING" : false,
     },
     {
+      icon: FaEdit,
+      title: "Revisar",
+      onClick: (row: any) => handleOpenEditModal(row.id),
+      visible: (row: any) =>
+        user
+          ? user.role === "OPERATOR" && row.status === "CHANGES_REQUESTED"
+          : false,
+    },
+    {
       icon: FaTrash,
       title: "Remover",
       onClick: (row: any) => handleOpenRemoveModal(row.id),
@@ -134,21 +141,25 @@ export default function Reviews() {
     approved: boolean,
     justification: string
   ) => {
-    const service = new cultivarService();
-    if (selectedReview?.id) {
-      const status = approved ? "Approved" : "Declined";
-      const response = await service.approveCultivarReview(selectedReview.id, {
-        status,
-        justification,
-      });
-      if (response.status === -1) {
-        toast.error("Houve um erro ao tentar atualizar a solicitação!");
-        return;
-      }
-      setDados((prevDados) =>
-        prevDados.filter((review) => review.id !== selectedReview.id)
-      );
+    if (!selectedReview) {
+      toast.error("Houve um erro ao tentar atualizar a solicitação");
+      return;
     }
+    const service = new cultivarService();
+    const status = approved ? "Approved" : "Declined";
+    const response = await service.approveCultivarReview(selectedReview.id, {
+      status,
+      justification,
+    });
+
+    if (response.status === -1) {
+      toast.error("Houve um erro ao tentar atualizar a solicitação!");
+      return;
+    }
+
+    setDados((prevDados) =>
+      prevDados.filter((review) => review.id !== selectedReview.id)
+    );
     toast.success(`O registro foi ${approved ? "aprovado" : "rejeitado"}!`);
     setIsModalOpen(false);
   };
@@ -158,19 +169,36 @@ export default function Reviews() {
     justification: string
   ) => {
     const service = new cultivarService();
-    if (selectedReview?.id) {
-      const response = await service.rejectCultivarReview(selectedReview.id, {
-        status,
-        justification,
-      });
-      if (response.status === -1) {
-        toast.error("Houve um erro ao tentar atualizar a solicitação!");
-        return;
-      }
-      setDados((prevDados) =>
-        prevDados.filter((review) => review.id !== selectedReview.id)
-      );
+
+    if (!selectedReview) {
+      toast.error("Houve um erro ao tentar atualizar a solicitação");
+      return;
     }
+
+    if (justification.length === 0 && status != "APPROVED") {
+      toast.error("A justificativa não pode estar vazia");
+      return;
+    }
+
+    if (justification.length < 10) {
+      toast.error("A justificativa deve conter pelo menos 10 caracteres");
+      return;
+    }
+
+    const response = await service.rejectCultivarReview(selectedReview.id, {
+      status,
+      justification,
+    });
+
+    if (response.status === -1) {
+      toast.error("Houve um erro ao tentar atualizar a solicitação!");
+      return;
+    }
+
+    setDados((prevDados) =>
+      prevDados.filter((review) => review.id !== selectedReview.id)
+    );
+
     toast.success(
       status === "REJECTED"
         ? "A cultivar foi Rejeitada!"
@@ -211,9 +239,8 @@ export default function Reviews() {
               handleModalOpen={(isOpen: boolean) => setIsModalOpen(isOpen)}
               isModalOpen={isModalOpen}
             />
-            <ModalEditCultivar
-              id={selectedReview?.Cultivar.cropId}
-              cultivarId={selectedReview?.Cultivar.id}
+            <ModalEditReview
+              reviewSelected={selectedReview}
               handleVisible={(isOpen: boolean) => setEditModalOpen(isOpen)}
               visible={editModalOpen}
             />

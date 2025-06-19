@@ -66,17 +66,23 @@ export interface CultivarView {
 export type TCultivarConstants = { type: keyof PPL_Constants; value: number };
 
 export interface IEnvironmentData {
-	climate: string | undefined;
-	biome: string | undefined;
-	customBiome?: string | null;
-	irrigation: string | undefined;
-	country: string | undefined;
-	soil: string | undefined;
-	customSoil?: string | null;
-	cultivationSystem: string | undefined;
+  climate: string | null | undefined;
+  biome: string | null | undefined;
+  customBiome: string | null | undefined;
+  irrigation: string | null | undefined;
+  country: string | null | undefined;
+  soil: string | null | undefined;
+  customSoil: string | null | undefined;
+  cultivationSystem: string | null | undefined;
 }
 
 export interface IReferenceFormData {
-	title: string;
-	comment?: string | null;
+  title: string | null | undefined;
+  comment: string | null | undefined;
+}
+
+export interface IReviewUpdateData {
+  constants: PPL_Constants;
+  reference: IReferenceFormData;
+  environment: IEnvironmentData;
 }

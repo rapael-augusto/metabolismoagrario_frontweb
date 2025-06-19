@@ -26,7 +26,10 @@ import { useParams } from "next/navigation";
 import AutoCompleteTextInput from "@/components/forms/autoCompleteTextInput";
 import { IEnvironmentData, IReferenceFormData } from "@/types/cultivarTypes";
 import { toast } from "react-toastify";
-import { filterOptionsTranlation, filterReferenceTranslation } from "@/utils/translationsOptions";
+import {
+  filterOptionsTranlation,
+  filterReferenceTranslation,
+} from "@/utils/translationsOptions";
 
 const CriarConstant = () => {
   const params = useParams();
@@ -44,6 +47,8 @@ const CriarConstant = () => {
     handleReferenceChange,
     handleCreateReference,
   } = useConstantForm({ id });
+
+  console.log(constantsFormData);
   const [parteAtual, setParteAtual] = useState<number>(1);
   const camposEnvironment: (keyof IEnvironmentData)[] = [
     "climate",
@@ -53,10 +58,8 @@ const CriarConstant = () => {
     "soil",
     "irrigation",
   ];
-  const camposReference: (keyof IReferenceFormData)[] = [
-    "title",
-    "comment"
-  ]
+  const camposReference: (keyof IReferenceFormData)[] = ["title", "comment"];
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (parteAtual === 1) {
@@ -97,10 +100,10 @@ const CriarConstant = () => {
                 label="Título"
                 placeholder="Título da referência, EX: Livro X, Autor (2000)"
                 handleOnChange={(e: string) =>
-                  handleReferenceChange("title", e)
+                  handleReferenceChange({ title: e })
                 }
                 type="text"
-                value={referenceFormData.title}
+                value={referenceFormData.title ?? ""}
                 suggestions={references}
                 disclaimer="Referências já cadastradas no banco"
               />
@@ -110,10 +113,10 @@ const CriarConstant = () => {
                 label="Observações"
                 placeholder="Observações sobre a referência, EX: Retirado da página Y"
                 onChange={(e) =>
-                  handleReferenceChange("comment", e.target.value)
+                  handleReferenceChange({ comment: e.target.value })
                 }
                 type="text"
-                value={referenceFormData.comment ?? null}
+                value={referenceFormData.comment ?? ""}
               />
 
               <div className="container-2-column">
@@ -123,7 +126,7 @@ const CriarConstant = () => {
                   options={climateSelectOptions}
                   placeholder="Selecione o clima"
                   onChange={(value) =>
-                    handleEnvironmentChange("climate", value)
+                    handleEnvironmentChange({ climate: value })
                   }
                   value={environmentFormData.climate}
                   required
@@ -133,7 +136,9 @@ const CriarConstant = () => {
                   label="Bioma"
                   placeholder="Selecione o Bioma"
                   options={biomeSelectOptions}
-                  onChange={(value) => handleEnvironmentChange("biome", value)}
+                  onChange={(value) =>
+                    handleEnvironmentChange({ biome: value })
+                  }
                   value={environmentFormData.biome}
                   required
                 />
@@ -149,7 +154,7 @@ const CriarConstant = () => {
                     label: country.nome_pais,
                   }))}
                   onChange={(value) =>
-                    handleEnvironmentChange("country", value)
+                    handleEnvironmentChange({ country: value })
                   }
                   value={environmentFormData.country}
                   required
@@ -160,7 +165,7 @@ const CriarConstant = () => {
                   placeholder="Selecione o sistema de cultivo"
                   options={cultivationSystemSelectOptions}
                   onChange={(value) =>
-                    handleEnvironmentChange("cultivationSystem", value)
+                    handleEnvironmentChange({ cultivationSystem: value })
                   }
                   value={environmentFormData.cultivationSystem}
                   required
@@ -173,7 +178,7 @@ const CriarConstant = () => {
                   label="Solo"
                   placeholder="Selecione o Solo"
                   options={soilSelectOptions}
-                  onChange={(value) => handleEnvironmentChange("soil", value)}
+                  onChange={(value) => handleEnvironmentChange({ soil: value })}
                   value={environmentFormData.soil}
                   required
                 />
@@ -183,7 +188,7 @@ const CriarConstant = () => {
                   placeholder="Selecione a irrigação"
                   options={irrigationSelectOptions}
                   onChange={(value) =>
-                    handleEnvironmentChange("irrigation", value)
+                    handleEnvironmentChange({ irrigation: value })
                   }
                   value={environmentFormData.irrigation}
                   required
@@ -206,16 +211,25 @@ const CriarConstant = () => {
                       (campo) => environmentFormData[campo] === undefined
                     );
                     const referenceNaoPreenchido = camposReference.filter(
-                      (campo) => !referenceFormData[campo] || referenceFormData[campo]?.length < 3
-                    )
-                    if(environmentNaoPreenchido.length > 0 || referenceNaoPreenchido.length > 0){
+                      (campo) =>
+                        !referenceFormData[campo] ||
+                        referenceFormData[campo]?.length < 3
+                    );
+                    if (
+                      environmentNaoPreenchido.length > 0 ||
+                      referenceNaoPreenchido.length > 0
+                    ) {
                       const traducaoEnvironment = environmentNaoPreenchido.map(
-                        campo => filterOptionsTranlation[campo] || campo
+                        (campo) => filterOptionsTranlation[campo] || campo
                       );
                       const traducaoReference = referenceNaoPreenchido.map(
-                        campo => filterReferenceTranslation[campo] || campo
-                      )
-                      toast.error(`Por favor preencha adequadamente os campos: ${traducaoReference.join(", ")}, ${traducaoEnvironment.join(", ")}`);
+                        (campo) => filterReferenceTranslation[campo] || campo
+                      );
+                      toast.error(
+                        `Por favor preencha adequadamente os campos: ${traducaoReference.join(
+                          ", "
+                        )}, ${traducaoEnvironment.join(", ")}`
+                      );
                       return;
                     } else {
                       setParteAtual(2);
@@ -229,10 +243,8 @@ const CriarConstant = () => {
             <>
               <div className={styles.constantsWrapper}>
                 {typeSelectOptions.map((constantType) => {
-                  const constant = constantsFormData.find(
-                    (c) =>
-                      c.type === (constantType.value as keyof PPL_Constants)
-                  );
+                  const constantKey = constantType.value as keyof PPL_Constants;
+                  const constantValue = constantsFormData[constantKey] ?? 0;
                   return (
                     <div key={constantType.value}>
                       <InputDefault
@@ -240,14 +252,13 @@ const CriarConstant = () => {
                         label={constantType.label}
                         placeholder="Digite o valor da referência"
                         onChange={(e) =>
-                          handleConstantChange(
-                            constantType.value as keyof PPL_Constants,
-                            Number(e.target.value)
-                          )
+                          handleConstantChange({
+                            [constantKey]: Number(e.target.value),
+                          })
                         }
                         type="number"
                         required
-                        value={Number(constant?.value).toString() ?? 0}
+                        value={Number(constantValue).toString()}
                         min={0}
                         step="0.1"
                       />

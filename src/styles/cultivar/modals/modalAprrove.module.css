@@ -21,6 +21,47 @@
   gap: 0.5rem;
 }
 
+.actionsWrapper {
+  margin: 1.5rem 0;
+}
+
+.actionsContainer {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.actionButton {
+  padding: 0.8rem 1.25rem;
+  border: 1px solid #ddd;
+  border-radius: 0.45rem;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.approveButton {
+  background-color: var(--success);
+  color: white;
+}
+
+.rejectButton {
+  background-color: var(--danger);
+  color: white;
+}
+
+.reviewButton {
+  background-color: var(--text-muted);
+  color: white;
+}
+
+.actionButton:hover {
+  filter: brightness(1.2);
+}
+
+
 @media screen and (max-width: 500px) {
   .inputWrapper {
     flex-wrap: wrap;
