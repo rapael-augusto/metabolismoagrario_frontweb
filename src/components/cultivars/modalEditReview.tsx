@@ -17,6 +17,15 @@ import styles from "@/styles/constant/createConstant.module.css";
 import '@/styles/form/form.css'
 import { PPL_Constants } from "@/types/conversionFactor";
 import { useConfirm } from "@/contexts/confirmationModal/confirmationModalContext";
+import { toast } from "react-toastify";
+import { IReferenceFormData } from "@/types/cultivarTypes";
+import { filterOptionsTranlation, filterReferenceTranslation, typeTranslation } from "@/utils/translationsOptions";
+
+interface FieldChange {
+  field: string;  // Nome original do campo (em inglês)
+  oldValue: string;
+  newValue: string;
+}
 
 export default function ModalEditReview({
   visible,
@@ -46,6 +55,81 @@ export default function ModalEditReview({
     mapToEnvironmentData,
   } = useConstantForm({ id: reviewSelected.reference.id });
 
+  const translationAll: any = {
+    Irrigation: "Irrigado",
+    Dry: "Sequeiro",
+    Organic: "Orgânico",
+    Conventional: "Convencional",
+    Agroecological: "Agroecológico",
+    Clayey: "Argiloso",
+    Sandy: "Arenoso",
+    SandyClay: "Arenoargiloso",
+    Other: "Outro",
+  };
+
+  const getTranslation = (value: unknown): string => {
+    if (value === null || value === undefined) return String(value);
+    const key = String(value);
+    return translationAll[key] || key; 
+  };
+
+  const getChangedFields = (): FieldChange[] => {
+  const changes: FieldChange[] = [];
+
+  const formatValue = (value: unknown): string => {
+    if (value === null || value === undefined) return 'empty';
+    return getTranslation(value);
+  };
+
+  
+  (Object.keys(referenceFormData) as Array<keyof typeof referenceFormData>).forEach(key => {
+    const oldVal = initialValues.reference?.[key];
+    const newVal = referenceFormData[key];
+    if (oldVal !== newVal) {
+      changes.push({
+        field: String(filterReferenceTranslation[key]),
+        oldValue: formatValue(oldVal),
+        newValue: formatValue(newVal)
+      });
+    }
+  });
+
+  (Object.keys(environmentFormData) as Array<keyof typeof environmentFormData>).forEach(key => {
+    const oldVal = initialValues.environment?.[key];
+    const newVal = environmentFormData[key];
+    if (oldVal !== newVal) {
+      changes.push({
+        field: String(filterOptionsTranlation[key]),
+        oldValue: formatValue(oldVal),
+        newValue: formatValue(newVal)
+      });
+    }
+  });
+
+  (Object.keys(constantsFormData) as Array<keyof typeof constantsFormData>).forEach(key => {
+    const oldVal = initialValues.constants?.[key];
+    const newVal = constantsFormData[key];
+    if (oldVal !== newVal) {
+      changes.push({
+        field: String(typeTranslation[key]),
+        oldValue: formatValue(oldVal),
+        newValue: formatValue(newVal)
+      });
+    }
+  });
+
+  return changes;
+};
+
+const formatChangesToText = (changes: FieldChange[]): string => {
+  if (changes.length === 0) return 'Sem campos alterados';
+  
+  return 'Campos alterados: ' + changes.map(change => 
+    `${change.field}: de "${change.oldValue}" para "${change.newValue}"`
+  ).join('; ') + ('.');
+};
+
+
   useEffect(() => {
     if (reviewSelected) {
       const mappedReferenceData = mapToReferenceFormData(
@@ -71,21 +155,40 @@ export default function ModalEditReview({
     }
   }, [reviewSelected]);
 
+  const initialValues = reviewSelected ? {
+    reference: mapToReferenceFormData(reviewSelected.reference),
+    environment: mapToEnvironmentData({
+        ...reviewSelected.Environment,
+        country: reviewSelected.Environment.country.nome_pais,
+      }),
+    constants: reviewSelected.Constants.reduce((acc, current) => ({
+      ...acc,
+      [current.type]: current.value,
+    }), {} as PPL_Constants),
+  } : {};
+
   const handleSubmit = async () => {
     if (parteAtual < 2) {
       setParteAtual(2);
       return;
     }
+    const changedFields = getChangedFields();
+    const changesText = formatChangesToText(changedFields);
 
     const confirmed = await confirm({
       title: "Atualizar solicitação",
-      message: "Reveja o que foi alterado: ",
+      message: changesText,
       variant: "warning",
     });
 
     if (!confirmed) return;
 
-    await handleUpdateReview(reviewSelected.id);
+    const success = await handleUpdateReview(reviewSelected.id);
+    if (success) {
+      toast.success(`A solicitação foi atualizada com sucesso!`);
+    } else {
+      toast.error(`Algo de errado ocorreu, tente novamente ou contate o suporte.`);
+    }
   };
 
   const handleBack = () => {

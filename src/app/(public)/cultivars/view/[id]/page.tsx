@@ -25,6 +25,7 @@ const ViewCultivar = () => {
   const [cultivar, setCultivar] = useState<CultivarView | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
+  const cId = localStorage.getItem('tempCId');
   const { user } = useAuthContext();
 
   useEffect(() => {
@@ -53,7 +54,7 @@ const ViewCultivar = () => {
           Detalhes da Cultivar {cultivar && cultivar.name}
         </h2>
         <div className="container-button-crops">
-          <Link href="#" onClick={() => router.back()}>
+          <Link href={`/cultivars/${id}`} onClick={() => {console.log(cId); router.push(`/cultivars/${cId}`)}}>
             <FaChevronLeft color="#000" />
           </Link>
         </div>

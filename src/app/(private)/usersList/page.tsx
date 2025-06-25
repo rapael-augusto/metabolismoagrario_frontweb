@@ -162,12 +162,12 @@ const UsersList = () => {
 						handleVisible={handleEditVisible}
 						userId={selectedUserId}
 					/>
-					<ModalRegisterUser
-						visible={modalRegisterVisible}
-						handleVisible={handleRegisterVisible}
-					/>
 				</>
 			)}
+			<ModalRegisterUser
+				visible={modalRegisterVisible}
+				handleVisible={handleRegisterVisible}
+			/>
 		</Layout>
 	);
 };

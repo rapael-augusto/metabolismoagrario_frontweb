@@ -147,9 +147,10 @@ export default function Reviews() {
     }
     const service = new cultivarService();
     const status = approved ? "Approved" : "Declined";
+    const finalJustification = approved ? "-" : justification;
     const response = await service.approveCultivarReview(selectedReview.id, {
       status,
-      justification,
+      justification: finalJustification,
     });
 
     if (response.status === -1) {
@@ -214,7 +215,7 @@ export default function Reviews() {
   return (
     <Layout>
       <div className="cropsPage">
-        <h2 className="titulo-crops">Lista de solicitações</h2>
+        <h2 className="titulo-crops">Lista de Solicitações</h2>
         <SearchForm placeholder="Pesquisa por nome" onSearch={handleSearch} />
         <div className="container-button-crops">
           <NavButton Url="/home" text={"Voltar"} type="voltar" page="list" />

@@ -13,6 +13,7 @@ import {
   TCultivarConstants,
 } from "@/types/cultivarTypes";
 import { ConstantService } from "@/services/constant";
+import { useAuthContext } from "@/contexts/auth/authContext";
 
 type ConstantEntry = { type: keyof PPL_Constants; value: number };
 
@@ -47,6 +48,8 @@ const useConstantForm = (params: { id: string }) => {
       comment: null,
     });
   const [countries, setCountries] = useState<{ nome_pais: string }[]>([]);
+  
+    const { user } = useAuthContext();
 
   useEffect(() => {
     if (params.id) {
@@ -56,14 +59,16 @@ const useConstantForm = (params: { id: string }) => {
   }, [params.id]);
 
   const fetchCountries = async () => {
-    try {
-      setLoading(true);
-      const service = new countriesService(null);
-      const response = await service.listAll();
-      setCountries(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Erro ao carregar os países:", error);
+    if(user){
+      try {
+        setLoading(true);
+        const service = new countriesService(null);
+        const response = await service.listAll();
+        setCountries(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Erro ao carregar os países:", error);
+      }
     }
   };
 
@@ -167,8 +172,11 @@ const useConstantForm = (params: { id: string }) => {
       toast.error(response.message);
       return;
     }
-
-    toast.success(response.message);
+    if(user?.role === "ADMIN"){
+      toast.success(response.message);
+    } else {
+      toast.info("Sua solicitação de cadastro de referência foi criada!");
+    }
     router.replace(`/cultivars/view/${cultivarId}`);
   };
 
