@@ -54,7 +54,7 @@ const ViewCultivar = () => {
           Detalhes da Cultivar {cultivar && cultivar.name}
         </h2>
         <div className="container-button-crops">
-          <Link href={`/cultivars/${id}`} onClick={() => {console.log(cId); router.push(`/cultivars/${cId}`)}}>
+          <Link href={`/cultivars/${cId}`} onClick={() => {router.push(`/cultivars/${cId}`)}}>
             <FaChevronLeft color="#000" />
           </Link>
         </div>

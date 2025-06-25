@@ -81,8 +81,7 @@ const Cultivars = () => {
 
 	const handleView = (id: string) => {
 		localStorage.setItem('tempCId', cId);
-		window.location.href = `/cultivars/view/${id}`;
-		console.log(cId);
+		router.push(`/cultivars/view/${id}`);
 	};
 
 	const handleEdit = (id: string) => {
