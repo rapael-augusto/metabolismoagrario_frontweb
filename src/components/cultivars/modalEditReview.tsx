@@ -22,7 +22,7 @@ import { IReferenceFormData } from "@/types/cultivarTypes";
 import { filterOptionsTranlation, filterReferenceTranslation, typeTranslation } from "@/utils/translationsOptions";
 
 interface FieldChange {
-  field: string;  // Nome original do campo (em inglês)
+  field: string;
   oldValue: string;
   newValue: string;
 }
