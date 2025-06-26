@@ -29,12 +29,7 @@ const useCultivarForm = (id: string) => {
 			if (respostaRequisicao) {
 				const { status } = respostaRequisicao;
 				setResponse(status.toString()); // Converter status para string se necessário
-
-				if (user.role === "ADMIN") {
-					toast.success("A cultivar foi criada com sucesso!");
-				} else {
-					toast.info("Sua solicitação de cadastro de cultivar foi criada!");
-				}
+				toast.success("A cultivar foi criada com sucesso!");
 			} else {
 				setResponse("-1");
 			}

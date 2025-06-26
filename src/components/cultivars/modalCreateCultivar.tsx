@@ -16,6 +16,7 @@ export default function ModalCreateCultivar({
 	const handleCadastro = async () => {
 		const ret = await cadastroCultivar();
 		if (ret) handleVisible(false);
+		window.location.reload();
 	};
 	return (
 		<Modal isOpen={visible} size="md">

@@ -7,13 +7,18 @@
   border: 1px solid transparent;
   border-radius: 7px;
   background-color: transparent;
-  border: 1px solid #4c6444;
-  background-color: #4c6444;
+  border: 1px solid var(--primary-color);
+  background-color: var(--primary-color);
   color: white;
   font-weight: bold;
   text-decoration: none;
   transition: all ease 0.4s;
   cursor: pointer;
+}
+
+.navButton-cadastrar-list:hover {
+  background-color: #386641;
+  border-color: #386641;
 }
 
 .navButton-voltar-list {
@@ -46,22 +51,6 @@
 
 .navButton-voltar-list:hover {
   /* background-color: red; */
-}
-
-.navButton-cadastrar-list button {
-  box-sizing: border-box;
-  height: 38px;
-  background-color: transparent;
-  border: 1px solid #4c6444;
-  background-color: #4c6444;
-  color: white;
-  padding: 0 12px;
-  font-size: 15px;
-  border-radius: 7px;
-}
-
-.navButton-cadastrar-list:hover {
-  /* background-color: rgba(42, 177, 42); */
 }
 
 .navButton-voltar-form {

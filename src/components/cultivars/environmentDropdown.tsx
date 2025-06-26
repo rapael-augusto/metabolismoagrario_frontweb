@@ -14,6 +14,7 @@ import ModalEditReferenceTitle from "../references/modalEditReferenceTitle";
 import { ReferenceService } from "@/services/reference";
 import ModalDeleteReference from "../references/modalDeleteReference";
 import ModalEditEnvironment from "../environment/modalEditEnvironment";
+import { useAuthContext } from "@/contexts/auth/authContext";
 
 export default function EnvironmentDropdown({
   environmentData,
@@ -30,6 +31,7 @@ export default function EnvironmentDropdown({
   const [isOpen, setIsOpen] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
   const [modalDeleteVisible, setModalDeleteVisible] = useState(false);
+  const { user } = useAuthContext();
 
   const handleEditVisible = (isVisible: boolean) => {
     setModalEditVisible(isVisible);
@@ -57,26 +59,30 @@ export default function EnvironmentDropdown({
       >
         <div className={Styles.headerContainer}>
           Ambiente {index + 1}
-          <div className={Styles.buttonsContainer}>
-            <span
-              className={Styles.actionEditButton}
-              onClick={handleEdit}
-              title={"Editar Ambiente"}
-            >
-              <FaEdit />
-            </span>
-            <span
-              className={Styles.actionDeleteButton}
-              onClick={handleDelete}
-              title={"Deletar Ambiente"}
-            >
-              <FaTrash />
-            </span>
-          </div>
-        </div>
-        {isOpen ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
-      </button>
-      {isOpen && (
+          { isOpen && user &&
+            <div className={Styles.buttonsContainer}>
+                <span
+                className={Styles.actionEditButton}
+                onClick={handleEdit}
+                title={"Editar Ambiente"}
+                >
+                <FaEdit />
+                </span>
+                {user && user.role === "ADMIN" && (
+                <span
+                  className={Styles.actionDeleteButton}
+                  onClick={handleDelete}
+                  title={"Deletar Ambiente"}
+                >
+                  <FaTrash />
+                </span>
+                )}
+              </div>
+              }
+            </div>
+            {isOpen ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
+            </button>
+            {isOpen && (
         <div className={Styles.content}>
           <div className={Styles.characteristicsGrid}>
             <div className={Styles.characteristicCard}>

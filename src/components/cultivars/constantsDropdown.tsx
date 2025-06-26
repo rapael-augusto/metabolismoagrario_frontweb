@@ -5,6 +5,8 @@ import { typeTranslation } from "@/utils/translationsOptions";
 import { useState } from "react";
 import { FaChevronDown, FaChevronUp, FaEdit } from "react-icons/fa";
 import ModalEditConstants from "../constants/modalEditConstants";
+import { getRoleFromStorage } from "@/utils/authUtils";
+import { useAuthContext } from "@/contexts/auth/authContext";
 
 export default function ConstantsDropdown({
   constants,
@@ -15,8 +17,9 @@ export default function ConstantsDropdown({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
+  const { user } = useAuthContext();
 
-    const handleEditVisible = (isVisible: boolean) => {
+  const handleEditVisible = (isVisible: boolean) => {
     setModalEditVisible(isVisible);
   };
 
@@ -33,15 +36,17 @@ export default function ConstantsDropdown({
       >
         <div className={Styles.headerContainer}>
           Constantes
-          <div className={Styles.buttonsContainer}>
-            <span
-              className={Styles.actionEditButton}
-              onClick={handleEdit}
-              title={"Editar Constantes"}
-            >
-              <FaEdit />
-            </span>
-          </div>
+          { isOpen && user &&
+            <div className={Styles.buttonsContainer}>
+              <span
+                className={Styles.actionEditButton}
+                onClick={handleEdit}
+                title={"Editar Constantes"}
+              >
+                <FaEdit />
+              </span>
+            </div>
+          }
         </div>
         {isOpen ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
       </button>

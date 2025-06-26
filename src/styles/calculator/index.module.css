@@ -362,14 +362,14 @@
 
 .environmentDetails {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 0.5fr));
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
 .environmentDetails p {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.87rem;
   color: #555;
 }
 

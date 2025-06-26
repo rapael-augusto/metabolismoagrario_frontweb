@@ -34,7 +34,7 @@ export default function ModalApproveCultivar({
     const actionMap = {
       approve: {
         message: "aprovar",
-        action: () => handleApprove(true, justification),
+        action: () => handleApprove(true, justification === "" ? "-" : justification),
         variant: "default" as const,
       },
       reject: {
@@ -65,7 +65,7 @@ export default function ModalApproveCultivar({
           : "solicitação de alterações"
       }`,
       message: `Você está prestes a ${currentAction.message} a cultivar "${reviewSelected?.Cultivar.name}".`,
-      details: action != "approve" ? `Justificativa: ${justification}` : "",
+      details: action != "approve" ? `Justificativa: ${justification}` : "-",
       variant: currentAction.variant,
       confirmText:
         action === "approve"

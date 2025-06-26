@@ -203,7 +203,7 @@ const CriarConstant = () => {
                 />
                 <Button
                   texto="Próximo"
-                  classe="form-button"
+                  classe="referenceForm-button"
                   disabled={loading}
                   tipo="button"
                   onclick={() => {
@@ -269,14 +269,14 @@ const CriarConstant = () => {
               <div className={styles.formNavigation}>
                 <Button
                   texto="Voltar"
-                  classe="form-button"
+                  classe="navButton-voltar-form"
                   disabled={loading}
                   tipo="button"
                   onclick={() => setParteAtual(1)}
                 />
                 <Button
                   texto="Cadastrar"
-                  classe="form-button"
+                  classe="referenceForm-button"
                   disabled={loading}
                 />
               </div>
