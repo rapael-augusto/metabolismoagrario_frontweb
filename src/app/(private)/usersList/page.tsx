@@ -127,7 +127,7 @@ const UsersList = () => {
 	return (
 		<Layout>
 			<div className="cropsPage">
-				<h2 className="titulo-crops">Lista de usuários</h2>
+				<h2 className="titulo-crops">Lista de Usuários</h2>
 
 				<SearchForm placeholder="Pesquisa pelo nome" onSearch={handleSearch} />
 

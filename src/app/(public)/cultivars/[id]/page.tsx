@@ -57,10 +57,10 @@ const Cultivars = () => {
 					setDados(updatedData);
 					toast.success("Cultivar removida com sucesso!");
 					console.log("Cultivar removida");
+					window.location.reload();
 				} catch (error) {
 					console.error("Falha ao deletar constante:", error);
 				}
-			} else {
 			}
 		},
 		[dados]
