@@ -17,11 +17,11 @@
 }
 
 .navButton-cadastrar-list:hover {
-  background-color: #386641;
-  border-color: #386641;
+  background-color: white;
+  color: var(--primary-color);
 }
 
-.navButton-voltar-list {
+/* .navButton-voltar-list {
   display: flex;
   align-items: center;
   font-size: 16px;
@@ -35,22 +35,31 @@
   font-weight: bold;
   transition: all ease 0.4s;
   cursor: pointer;
-}
+} */
 
 .navButton-voltar-list {
-  background-color: transparent;
+  display: flex;
+  align-items: center;
   gap: 8px;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid #b18c69;
+  border-radius: 7px;
   text-decoration: underline;
   font-size: 16px;
+  font-weight: bold;
   text-decoration: none;
   background-color: #b18c69;
   color: white;
   width: 80px;
+  transition: all ease 0.4s;
+  cursor: pointer;
   justify-content: center;
 }
 
 .navButton-voltar-list:hover {
-  /* background-color: red; */
+  background-color: white;
+  color: #b18c69;
 }
 
 .navButton-voltar-form {
@@ -65,9 +74,10 @@
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
+  text-decoration: none;
 }
 
 .navButton-voltar-form:hover {
-  background-color: hsl(0, 2%, 75%);
+  background-color: #b18c69;
   color: white;
 }

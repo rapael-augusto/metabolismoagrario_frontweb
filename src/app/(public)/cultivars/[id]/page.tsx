@@ -144,7 +144,7 @@ const Cultivars = () => {
 			<div className="cropsPage">
 				<h2 className="titulo-crops">Cultivares de {titulo}</h2>
 				<SearchForm
-					placeholder="Pesquisa por nome"
+					placeholder="Pesquisa por nome"	
 					onSearch={(search: string) => handleFilter(search, "name")}
 				/>
 

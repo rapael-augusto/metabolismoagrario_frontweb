@@ -27,7 +27,6 @@ export default function EnvironmentDropdown({
   referenceId: string;
   cultivarId: string;
 }) {
-  console.log(referenceId);
   const [isOpen, setIsOpen] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
   const [modalDeleteVisible, setModalDeleteVisible] = useState(false);
@@ -59,26 +58,24 @@ export default function EnvironmentDropdown({
       >
         <div className={Styles.headerContainer}>
           Ambiente {index + 1}
-          { isOpen && user &&
+          { isOpen && user && user.role === "ADMIN" &&
             <div className={Styles.buttonsContainer}>
                 <span
                 className={Styles.actionEditButton}
                 onClick={handleEdit}
                 title={"Editar Ambiente"}
                 >
-                <FaEdit />
+                  <FaEdit />
                 </span>
-                {user && user.role === "ADMIN" && (
                 <span
                   className={Styles.actionDeleteButton}
                   onClick={handleDelete}
-                  title={"Deletar Ambiente"}
+                  title={"Deletar Referência"}
                 >
                   <FaTrash />
                 </span>
-                )}
               </div>
-              }
+            }
             </div>
             {isOpen ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
             </button>

@@ -147,10 +147,9 @@ export default function Reviews() {
     }
     const service = new cultivarService();
     const status = approved ? "Approved" : "Declined";
-    const finalJustification = approved ? "-" : justification;
     const response = await service.approveCultivarReview(selectedReview.id, {
       status,
-      justification: finalJustification,
+      justification,
     });
 
     if (response.status === -1) {
@@ -172,17 +171,17 @@ export default function Reviews() {
     const service = new cultivarService();
 
     if (!selectedReview) {
-      toast.error("Houve um erro ao tentar atualizar a solicitação");
+      toast.error("Houve um erro ao tentar atualizar a solicitação!");
       return;
     }
 
     if (justification.length === 0 && status != "APPROVED") {
-      toast.error("A justificativa não pode estar vazia");
+      toast.error("A justificativa não pode estar vazia!");
       return;
     }
 
     if (justification.length < 10) {
-      toast.error("A justificativa deve conter pelo menos 10 caracteres");
+      toast.error("A justificativa deve conter pelo menos 10 caracteres!");
       return;
     }
 

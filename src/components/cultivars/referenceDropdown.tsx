@@ -45,7 +45,7 @@ export default function ReferenceDropdown({
       >
         <div className={Styles.headerContainer}>
           {title}
-            {isOpen && user &&
+            {isOpen && user && user.role === "ADMIN" &&
             <div className={Styles.buttonsContainer}>
               <span
                 className={Styles.actionEditButton}

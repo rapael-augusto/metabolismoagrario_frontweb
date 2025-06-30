@@ -8,7 +8,13 @@ import useConstantForm from "@/hooks/useConstantForm";
 import { IEnvironmentData } from "@/types/cultivarTypes";
 import InputDefault from "../forms/inputDefault";
 import CustomSelect from "../layout/customSelect";
-import { biomeSelectOptions, climateSelectOptions, cultivationSystemSelectOptions, irrigationSelectOptions, soilSelectOptions } from "@/utils/selectOptions";
+import {
+  biomeSelectOptions,
+  climateSelectOptions,
+  cultivationSystemSelectOptions,
+  irrigationSelectOptions,
+  soilSelectOptions,
+} from "@/utils/selectOptions";
 
 interface props {
   visible: boolean;
@@ -52,9 +58,7 @@ export default function ModalEditEnvironment({
     cultivationSystem: data.cultivationSystem ?? null,
   });
 
-  const {
-    countries,
-  } = useConstantForm({ id });
+  const { countries } = useConstantForm({ id });
 
   const handleSubmit = async () => {
     if (!environmentSelected) return;
@@ -71,6 +75,8 @@ export default function ModalEditEnvironment({
         irrigation: environmentSelected.irrigation ?? undefined,
         soil: environmentSelected.soil ?? undefined,
         cultivationSystem: environmentSelected.cultivationSystem ?? undefined,
+        customBiome: data.customBiome ?? undefined,
+        customSoil: data.customSoil ?? undefined,
       }
     );
     handleVisible(false);
@@ -85,55 +91,6 @@ export default function ModalEditEnvironment({
       />
       <Modal.Main>
         <>
-          <div className="container-2-column">
-            <CustomSelect
-              type="form"
-              label="Clima"
-              options={climateSelectOptions}
-              placeholder="Selecione o clima"
-              onChange={(e) =>
-                setEnvironmentSelected((prev) => ({
-                  ...(prev || {
-                    environmentId: "",
-                    referenceId: "",
-                    cultivarId: "",
-                    country: null,
-                    biome: null,
-                    irrigation: null,
-                    soil: null,
-                    cultivationSystem: null,
-                  }),
-                  climate: e || null,
-                }))
-              }
-              value={environmentSelected?.climate ?? ""}
-              required
-            />
-            <CustomSelect
-              type="form"
-              label="Bioma"
-              placeholder="Selecione o Bioma"
-              options={biomeSelectOptions}
-              onChange={(e) =>
-                setEnvironmentSelected((prev) => ({
-                  ...(prev || {
-                    environmentId: "",
-                    referenceId: "",
-                    cultivarId: "",
-                    country: null,
-                    climate: null,
-                    irrigation: null,
-                    soil: null,
-                    cultivationSystem: null,
-                  }),
-                  biome: e || null,
-                }))
-              }
-              value={environmentSelected?.biome ?? ""}
-              required
-            />
-          </div>
-
           <div className="container-2-column">
             <CustomSelect
               type="form"
@@ -163,9 +120,58 @@ export default function ModalEditEnvironment({
             />
             <CustomSelect
               type="form"
-              label="Sistema de cultivo"
-              placeholder="Selecione o sistema de cultivo"
-              options={cultivationSystemSelectOptions}
+              label="Clima"
+              options={climateSelectOptions}
+              placeholder="Selecione o clima"
+              onChange={(e) =>
+                setEnvironmentSelected((prev) => ({
+                  ...(prev || {
+                    environmentId: "",
+                    referenceId: "",
+                    cultivarId: "",
+                    country: null,
+                    biome: null,
+                    irrigation: null,
+                    soil: null,
+                    cultivationSystem: null,
+                  }),
+                  climate: e || null,
+                }))
+              }
+              value={environmentSelected?.climate ?? ""}
+              required
+            />
+          </div>
+
+          <div className="container-2-column">
+            <CustomSelect
+              type="form"
+              label="Bioma"
+              placeholder="Selecione o Bioma"
+              options={biomeSelectOptions}
+              onChange={(e) =>
+                setEnvironmentSelected((prev) => ({
+                  ...(prev || {
+                    environmentId: "",
+                    referenceId: "",
+                    cultivarId: "",
+                    country: null,
+                    climate: null,
+                    irrigation: null,
+                    soil: null,
+                    cultivationSystem: null,
+                  }),
+                  biome: e || null,
+                }))
+              }
+              value={environmentSelected?.biome ?? ""}
+              required
+            />
+            <CustomSelect
+              type="form"
+              label="Irrigação"
+              placeholder="Selecione a irrigação"
+              options={irrigationSelectOptions}
               onChange={(e) =>
                 setEnvironmentSelected((prev) => ({
                   ...(prev || {
@@ -174,14 +180,14 @@ export default function ModalEditEnvironment({
                     cultivarId: "",
                     biome: null,
                     climate: null,
-                    irrigation: null,
                     soil: null,
+                    cultivationSystem: null,
                     country: null,
                   }),
-                  cultivationSystem: e || null,
+                  irrigation: e || null,
                 }))
               }
-              value={environmentSelected?.cultivationSystem ?? ""}
+              value={environmentSelected?.irrigation ?? ""}
               required
             />
           </div>
@@ -212,9 +218,9 @@ export default function ModalEditEnvironment({
             />
             <CustomSelect
               type="form"
-              label="Irrigação"
-              placeholder="Selecione a irrigação"
-              options={irrigationSelectOptions}
+              label="Sistema de cultivo"
+              placeholder="Selecione o sistema de cultivo"
+              options={cultivationSystemSelectOptions}
               onChange={(e) =>
                 setEnvironmentSelected((prev) => ({
                   ...(prev || {
@@ -223,21 +229,21 @@ export default function ModalEditEnvironment({
                     cultivarId: "",
                     biome: null,
                     climate: null,
+                    irrigation: null,
                     soil: null,
-                    cultivationSystem: null,
                     country: null,
                   }),
-                  irrigation: e || null,
+                  cultivationSystem: e || null,
                 }))
               }
-              value={environmentSelected?.irrigation ?? ""}
+              value={environmentSelected?.cultivationSystem ?? ""}
               required
             />
           </div>
         </>
       </Modal.Main>
       <Modal.Footer
-        cancelText="Voltar"
+        cancelText="Cancelar"
         submitText="Atualizar"
         onCancel={() => handleVisible(false)}
         onSubmit={handleSubmit}

@@ -36,7 +36,7 @@ export default function ConstantsDropdown({
       >
         <div className={Styles.headerContainer}>
           Constantes
-          { isOpen && user &&
+          { isOpen && user && user.role === "ADMIN" &&
             <div className={Styles.buttonsContainer}>
               <span
                 className={Styles.actionEditButton}

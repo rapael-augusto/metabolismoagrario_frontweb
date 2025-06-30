@@ -139,6 +139,7 @@ const Table: React.FC<TableProps> = ({
                               key={`action_${index}`}
                               onClick={() => action.onClick(row)}
                               title={action.title}
+                              className="action-icon"
                             />
                           );
                         })}
