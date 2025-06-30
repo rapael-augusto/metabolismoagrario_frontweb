@@ -26,9 +26,13 @@ const ViewCultivar = () => {
   const [cultivar, setCultivar] = useState<CultivarView | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
-  const cId = localStorage.getItem("tempCId");
+  const [cId, setCId] = useState<string | null>(null);
   const { user } = useAuthContext();
 
+  useEffect(() => {
+    const storedCId = localStorage.getItem("tempCId");
+    setCId(storedCId);
+  }, []);
   useEffect(() => {
     if (!id) {
       setLoading(false);
@@ -58,7 +62,7 @@ const ViewCultivar = () => {
           <Link
             href={`/cultivars/${cId}`}
             onClick={() => {
-              router.push(`/cultivars/${cId}`);
+              router.push(cId? `/cultivars/${cId}` : "/home");
             }}
           >
             <FaChevronLeft color="#000" />

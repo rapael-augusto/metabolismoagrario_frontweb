@@ -39,7 +39,7 @@ export default function ModalEditUser({
   return (
     <Modal isOpen={visible} size="lg">
       <Modal.Header
-        title="Editar usuário"
+        title="Editar Usuário"
         description=""
         onClose={() => handleVisible(false)}
       />
@@ -117,7 +117,7 @@ export default function ModalEditUser({
         </div>
       </Modal.Main>
       <Modal.Footer
-        cancelText="Voltar"
+        cancelText="Cancelar"
         submitText="Atualizar"
         onCancel={() => handleVisible(false)}
         onSubmit={editUser}

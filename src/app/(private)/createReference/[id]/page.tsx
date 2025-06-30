@@ -30,6 +30,9 @@ import {
   filterOptionsTranlation,
   filterReferenceTranslation,
 } from "@/utils/translationsOptions";
+import { filterTextInput } from "@/utils/filterTextInput";
+import Link from "next/link";
+import { FaChevronLeft } from "react-icons/fa";
 
 const CriarConstant = () => {
   const params = useParams();
@@ -74,6 +77,11 @@ const CriarConstant = () => {
       <div className={styles.createConstant}>
         <div className="form-title">
           <h2 className="tittle-login">Cadastrar Referência</h2>
+          <div className="container-button-crops">
+            <Link href={`/cultivars/view/${id}`}>
+              <FaChevronLeft color="#000" />
+            </Link>
+          </div>
           <div className={styles.pageHeaderList}>
             <div
               className={
@@ -94,13 +102,11 @@ const CriarConstant = () => {
         <form className="form-container" onSubmit={handleSubmit}>
           {parteAtual === 1 && (
             <>
-              <h3>Informações sobre a Referência</h3>
-
               <AutoCompleteTextInput
                 label="Título"
                 placeholder="Título da referência, EX: Livro X, Autor (2000)"
                 handleOnChange={(e: string) =>
-                  handleReferenceChange({ title: e })
+                  handleReferenceChange({ title: filterTextInput(e, {allowNumbers: true})})
                 }
                 type="text"
                 value={referenceFormData.title ?? ""}
@@ -113,7 +119,7 @@ const CriarConstant = () => {
                 label="Observações"
                 placeholder="Observações sobre a referência, EX: Retirado da página Y"
                 onChange={(e) =>
-                  handleReferenceChange({ comment: e.target.value })
+                  handleReferenceChange({ comment: filterTextInput(e.target.value, {allowNumbers: true})})
                 }
                 type="text"
                 value={referenceFormData.comment ?? ""}

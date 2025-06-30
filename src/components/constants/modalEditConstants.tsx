@@ -71,7 +71,7 @@ export default function ModalEditConstants({
   return (
     <Modal isOpen={visible} size="lg">
       <Modal.Header
-        title="Editar Constants"
+        title="Editar Constantes"
         description=""
         onClose={() => handleVisible(false)}
       />
@@ -99,7 +99,7 @@ export default function ModalEditConstants({
         </div>
       </Modal.Main>
       <Modal.Footer
-        cancelText="Voltar"
+        cancelText="Cancelar"
         submitText="Atualizar"
         onCancel={() => handleVisible(false)}
         onSubmit={handleSubmit}

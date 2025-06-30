@@ -20,7 +20,7 @@ export default function ModalDeleteReference({
     const referenceService = new ReferenceService();
     const toggleDelete = async () => {
         await referenceService.deleteEnvironment(referenceId, environmentId);
-        window.location.reload();
+        // window.location.reload();
     }
 
     return (

@@ -175,7 +175,7 @@ const useConstantForm = (params: { id: string }) => {
     if(user?.role === "ADMIN"){
       toast.success(response.message);
     } else {
-      toast.info("Sua solicitação de cadastro de referência foi criada!");
+      toast.info("Sua solicitação de cadastro de referência foi criada com sucesso!");
     }
     router.replace(`/cultivars/view/${cultivarId}`);
   };

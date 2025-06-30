@@ -47,7 +47,7 @@ export const ReferenceTablePagination: React.FC<ReferenceTablePaginationProps> =
             environmentData={item.environments}
             id={item.id}
             cultivarId={cultivarId}
-            key={`referenceDropDown-${item.id}`} // Key única baseada no ID
+            key={`referenceDropDown-${item.id}`}
           />
         ))
       )}

@@ -7,6 +7,8 @@ import { useParams } from "next/navigation";
 import useConstantForm from "@/hooks/useConstantForm";
 import { IReferenceFormData } from "@/types/cultivarTypes";
 import InputDefault from "../forms/inputDefault";
+import { filterTextInput } from "@/utils/filterTextInput";
+import { toast } from "react-toastify";
 
 interface props {
   visible: boolean;
@@ -30,26 +32,49 @@ export default function modalEditReferenceTitle({
     comment: string | null | undefined;
   }>({
     id: data.id,
-    title: data.title,
+    title: data.title ?? "",
     comment: data.comment,
   });
 
-  // const camposEnvironment: (keyof IEnvironmentData)[] = [
-  // 	"climate",
-  // 	"biome",
-  // 	"country",
-  // 	"cultivationSystem",
-  // 	"soil",
-  // 	"irrigation",
-  // ];
-  // const camposReference: (keyof IReferenceFormData)[] = ["title", "comment"];
+function validate() {
+  let errors = [];
+  let equalErrors = 0;
+  if (!referenceSelected.title) {
+    errors.push("O título é obrigatório!");
+  } else if (referenceSelected.title.length < 3) {
+    errors.push("O título deve ter pelo menos 3 caracteres!");
+  } else if (data.title === referenceSelected.title){
+    equalErrors++;
+  }
+  if (!referenceSelected.comment) {
+    errors.push("O comentário é obrigatório!");
+  } else if (referenceSelected.comment.length < 3) {
+    errors.push("O comentário deve ter pelo menos 3 caracteres!");
+  } else if(data.comment === referenceSelected.comment){
+    equalErrors++;
+  }
+  
+  if(errors.length > 0){
+    errors.forEach((error) => {
+      toast.error(error);
+    });
+    return false;
+  } else if(equalErrors > 1){
+    toast.error("Pelo menos um campo deve ser alterado!");
+    return false;
+  }
+  return true;
+}
 
   const handleSubmit = async () => {
-    await handleUpdateReference(data.id, {
-      title: referenceSelected.title,
-      comment: referenceSelected.comment,
-    });
-    handleVisible(false);
+    if(validate()){
+      await handleUpdateReference(data.id, {
+        title: referenceSelected.title,
+        comment: referenceSelected.comment,
+      });
+      toast.success("Referência atualizada com sucesso!");
+      handleVisible(false);
+    }
   };
 
   return (
@@ -68,7 +93,7 @@ export default function modalEditReferenceTitle({
             onChange={(e) =>
               setReferenceSelected({
                 id: referenceSelected?.id || "",
-                title: e.target.value,
+                title: filterTextInput(e.target.value, {allowNumbers: true}),
                 comment: referenceSelected?.comment ?? null,
               })
             }
@@ -83,7 +108,7 @@ export default function modalEditReferenceTitle({
               setReferenceSelected({
                 id: referenceSelected?.id || "",
                 title: referenceSelected?.title ?? null,
-                comment: e.target.value,
+                comment: filterTextInput(e.target.value, {allowNumbers: true}),
               })
             }
             type="text"
@@ -92,7 +117,7 @@ export default function modalEditReferenceTitle({
         </>
       </Modal.Main>
       <Modal.Footer
-        cancelText="Voltar"
+        cancelText="Cancelar"
         submitText="Atualizar"
         onCancel={() => handleVisible(false)}
         onSubmit={handleSubmit}
