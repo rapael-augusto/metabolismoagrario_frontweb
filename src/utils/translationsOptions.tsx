@@ -52,6 +52,10 @@ const translationsMap: any = {
   cultivationSystem: cultivationSystemTranslation,
 };
 
+const errorTranslation: any = {
+  "name must be longer than or equal to 4 characters": "O nome deve conter pelo menos 4 caracteres",
+}
+
 export {
   typeTranslation,
   irrigationTranslation,
@@ -60,4 +64,5 @@ export {
   translationsMap,
   filterOptionsTranlation,
   filterReferenceTranslation,
+  errorTranslation,
 };

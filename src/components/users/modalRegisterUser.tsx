@@ -9,6 +9,7 @@ import NavButton from "@/components/layout/navigationButton";
 import Select from "@/components/layout/customSelect";
 import useRegisterForm from "@/hooks/useRegisterForm";
 import Modal from "../modal";
+import { filterTextInput } from "@/utils/filterTextInput";
 
 interface Props {
 	visible: boolean;
@@ -32,6 +33,7 @@ export default function ModalRegisterUser({ visible, handleVisible }: Props) {
     async function handleSubmit(){
         if(await cadastroEvento()){
             handleVisible(false);
+            window.location.reload();
         }
     }
 
@@ -51,7 +53,7 @@ export default function ModalRegisterUser({ visible, handleVisible }: Props) {
                             classe={"form-input-boxReg"}
                             label={"Nome"}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                setName((e.target as HTMLInputElement).value)
+                                setName(filterTextInput((e.target as HTMLInputElement).value))
                             }
                             value={name}
                         />

@@ -17,6 +17,13 @@ export default function ModalShowCultivarReview({
 }: ModalProps) {
   if (!reviewSelected) return null;
 
+  const dateStatusType: any = {
+    "APPROVED" : "Data de aprovação",
+	  "PENDING" : "Data de solicitação",
+	  "REJECTED" : "Data de rejeição",
+	  "CHANGES_REQUESTED" : "Data de solicitação de alterações",
+  }
+
   return (
     <Modal isOpen={isModalOpen} size="lg">
       <Modal.Header
@@ -105,7 +112,7 @@ export default function ModalShowCultivarReview({
               />
               {reviewSelected.reviewed_at && (
                 <InputDefault
-                  label="Data de aprovação"
+                  label={dateStatusType[reviewSelected.status]}
                   value={new Date(
                     reviewSelected.reviewed_at
                   ).toLocaleDateString("pt-BR", {
