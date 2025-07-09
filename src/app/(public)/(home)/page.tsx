@@ -22,7 +22,7 @@ const inicialHome = () => {
             />
             <p className={styles.logoTitle}>Metabolismo Agrário</p>
           </div>
-          <Image src={"/LMTSLogo.png"} alt="lmts" width={180} height={80} />
+          <Image src={"/LMTSLogo.png"} alt="lmts" width={180} height={80}/>
           <Image src={"/ufapeLogo.png"} alt="ufape" width={120} height={120} />
         </div>
         <div className={styles.contText}>

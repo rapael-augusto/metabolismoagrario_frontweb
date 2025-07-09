@@ -20,7 +20,7 @@ import useConstantForm from "@/hooks/useConstantForm";
 
 import styles from "@/styles/constant/createConstant.module.css";
 import { PPL_Constants } from "@/types/conversionFactor";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import { useParams } from "next/navigation";
 import AutoCompleteTextInput from "@/components/forms/autoCompleteTextInput";
@@ -30,6 +30,9 @@ import {
   filterOptionsTranlation,
   filterReferenceTranslation,
 } from "@/utils/translationsOptions";
+import { filterTextInput } from "@/utils/filterTextInput";
+import Link from "next/link";
+import { FaChevronLeft } from "react-icons/fa";
 
 const CriarConstant = () => {
   const params = useParams();
@@ -50,6 +53,7 @@ const CriarConstant = () => {
 
   console.log(constantsFormData);
   const [parteAtual, setParteAtual] = useState<number>(1);
+  const [allowSubmissionWithNulls, setAllowSubmissionWithNulls] = useState(false);
   const camposEnvironment: (keyof IEnvironmentData)[] = [
     "climate",
     "biome",
@@ -60,20 +64,51 @@ const CriarConstant = () => {
   ];
   const camposReference: (keyof IReferenceFormData)[] = ["title", "comment"];
 
+  useEffect(() => {
+    setAllowSubmissionWithNulls(false);
+  }, [constantsFormData]);
+
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (parteAtual === 1) {
-      setParteAtual(2);
-    } else {
-      await handleCreateReference(id);
+  e.preventDefault();
+  
+  if (parteAtual === 1) {
+    setParteAtual(2);
+    return;
+  }
+
+  const isNull: string[] = [];
+  typeSelectOptions.forEach((constantType) => {
+    const constantKey = constantType.value as keyof PPL_Constants;
+    const constantValue = constantsFormData[constantKey] ?? 0;
+    if (constantValue === 0) {
+      isNull.push(constantType.label);
     }
-  };
+  });
+
+  if (isNull.length > 0 && !allowSubmissionWithNulls) {
+    toast.dismiss();
+    toast.warning(`Os seguintes campos são nulos: ${isNull.join(", ")}. Tem certeza que deseja continuar?`,
+  {
+    autoClose: false,
+  });
+    setAllowSubmissionWithNulls(true)
+    return;
+  }
+
+  await handleCreateReference(id);
+  setAllowSubmissionWithNulls(false);
+};
 
   return (
     <Layout>
       <div className={styles.createConstant}>
         <div className="form-title">
           <h2 className="tittle-login">Cadastrar Referência</h2>
+          <div className="container-button-crops">
+            <Link href={`/cultivars/view/${id}`}>
+              <FaChevronLeft color="#000" />
+            </Link>
+          </div>
           <div className={styles.pageHeaderList}>
             <div
               className={
@@ -94,13 +129,13 @@ const CriarConstant = () => {
         <form className="form-container" onSubmit={handleSubmit}>
           {parteAtual === 1 && (
             <>
-              <h3>Informações sobre a Referência</h3>
-
               <AutoCompleteTextInput
                 label="Título"
                 placeholder="Título da referência, EX: Livro X, Autor (2000)"
                 handleOnChange={(e: string) =>
-                  handleReferenceChange({ title: e })
+                  handleReferenceChange({
+                    title: filterTextInput(e, { allowNumbers: true }),
+                  })
                 }
                 type="text"
                 value={referenceFormData.title ?? ""}
@@ -113,7 +148,11 @@ const CriarConstant = () => {
                 label="Observações"
                 placeholder="Observações sobre a referência, EX: Retirado da página Y"
                 onChange={(e) =>
-                  handleReferenceChange({ comment: e.target.value })
+                  handleReferenceChange({
+                    comment: filterTextInput(e.target.value, {
+                      allowNumbers: true, allowSpecialChars: true
+                    }),
+                  })
                 }
                 type="text"
                 value={referenceFormData.comment ?? ""}
@@ -203,35 +242,47 @@ const CriarConstant = () => {
                 />
                 <Button
                   texto="Próximo"
-                  classe="form-button"
+                  classe="referenceForm-button"
                   disabled={loading}
                   tipo="button"
                   onclick={() => {
-                    const environmentNaoPreenchido = camposEnvironment.filter(
-                      (campo) => environmentFormData[campo] === undefined
-                    );
-                    const referenceNaoPreenchido = camposReference.filter(
-                      (campo) =>
-                        !referenceFormData[campo] ||
-                        referenceFormData[campo]?.length < 3
-                    );
-                    if (
-                      environmentNaoPreenchido.length > 0 ||
-                      referenceNaoPreenchido.length > 0
-                    ) {
-                      const traducaoEnvironment = environmentNaoPreenchido.map(
-                        (campo) => filterOptionsTranlation[campo] || campo
-                      );
-                      const traducaoReference = referenceNaoPreenchido.map(
-                        (campo) => filterReferenceTranslation[campo] || campo
-                      );
-                      toast.error(
-                        `Por favor preencha adequadamente os campos: ${traducaoReference.join(
-                          ", "
-                        )}, ${traducaoEnvironment.join(", ")}`
-                      );
-                      return;
-                    } else {
+                    let hasError = false;
+                    camposEnvironment.forEach((campo) => {
+                      if (environmentFormData[campo] === undefined) {
+                        const nomeCampo =
+                          filterOptionsTranlation[campo] || campo;
+                        toast.warning(
+                          `Por favor selecione adequadamente o campo: ${nomeCampo}!`
+                        );
+                        hasError = true;
+                      }
+                    });
+
+                    camposReference.forEach((campo) => {
+                      if (!referenceFormData[campo]) {
+                        const nomeCampo =
+                          filterReferenceTranslation[campo] || campo;
+                        toast.warning(`Por favor preencha o campo: ${nomeCampo}!`);
+                        hasError = true;
+                      }
+                    });
+
+                    camposReference.forEach((campo) => {
+                      if (
+                        referenceFormData[campo] != null &&
+                        referenceFormData[campo].length > 0 &&
+                        referenceFormData[campo].length < 3
+                      ) {
+                        const nomeCampo =
+                          filterReferenceTranslation[campo] || campo;
+                        toast.warning(
+                          `O ${nomeCampo} deve conter pelo menos 3 caracteres!`
+                        );
+                        hasError = true;
+                      }
+                    });
+
+                    if (!hasError) {
                       setParteAtual(2);
                     }
                   }}
@@ -269,14 +320,14 @@ const CriarConstant = () => {
               <div className={styles.formNavigation}>
                 <Button
                   texto="Voltar"
-                  classe="form-button"
+                  classe="navButton-voltar-form"
                   disabled={loading}
                   tipo="button"
                   onclick={() => setParteAtual(1)}
                 />
                 <Button
                   texto="Cadastrar"
-                  classe="form-button"
+                  classe="referenceForm-button"
                   disabled={loading}
                 />
               </div>

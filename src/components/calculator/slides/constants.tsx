@@ -41,7 +41,7 @@ export default function ConstantsSlide() {
               <InputDefault
                 type="number"
                 label={typeTranslation[typedKey]}
-                value={constant?.value ?? 0}
+                value={constant ? Number(constant.value).toString() : 0}
                 step="0.1"
                 min={0}
                 onChange={(e) => updateConstantValue(typedKey, e.target.value)}

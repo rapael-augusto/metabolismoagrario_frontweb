@@ -6,6 +6,7 @@ import ListConstantsHeader from "../modal/listConstantsHeader";
 import Modal from "@/components/modal";
 import { Constant, Reference } from "@/types/cultivarTypes";
 import EnvironmentCard from "../environmentCard";
+import { toast } from "react-toastify";
 
 export default function ReferencesSlide() {
 	const { filteredReferences: references, selectConstants } =
@@ -27,6 +28,8 @@ export default function ReferencesSlide() {
 	};
 
 	const handleOnCloseModal = () => {
+		setSelectedReference(null);
+  		setEnvironmentSelectedId(""); 
 		setIsModalOpen(false);
 	};
 
@@ -52,6 +55,7 @@ export default function ReferencesSlide() {
 			constants.length > 0 ? selectedReference.id || null : null
 		);
 	};
+
 
 	return (
 		<Slide>

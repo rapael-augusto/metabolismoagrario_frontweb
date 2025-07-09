@@ -53,7 +53,7 @@
 }
 
 .reviewButton {
-  background-color: var(--text-muted);
+  background-color: var(--warning);
   color: white;
 }
 

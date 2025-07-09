@@ -4,6 +4,8 @@ import Styles from "@/styles/cultivar/referenceDropdown.module.css";
 import EnvironmentDropdown from "./environmentDropdown";
 import { EnvironmentData } from "@/types/cultivarTypes";
 import ModalEditReferenceTitle from "../references/modalEditReferenceTitle";
+import { getRoleFromStorage, getRoleFromToken } from "@/utils/authUtils";
+import { useAuthContext } from "@/contexts/auth/authContext";
 
 export default function ReferenceDropdown({
   environmentData,
@@ -21,6 +23,7 @@ export default function ReferenceDropdown({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalEditVisible, setIsModalEditVisible] = useState(false);
+  const { user } = useAuthContext();
 
   const handleEditVisible = (isVisible: boolean) => {
     setIsModalEditVisible(isVisible);
@@ -42,15 +45,17 @@ export default function ReferenceDropdown({
       >
         <div className={Styles.headerContainer}>
           {title}
-          <div className={Styles.buttonsContainer}>
-            <span
-              className={Styles.actionEditButton}
-              onClick={handleEdit}
-              title={"Editar Livro"}
-            >
-              <FaEdit />
-            </span>
-          </div>
+            {isOpen && user && user.role === "ADMIN" &&
+            <div className={Styles.buttonsContainer}>
+              <span
+                className={Styles.actionEditButton}
+                onClick={handleEdit}
+                title={"Editar Livro"}
+              >
+                <FaEdit />
+              </span>
+            </div>
+          }
         </div>
         {isOpen ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
       </button>

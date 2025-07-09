@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 interface ModalProps {
   isModalOpen: boolean;
   handleModalOpen: (isOpen: boolean) => void;
-  reviewSelected: CultivarReviewType;
+   reviewSelected: CultivarReviewType;
   handleReject: (status: ReviewStatus, justification: string) => Promise<void>;
   handleApprove: (approve: boolean, justification: string) => Promise<void>;
 }
@@ -65,7 +65,7 @@ export default function ModalApproveCultivar({
           : "solicitação de alterações"
       }`,
       message: `Você está prestes a ${currentAction.message} a cultivar "${reviewSelected?.Cultivar.name}".`,
-      details: action != "approve" ? `Justificativa: ${justification}` : "",
+      details: justification ? `Justificativa: ${justification}` : "-",
       variant: currentAction.variant,
       confirmText:
         action === "approve"
@@ -222,9 +222,9 @@ export default function ModalApproveCultivar({
       </Modal.Main>
       <Modal.Footer
         cancelText="Cancelar"
-        // submitText="Aprovar"
-        onCancel={() => handleModalOpen(false)}
-        // onSubmit={() => handleApprove(true, justification)}
+        submitText="Aprovar"
+        onCancel={() => {setJustification(""); handleModalOpen(false)}}
+        onSubmit={() => handleApprove(true, justification)}
       />
     </Modal>
   );

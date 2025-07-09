@@ -100,7 +100,7 @@ export default function ListConstantsHeader() {
 					/>
 				</Modal.Main>
 				<Modal.Footer
-					cancelText="Voltar"
+					cancelText="Cancelar"
 					submitText="Filtrar"
 					onCancel={handleCloseModal}
 					onSubmit={handleConfirmModal}

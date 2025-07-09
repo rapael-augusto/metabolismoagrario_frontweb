@@ -45,7 +45,7 @@
 }
 
 .sectionHeader {
-  padding: 0rem 1.5rem;
+  padding: 0.2rem 1.5rem;
   margin-bottom: 0.8rem;
 }
 
@@ -283,11 +283,6 @@
   transition: all 0.2s;
 }
 
-.referenceItem.selected {
-  border: 2px solid var(--light-green);
-  background-color: #effff0;
-}
-
 .referenceItem:hover {
   background-color: #f5f5f5;
   border-color: #ccc;
@@ -296,10 +291,11 @@
 .referenceItem.selected {
   border: 2px solid #4caf50;
   background-color: #f8fff8;
+  transition: all ease 0.5s;
 }
 
 .referenceItem.selected::after {
-  content: "✓ Selecionado";
+  content: "✓";
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
@@ -334,7 +330,7 @@
 }
 
 .environmentCard {
-  border: 1px solid #e0e0e0;
+  border: 2px solid #e0e0e0;
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -346,10 +342,11 @@
 .environmentCard.selected {
   border: 2px solid #4caf50;
   background-color: #f8fff8;
+  transition: all ease 0.3s;
 }
 
 .environmentCard.selected::after {
-  content: "✓ Selecionado";
+  content: "✓";
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
@@ -362,14 +359,14 @@
 
 .environmentDetails {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
 .environmentDetails p {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #555;
 }
 

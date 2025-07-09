@@ -13,14 +13,17 @@
   font-size: 16px;
   height: 38px;
   padding: 0 12px;
-  border: 1px solid transparent;
   border-radius: 7px;
-  background-color: transparent;
-  border: 1px solid #4c6444;
-  background-color: #4c6444;
+  border: 1px solid var(--primary-color);
+  background-color: var(--primary-color);
   color: white;
   font-weight: bold;
   text-decoration: none;
   transition: all ease 0.4s;
   cursor: pointer;
+}
+
+.register-button:hover {
+  background-color: white;
+  color: var(--primary-color);
 }

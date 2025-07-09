@@ -171,17 +171,17 @@ export default function Reviews() {
     const service = new cultivarService();
 
     if (!selectedReview) {
-      toast.error("Houve um erro ao tentar atualizar a solicitação");
+      toast.error("Houve um erro ao tentar atualizar a solicitação!");
       return;
     }
 
     if (justification.length === 0 && status != "APPROVED") {
-      toast.error("A justificativa não pode estar vazia");
+      toast.error("A justificativa não pode estar vazia!");
       return;
     }
 
     if (justification.length < 10) {
-      toast.error("A justificativa deve conter pelo menos 10 caracteres");
+      toast.error("A justificativa deve conter pelo menos 10 caracteres!");
       return;
     }
 
@@ -214,7 +214,7 @@ export default function Reviews() {
   return (
     <Layout>
       <div className="cropsPage">
-        <h2 className="titulo-crops">Lista de solicitações</h2>
+        <h2 className="titulo-crops">Lista de Solicitações</h2>
         <SearchForm placeholder="Pesquisa por nome" onSearch={handleSearch} />
         <div className="container-button-crops">
           <NavButton Url="/home" text={"Voltar"} type="voltar" page="list" />

@@ -123,7 +123,7 @@
 }
 
 .statusColumnWrapper.info {
-  background-color: var(--info);
+  background-color: var(--warning);
   color: var(--white);
 }
 
@@ -170,4 +170,8 @@
 
 .actions-header {
   text-align: center;
+}
+
+.action-icon:hover {
+  color: var(--primary-color);
 }

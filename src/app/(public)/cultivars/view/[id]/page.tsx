@@ -14,6 +14,7 @@ import { useAuthContext } from "@/contexts/auth/authContext";
 import { CultivarView } from "@/types/cultivarTypes";
 import React from "react";
 import ReferenceDropdown from "@/components/cultivars/referenceDropdown";
+import { ReferenceTablePagination } from "@/components/table/referenceTable";
 
 const ViewCultivar = () => {
   const params = useParams();
@@ -25,8 +26,13 @@ const ViewCultivar = () => {
   const [cultivar, setCultivar] = useState<CultivarView | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
+  const [cId, setCId] = useState<string | null>(null);
   const { user } = useAuthContext();
 
+  useEffect(() => {
+    const storedCId = localStorage.getItem("tempCId");
+    setCId(storedCId);
+  }, []);
   useEffect(() => {
     if (!id) {
       setLoading(false);
@@ -53,7 +59,12 @@ const ViewCultivar = () => {
           Detalhes da Cultivar {cultivar && cultivar.name}
         </h2>
         <div className="container-button-crops">
-          <Link href="#" onClick={() => router.back()}>
+          <Link
+            href={`/cultivars/${cId}`}
+            onClick={() => {
+              router.push(cId? `/cultivars/${cId}` : "/home");
+            }}
+          >
             <FaChevronLeft color="#000" />
           </Link>
         </div>
@@ -93,18 +104,14 @@ const ViewCultivar = () => {
               </div>
               <div className={Styles.dropdownsContainer}>
                 {cultivar && cultivar.references.length > 0 && id ? (
-                  <>
-                    {cultivar.references.map((item, index) => (
-                      <ReferenceDropdown
-                        title={item.title}
-                        comment={item.comment}
-                        environmentData={item.environments}
-                        id={item.id}
-                        cultivarId={id}
-                        key={`referenceDropDown${index}`}
-                      />
-                    ))}
-                  </>
+                  <ReferenceTablePagination
+                    data={cultivar.references.map((ref) => ({
+                      ...ref,
+                      comment: ref.comment ?? "",
+                    }))}
+                    cultivarId={id}
+                    perPage={5}
+                  />
                 ) : (
                   <p className={Styles.noReferenceTitle}>
                     Nenhuma referência encontrada

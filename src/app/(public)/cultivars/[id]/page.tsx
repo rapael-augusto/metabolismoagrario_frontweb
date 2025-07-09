@@ -16,6 +16,7 @@ import ModalEditCultivar from "@/components/cultivars/modalEditCultivar";
 import { getSession } from "@/libs/sessionLib";
 import { useAuthContext } from "@/contexts/auth/authContext";
 import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface FilterOptions {
 	key: keyof cultivarsData;
@@ -32,10 +33,12 @@ const Cultivars = () => {
 	const [titulo, setTitulo] = useState<string | any>("");
 	const { user } = useAuthContext();
 	const params = useParams();
-	const id = typeof params.id === "string" ? params.id : "";
+	const cId = typeof params.id === "string" ? params.id : "";
+	const router = useRouter();
+
 	useEffect(() => {
 		const service = new cropsService();
-		service.findOne(id).then((response) => {
+		service.findOne(cId).then((response) => {
 			setDados(response.cultivars);
 			setTitulo(response.name);
 		});
@@ -54,10 +57,10 @@ const Cultivars = () => {
 					setDados(updatedData);
 					toast.success("Cultivar removida com sucesso!");
 					console.log("Cultivar removida");
+					window.location.reload();
 				} catch (error) {
 					console.error("Falha ao deletar constante:", error);
 				}
-			} else {
 			}
 		},
 		[dados]
@@ -77,7 +80,8 @@ const Cultivars = () => {
 	}, [dados, filterCriteria]);
 
 	const handleView = (id: string) => {
-		window.location.href = `/cultivars/view/${id}`;
+		localStorage.setItem('tempCId', cId);
+		router.push(`/cultivars/view/${id}`);
 	};
 
 	const handleEdit = (id: string) => {
@@ -140,7 +144,7 @@ const Cultivars = () => {
 			<div className="cropsPage">
 				<h2 className="titulo-crops">Cultivares de {titulo}</h2>
 				<SearchForm
-					placeholder="Pesquisa por nome"
+					placeholder="Pesquisa por nome"	
 					onSearch={(search: string) => handleFilter(search, "name")}
 				/>
 
@@ -166,12 +170,12 @@ const Cultivars = () => {
 				<ModalCreateCultivar
 					handleVisible={handleVisible}
 					visible={modalCreateVisible}
-					id={id}
+					id={cId}
 				/>
 				<ModalEditCultivar
 					visible={modalEditVisible}
 					handleVisible={(isVisible: boolean) => setModalEditVisible(isVisible)}
-					id={id}
+					id={cId}
 					cultivarId={selectedCultivar?.id ?? ""}
 				/>
 			</div>

@@ -31,7 +31,7 @@ export default function ModalViewUser({ visible, handleVisible, userId }: Props)
 	return (
 		<Modal isOpen={visible} size="sm">
 			<Modal.Header
-				title="Visualizar usuário"
+				title="Visualizar Usuário"
 				description=""
 				onClose={() => handleVisible(false)}
 			/>

@@ -3,6 +3,7 @@ import Auth from "@/services/auth";
 import { redirect, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { UserResponseType, UserRoles } from "@/types/authType";
+import { userErrorTranslation } from "@/utils/translationsOptions";
 
 const useRegisterForm = () => {
   const auth = new Auth();
@@ -65,7 +66,7 @@ const useRegisterForm = () => {
     // Se houve algum erro
     if (data.errors) {
       if (Array.isArray(data.errors)) {
-        data.errors.map((message: string) => toast.error(message));
+        data.errors.map((message: string) => toast.error(userErrorTranslation[message] || message));
         return;
       }
       toast.error(data.errors);
@@ -102,7 +103,7 @@ const useRegisterForm = () => {
         if (typeof message === "string" && message === "User already exists")
           toast.error("Esse E-mail já está em uso!");
         else if (Array.isArray(message)) {
-          toast.error(message[0]);
+          toast.error(userErrorTranslation[message[0]]);
         } else {
           toast.success("Usuário cadastrado com sucesso!");
           router.push("/usersList");

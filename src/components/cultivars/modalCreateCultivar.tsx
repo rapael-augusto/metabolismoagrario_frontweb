@@ -1,6 +1,8 @@
 import InputDefault from "@/components/forms/inputDefault";
 import Modal from "../modal";
 import useCultivarForm from "@/hooks/useCultivarForm";
+import { filterTextInput, isOnlyNumbers } from "@/utils/filterTextInput";
+import { toast } from "react-toastify";
 
 export default function ModalCreateCultivar({
 	visible,
@@ -13,10 +15,27 @@ export default function ModalCreateCultivar({
 }) {
 	const { name, setName, cadastroCultivar } = useCultivarForm(id);
 
+	function validate(){
+		let errors = [];
+		if(name.length < 3) errors.push("O nome da Cultivar deve conter pelo menos 3 letras!");
+		if(isOnlyNumbers(name)) errors.push("O nome da Cultivar não pode conter apenas números!");
+		if(name.charAt(0) === " ") errors.push("O nome da Cultivar não pode começar com espaço!");
+		if(errors.length > 0){
+			errors.forEach(error => toast.error(error));
+			return false;
+		}
+		return true;
+	}
+
 	const handleCadastro = async () => {
-		const ret = await cadastroCultivar();
-		if (ret) handleVisible(false);
+		if(validate()){
+			const ret = await cadastroCultivar();
+			if (ret) handleVisible(false);
+			window.location.reload();
+		}
+		return;
 	};
+
 	return (
 		<Modal isOpen={visible} size="md">
 			<Modal.Header
@@ -31,7 +50,7 @@ export default function ModalCreateCultivar({
 					placeholder="Nome Cultivar"
 					value={name}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-						setName(e.target.value)
+						setName(filterTextInput(e.target.value, { allowNumbers: true }))
 					}
 					type={"text"}
 				/>
