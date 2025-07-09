@@ -161,6 +161,7 @@ export default function EnvironmentDropdown({
             handleVisible={handleDeleteVisible}
             environmentId={environmentData.environment.id}
             referenceId={referenceId}
+            cultivarId={cultivarId}
           />
         </>
       )}

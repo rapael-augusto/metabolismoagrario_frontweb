@@ -81,13 +81,10 @@ export class ReferenceService {
     }
   }
 
-  async deleteEnvironment(referenceId: string, environmentId: string) {
+  async deleteEnvironment(referenceId: string, environmentId: string, cultivarId: string) {
     try {
       const { data } = await Axios.delete(
-        `/references/environment/${referenceId}`,
-        {
-          data: { environments: [environmentId] },
-        }
+        `/environments/${environmentId}/reference/${referenceId}/cultivar/${cultivarId}`,
       );
       return {
         success: true,

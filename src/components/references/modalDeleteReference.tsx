@@ -8,6 +8,7 @@ interface props {
     handleVisible: (visible: boolean) => void;
     environmentId: string;
     referenceId: string;
+    cultivarId: string;
 }
 
 export default function ModalDeleteReference({
@@ -15,19 +16,20 @@ export default function ModalDeleteReference({
     handleVisible,
     environmentId,
     referenceId,
+    cultivarId,
 } : props ){
 
     const referenceService = new ReferenceService();
     const toggleDelete = async () => {
-        await referenceService.deleteEnvironment(referenceId, environmentId);
-        // window.location.reload();
+        await referenceService.deleteEnvironment(referenceId, environmentId, cultivarId);
+        window.location.reload();
     }
 
     return (
         <Modal isOpen={visible} size="sm" position="top-center">
             <Modal.Header 
-                title="Deletar Referência"
-                description="Tem certeza que deseja deletar esta referência?"
+                title="Deletar Ambiente"
+                description="Tem certeza que deseja deletar este ambiente?"
                 onClose={() => handleVisible(false)}
             />
             <Modal.Main>
