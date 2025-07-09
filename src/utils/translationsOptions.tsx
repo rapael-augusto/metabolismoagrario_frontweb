@@ -52,8 +52,9 @@ const translationsMap: any = {
   cultivationSystem: cultivationSystemTranslation,
 };
 
-const errorTranslation: any = {
-  "name must be longer than or equal to 4 characters": "O nome deve conter pelo menos 4 caracteres",
+const userErrorTranslation: any = {
+  "name must be longer than or equal to 4 characters": "O nome deve conter pelo menos 4 caracteres!",
+  "password is not strong enough" : "A senha deve conter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas e números!",
 }
 
 export {
@@ -64,5 +65,5 @@ export {
   translationsMap,
   filterOptionsTranlation,
   filterReferenceTranslation,
-  errorTranslation,
+  userErrorTranslation,
 };

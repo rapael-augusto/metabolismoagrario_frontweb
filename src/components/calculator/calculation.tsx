@@ -8,7 +8,8 @@ interface CalculationProps {
 
 export const Calculation = ({ calculation }: CalculationProps) => {
 	return (
-		<div className={`${styles.calculationBox}`}>
+		// console.log(calculation.canNotCalculate),
+		<div className={calculation.canNotCalculate ? `${styles.calculationErrorBox}` : `${styles.calculationBox}`}>
 			{calculation.canNotCalculate ? (
 				<>
 					<h5>Não foi possível calular</h5>
