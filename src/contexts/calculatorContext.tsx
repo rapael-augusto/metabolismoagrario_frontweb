@@ -140,7 +140,7 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 			const dryMatterBiomass = calculator.getDryMatterBiomass();
 			const residueDryMatterBiomass = calculator.getResidueDryMatterBiomass();
 			const dryMatterBiomassTotal = calculator.getDryMatterBiomassTotal();
-
+			console.log(totalAerialBiomass.canNotCalculate);
 			setCalculations({
 				productivity,
 				totalAerialBiomass,

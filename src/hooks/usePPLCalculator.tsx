@@ -40,9 +40,9 @@ export const usePPLCalculator = ({
 			};
 		const result = harvestedProduction / area;
 		const calculation = `${harvestedProduction} / ${area}`;
-		console.log(`Fórmula: ${formula}`);
-		console.log(`Cálculo: ${calculation}`);
-		console.log(`Resultado: ${result.toFixed(2)} (t/ha)`);
+		// console.log(`Fórmula: ${formula}`);
+		// console.log(`Cálculo: ${calculation}`);
+		// console.log(`Resultado: ${result.toFixed(2)} (t/ha)`);
 
 		return {
 			name: "Produtividade MF",
@@ -57,7 +57,8 @@ export const usePPLCalculator = ({
 	const getTotalAerialBiomass = (): PPlCalculationsReturn => {
 		const productivity = getProductivity();
 		const formula = `${productivity.name} / ${typeTranslation["HARVEST_INDEX"]}`;
-		if (productivity.canNotCalculate || constants.HARVEST_INDEX <= 0)
+		// if (productivity.canNotCalculate || constants.HARVEST_INDEX <= 0)
+		if (constants.HARVEST_INDEX <= 0 || !constants.HARVEST_INDEX)
 			return {
 				name: "Biomassa aérea total",
 				result: -1,
@@ -70,9 +71,9 @@ export const usePPLCalculator = ({
 		const result = productivity.result / constants.HARVEST_INDEX;
 		const calculation = `${productivity.result} / ${constants.HARVEST_INDEX}`;
 
-		console.log(`Fórmula: ${formula}`);
-		console.log(`Cálculo: ${calculation}`);
-		console.log(`Resultado: ${result.toFixed(2)} (t/ha)`);
+		// console.log(`Fórmula: ${formula}`);
+		// console.log(`Cálculo: ${calculation}`);
+		// console.log(`Resultado: ${result.toFixed(2)} (t/ha)`);
 
 		return {
 			name: "Biomassa aérea total",
@@ -103,9 +104,9 @@ export const usePPLCalculator = ({
 		const result = constants.AERIAL_RESIDUE_INDEX * totalAerialBiomass.result;
 		const calculation = `${constants.AERIAL_RESIDUE_INDEX} * ${totalAerialBiomass.result}`;
 
-		console.log(`Fórmula: ${formula}`);
-		console.log(`Cálculo: ${calculation}`);
-		console.log(`Resultado: ${result.toFixed(2)} (t/ha)`);
+		// console.log(`Fórmula: ${formula}`);
+		// console.log(`Cálculo: ${calculation}`);
+		// console.log(`Resultado: ${result.toFixed(2)} (t/ha)`);
 
 		return {
 			name: "Biomassa do resíduo",
@@ -120,7 +121,9 @@ export const usePPLCalculator = ({
 	const getDryMatterBiomass = (): PPlCalculationsReturn => {
 		const productivity = getProductivity();
 		const formula = `${productivity.name} * ${typeTranslation["PRODUCT_DRY_MATTER_FACTOR"]}`;
-		if (productivity.canNotCalculate || constants.PRODUCT_DRY_MATTER_FACTOR < 0)
+		// if (productivity.canNotCalculate || constants.PRODUCT_DRY_MATTER_FACTOR < 0)
+		// console.log(`TESTE 2: ${constants.PRODUCT_DRY_MATTER_FACTOR}`);
+		if (constants.PRODUCT_DRY_MATTER_FACTOR < 0 || !constants.PRODUCT_DRY_MATTER_FACTOR){
 			return {
 				name: "Biomassa colhida em matéria seca",
 				result: -1,
@@ -130,12 +133,13 @@ export const usePPLCalculator = ({
 				canNotCalculate: true,
 				cantCalculateMessage: `${productivity.name} não calculada ou ${typeTranslation["PRODUCT_DRY_MATTER_FACTOR"]} inválida!`,
 			};
+		}
 		const result = productivity.result * constants.PRODUCT_DRY_MATTER_FACTOR;
 		const calculation = `${productivity.result} * ${constants.PRODUCT_DRY_MATTER_FACTOR}`;
 
-		console.log(`Fórmula: ${formula}`);
-		console.log(`Cálculo: ${calculation}`);
-		console.log(`Resultado: ${result.toFixed(2)} (t/ha)`);
+		// console.log(`Fórmula: ${formula}`);
+		// console.log(`Cálculo: ${calculation}`);
+		// console.log(`Resultado: ${result.toFixed(2)} (t/ha)`);
 
 		return {
 			name: "Biomassa colhida em matéria seca",
@@ -152,7 +156,7 @@ export const usePPLCalculator = ({
 		const formula = `${residueBiomass.name} * ${typeTranslation["RESIDUE_DRY_MATTER_FACTOR"]}`;
 		if (
 			residueBiomass.canNotCalculate ||
-			constants.RESIDUE_DRY_MATTER_FACTOR < 0
+			constants.RESIDUE_DRY_MATTER_FACTOR < 0 || !constants.RESIDUE_DRY_MATTER_FACTOR
 		)
 			return {
 				name: "Biomassa do resíduo em matéria seca",
@@ -166,9 +170,9 @@ export const usePPLCalculator = ({
 		const result = residueBiomass.result * constants.RESIDUE_DRY_MATTER_FACTOR;
 		const calculation = `${residueBiomass.result} * ${constants.RESIDUE_DRY_MATTER_FACTOR}`;
 
-		console.log(`Fórmula: ${formula}`);
-		console.log(`Cálculo: ${calculation}`);
-		console.log(`Resultado: ${result.toFixed(2)} (t/ha)`);
+		// console.log(`Fórmula: ${formula}`);
+		// console.log(`Cálculo: ${calculation}`);
+		// console.log(`Resultado: ${result.toFixed(2)} (t/ha)`);
 
 		return {
 			name: "Biomassa do resíduo em matéria seca",
@@ -200,9 +204,9 @@ export const usePPLCalculator = ({
 		const result = dryMatterBiomass.result + residueDryMatterBiomass.result;
 		const calculation = `${dryMatterBiomass.result} + ${residueDryMatterBiomass.result}`;
 
-		console.log(`Fórmula: ${formula}`);
-		console.log(`Cálculo: ${calculation}`);
-		console.log(`Resultado: ${result.toFixed(2)} (t/ha)`);
+		// console.log(`Fórmula: ${formula}`);
+		// console.log(`Cálculo: ${calculation}`);
+		// console.log(`Resultado: ${result.toFixed(2)} (t/ha)`);
 
 		return {
 			name: "Biomassa total em matéria seca",

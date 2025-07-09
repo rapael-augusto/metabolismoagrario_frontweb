@@ -41,21 +41,33 @@ export const Footer: React.FunctionComponent = () => {
 				</div>
 
 				<div className={`${Styles.imgFlex} ${Styles.mediaSocial}`}>
-					<Image
-						src={"/logo_email.svg"}
-						alt="logo lmts"
-						width={30}
-						height={30}
-						className="logo-facebook"
-					/>
+					<a
+						href="mailto:lmts@ufape.edu.br"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<Image
+							src={"/logo_email.svg"}
+							alt="logo lmts"
+							width={30}
+							height={30}
+							className="logo-facebook"
+						/>
+					</a>
 
-					<Image
-						src={"/logo_facebook.svg"}
-						alt="logo lmts"
-						width={30}
-						height={30}
-						className="logo-facebook"
-					/>
+					<a
+						href="https://www.facebook.com/lmts.ufape"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<Image
+							src={"/logo_facebook.svg"}
+							alt="logo lmts"
+							width={30}
+							height={30}
+							className="logo-facebook"
+						/>
+					</a>
 
 					<a
 						href="https://www.instagram.com/lmts_ufape/"

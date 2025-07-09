@@ -39,11 +39,11 @@ export default function ReferencesSlide() {
 	};
 
 	const handleSubmit = () => {
-		if (!selectedReference || !environmentSelectedId) {
-			toast.error("Selecione uma referência!");
+		if (!selectedReference) {
+			setIsModalOpen(false);
 			return;
 		}
-		console.log(true);
+
 		const environmentSelected = selectedReference.environments.find(
 			(env) => env.environment.id === environmentSelectedId
 		);
@@ -55,6 +55,7 @@ export default function ReferencesSlide() {
 			constants.length > 0 ? selectedReference.id || null : null
 		);
 	};
+
 
 	return (
 		<Slide>

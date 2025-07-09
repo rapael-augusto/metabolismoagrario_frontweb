@@ -52,11 +52,11 @@ const useConstantForm = (params: { id: string }) => {
     const { user } = useAuthContext();
 
   useEffect(() => {
-    if (params.id) {
+    if (params.id && user) {
       fetchCountries();
       fetchReferences();
     }
-  }, [params.id]);
+  }, [params.id, user]);
 
   const fetchCountries = async () => {
     if(user){
