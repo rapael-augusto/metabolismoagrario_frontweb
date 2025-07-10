@@ -7,7 +7,7 @@
 }
 
 .inputDefault-label {
-  margin-bottom: 12px;
+  /* margin-bottom: 12px; */
   font-size: 14px;
   font-weight: bold;
 }
@@ -41,4 +41,19 @@
 
 .forgot-password a {
   color: #757575;
+}
+
+.legendWrapper {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.legendWrapper small {
+  display: block;
+}
+
+.error-wrapper small {
+  color: #e63946;
+  font-weight: 500;
 }

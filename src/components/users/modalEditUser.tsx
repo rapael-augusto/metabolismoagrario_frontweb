@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
 import Auth from "@/services/auth";
 import { UserRoles } from "@/types/authType";
 import Modal from "../modal";
-import Button from "../forms/button";
+import { validatePassword } from "@/utils/authUtils";
+import { toast } from "react-toastify";
 
 interface Props {
   visible: boolean;
@@ -22,6 +23,14 @@ export default function ModalEditUser({
   userId,
 }: Props) {
   const { user, setUser, editUser, options } = useRegisterForm();
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    oldPassword: "",
+    password: "",
+  });
+
+  const [passwordError, setPasswordError] = useState<string | null>(null);
 
   useEffect(() => {
     const authService = new Auth();
@@ -32,8 +41,57 @@ export default function ModalEditUser({
     fetchUser();
   }, [userId]);
 
-  function editTeste() {
-    editUser;
+  const handlePasswordChange = (value: string) => {
+    setUser((prev) => ({ ...prev, password: value }));
+
+    if (value.trim() === "") {
+      setPasswordError(null);
+      setErrors((prev) => ({ ...prev, password: "" }));
+    } else {
+      const error = validatePassword(value, true) as string;
+      setPasswordError(error);
+      setErrors((prev) => ({ ...prev, password: error || "" }));
+    }
+  };
+
+  const handleOldPasswordChange = (value: string) => {
+    setUser((prev) => ({ ...prev, oldPassword: value }));
+
+    if (!value.trim()) {
+      setErrors((prev) => ({
+        ...prev,
+        oldPassword: "Informe sua senha atual para alterar os dados.",
+      }));
+    } else {
+      setErrors((prev) => ({ ...prev, oldPassword: "" }));
+    }
+  };
+
+  async function handleSubmit() {
+    let hasError = false;
+
+    if (!user.oldPassword || user.oldPassword.trim() === "") {
+      setErrors((prev) => ({
+        ...prev,
+        oldPassword: "Informe sua senha atual para alterar os dados.",
+      }));
+      hasError = true;
+    } else {
+      setErrors((prev) => ({ ...prev, oldPassword: "" }));
+    }
+
+    if (user.password && errors.password) {
+      hasError = true;
+    }
+
+    if (hasError) {
+      toast.error("Corrija os erros antes de atualizar.");
+      return;
+    }
+
+    await editUser();
+    handleVisible(false);
+    window.location.reload();
   }
 
   return (
@@ -47,15 +105,12 @@ export default function ModalEditUser({
         <div className="user-form">
           <div className="container-2-column">
             <InputDefault
-              type={"text"}
-              placeholder={"Informe seu Nome"}
-              classe={"form-input-boxReg"}
-              label={"Nome"}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setUser((prevUser) => ({
-                  ...prevUser,
-                  name: e.target.value,
-                }))
+              type="text"
+              placeholder="Informe seu Nome"
+              classe="form-input-boxReg"
+              label="Nome"
+              onChange={(e) =>
+                setUser((prev) => ({ ...prev, name: e.target.value }))
               }
               value={user.name}
             />
@@ -64,55 +119,42 @@ export default function ModalEditUser({
               options={options}
               value={user.role}
               onChange={(value: string) =>
-                setUser((prevUser) => ({
-                  ...prevUser,
-                  role: value as UserRoles,
-                }))
+                setUser((prev) => ({ ...prev, role: value as UserRoles }))
               }
-              type={"form"}
+              type="form"
             />
           </div>
 
           <InputDefault
-            type={"email"}
-            placeholder={"Informe seu E-mail"}
-            classe={"form-input-boxReg"}
-            label={"E-mail"}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setUser((prevUser) => ({
-                ...prevUser,
-                email: e.target.value,
-              }))
+            type="email"
+            placeholder="Informe seu E-mail"
+            classe="form-input-boxReg"
+            label="E-mail"
+            onChange={(e) =>
+              setUser((prev) => ({ ...prev, email: e.target.value }))
             }
             value={user.email}
           />
 
           <InputDefault
-            type={"password"}
-            placeholder={"Informe sua senha atual"}
-            classe={"form-input-boxReg"}
-            label={"Senha atual"}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setUser((prevUser) => ({
-                ...prevUser,
-                oldPassword: e.target.value,
-              }))
-            }
+            type="password"
+            placeholder="Informe sua senha atual"
+            classe="form-input-boxReg"
+            label="Senha Atual"
+            onChange={(e) => handleOldPasswordChange(e.target.value)}
             value={user.oldPassword ?? ""}
+            errorMsg={errors.oldPassword || undefined}
           />
 
           <InputDefault
-            type={"password"}
-            placeholder={"Informe sua senha"}
-            classe={"form-input-boxReg"}
-            label={"Senha"}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setUser((prevUser) => ({
-                ...prevUser,
-                password: e.target.value,
-              }))
-            }
+            type="password"
+            placeholder="Informe sua nova senha"
+            classe="form-input-boxReg"
+            label="Nova Senha"
+            onChange={(e) => handlePasswordChange(e.target.value)}
             value={user.password ?? ""}
+            legend="A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas e números."
+            errorMsg={passwordError ?? undefined}
           />
         </div>
       </Modal.Main>
@@ -120,7 +162,7 @@ export default function ModalEditUser({
         cancelText="Cancelar"
         submitText="Atualizar"
         onCancel={() => handleVisible(false)}
-        onSubmit={editUser}
+        onSubmit={handleSubmit}
       />
     </Modal>
   );

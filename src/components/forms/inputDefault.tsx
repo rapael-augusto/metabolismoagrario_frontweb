@@ -6,6 +6,8 @@ import { FaEdit, FaTimes } from "react-icons/fa";
 const InputDefault: React.FC<inputDefaultType> = ({
   classe,
   label,
+  errorMsg,
+  legend,
   onChange,
   value,
   placeholder,
@@ -27,6 +29,12 @@ const InputDefault: React.FC<inputDefaultType> = ({
         {required && (
           <span style={{ color: "var(--brown)", fontSize: "1rem" }}>*</span>
         )}
+        <div className="legendWrapper">
+          <small>{legend}</small>
+          <div className="error-wrapper">
+            <small style={{ color: "red" }}>{errorMsg}</small>
+          </div>
+        </div>
       </label>
       <div
         style={{
