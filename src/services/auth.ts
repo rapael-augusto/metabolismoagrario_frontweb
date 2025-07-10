@@ -1,4 +1,4 @@
-import { loginData, cadastroData, UserResponseType } from "@/types/authType";
+import { loginData, cadastroData, UserResponseType, UserUpdatePayload } from "@/types/authType";
 import Axios from "./api";
 import { AxiosError } from "axios";
 import { createSession } from "@/libs/sessionLib";
@@ -48,7 +48,7 @@ class Auth {
 		}
 	}
 
-	async update(userId: string, userPayload: Partial<UserResponseType>) {
+	async update(userId: string, userPayload: UserUpdatePayload) {
 		try {
 			const { data } = await Axios.patch(`/users/${userId}`, userPayload);
 			return data;

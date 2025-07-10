@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Auth from "@/services/auth";
 import { redirect, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { UserResponseType, UserRoles } from "@/types/authType";
+import { UserResponseType, UserRoles, UserUpdatePayload } from "@/types/authType";
 import { userErrorTranslation } from "@/utils/translationsOptions";
 
 const useRegisterForm = () => {
@@ -62,7 +62,15 @@ const useRegisterForm = () => {
       return;
     }
 
-    const data = await auth.update(user.id, user);
+    const updateData: UserUpdatePayload = {
+      name: user.name,
+      email: user.email,
+      oldPassword: user.oldPassword,
+      password: user.password,
+      role: user.role,
+    }
+
+    const data = await auth.update(user.id, updateData);
     // Se houve algum erro
     if (data.errors) {
       if (Array.isArray(data.errors)) {
