@@ -6,7 +6,6 @@ import "@/styles/home/login.css";
 import { useParams } from "next/navigation";
 import useConstantForm from "@/hooks/useConstantForm";
 import { IEnvironmentData } from "@/types/cultivarTypes";
-import InputDefault from "../forms/inputDefault";
 import CustomSelect from "../layout/customSelect";
 import {
   biomeSelectOptions,
@@ -33,7 +32,7 @@ export default function ModalEditEnvironment({
 }: props) {
   const params = useParams();
   const id = typeof params.id === "string" ? params.id : "";
-  const { handleEnvironmentChange, handleEnvironmentUpdate } = useConstantForm({
+  const { handleEnvironmentUpdate } = useConstantForm({
     id,
   });
   const [environmentSelected, setEnvironmentSelected] = useState<{
@@ -69,14 +68,14 @@ export default function ModalEditEnvironment({
         environmentId: environmentSelected?.environmentId,
       },
       {
-        country: environmentSelected.country ?? undefined,
-        climate: environmentSelected.climate ?? undefined,
-        biome: environmentSelected.biome ?? undefined,
-        irrigation: environmentSelected.irrigation ?? undefined,
-        soil: environmentSelected.soil ?? undefined,
-        cultivationSystem: environmentSelected.cultivationSystem ?? undefined,
-        customBiome: data.customBiome ?? undefined,
-        customSoil: data.customSoil ?? undefined,
+        country: environmentSelected.country,
+        climate: environmentSelected.climate,
+        biome: environmentSelected.biome,
+        irrigation: environmentSelected.irrigation,
+        soil: environmentSelected.soil,
+        cultivationSystem: environmentSelected.cultivationSystem,
+        customBiome: data.customBiome,
+        customSoil: data.customSoil,
       }
     );
     handleVisible(false);
