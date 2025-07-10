@@ -1,6 +1,10 @@
+import React from "react";
+
 export default interface inputDefaultType {
   classe: string;
   label: string;
+  legend?: string;
+  errorMsg?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value: string | number | null;
   placeholder: string;

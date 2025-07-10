@@ -19,6 +19,14 @@ export interface UserResponseType {
 	updatedAt: string;
 }
 
+export interface UserUpdatePayload {
+  name?: string;
+  email?: string;
+  password?: string;
+  oldPassword?: string;
+  role?: UserRoles;
+}
+
 export interface cadastroData {
 	name: string;
 	email: string;

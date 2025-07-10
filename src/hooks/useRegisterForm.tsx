@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import Auth from "@/services/auth";
 import { redirect, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { UserResponseType, UserRoles } from "@/types/authType";
+import { UserResponseType, UserRoles, UserUpdatePayload } from "@/types/authType";
 import { userErrorTranslation } from "@/utils/translationsOptions";
+import { validatePassword } from "@/utils/authUtils";
 
 const useRegisterForm = () => {
   const auth = new Auth();
@@ -62,11 +63,21 @@ const useRegisterForm = () => {
       return;
     }
 
-    const data = await auth.update(user.id, user);
+    const updateData: UserUpdatePayload = {
+      name: user.name,
+      email: user.email,
+      oldPassword: user.oldPassword,
+      password: user.password,
+      role: user.role,
+    };
+
+    const data = await auth.update(user.id, updateData);
     // Se houve algum erro
     if (data.errors) {
       if (Array.isArray(data.errors)) {
-        data.errors.map((message: string) => toast.error(userErrorTranslation[message] || message));
+        data.errors.map((message: string) =>
+          toast.error(userErrorTranslation[message] || message)
+        );
         return;
       }
       toast.error(data.errors);
@@ -77,44 +88,50 @@ const useRegisterForm = () => {
   };
 
   const cadastroEvento = async () => {
-
     if (!name) {
       toast.error("Nome é um campo obrigatório para cadastrar um usuário!");
-    } else if (!email) {
+      return;
+    }
+
+    if (!email) {
       toast.error("E-mail é um campo obrigatório para cadastrar um usuário!");
-    } else if (!role) {
+      return;
+    }
+
+    if (!role) {
       toast.error(
         "Tipo de usuário é um campo obrigatório para cadastrar um usuário!"
       );
-    } else if (!password) {
-      toast.error("Senha é um campo obrigatório para cadastrar um usuário!");
-    } else {
-      const dadosCadastro = {
-        name: name,
-        email: email,
-        role: role,
-        password: password,
-      };
+      return;
+    }
 
-      try {
-        const response: any = await auth.cadastro(dadosCadastro, session);
-        const { status, message } = response;
+    if (!validatePassword(password)) return;
 
-        if (typeof message === "string" && message === "User already exists")
-          toast.error("Esse E-mail já está em uso!");
-        else if (Array.isArray(message)) {
-          toast.error(userErrorTranslation[message[0]]);
-        } else {
-          toast.success("Usuário cadastrado com sucesso!");
-          router.push("/usersList");
-          setResposta(status);
-          return true;
-        }
-      } catch (error) {
-        console.error("Erro ao cadastrar usuário:", error);
-        toast.error("Erro ao cadsatrar usuário!");
-        return false;
+    const dadosCadastro = {
+      name: name,
+      email: email,
+      role: role,
+      password: password,
+    };
+
+    try {
+      const response: any = await auth.cadastro(dadosCadastro, session);
+      const { status, message } = response;
+
+      if (typeof message === "string" && message === "User already exists")
+        toast.error("Esse E-mail já está em uso!");
+      else if (Array.isArray(message)) {
+        toast.error(userErrorTranslation[message[0]]);
+      } else {
+        toast.success("Usuário cadastrado com sucesso!");
+        router.push("/usersList");
+        setResposta(status);
+        return true;
       }
+    } catch (error) {
+      console.error("Erro ao cadastrar usuário:", error);
+      toast.error("Erro ao cadsatrar usuário!");
+      return false;
     }
   };
 
