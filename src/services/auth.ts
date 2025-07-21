@@ -59,6 +59,17 @@ class Auth {
 		}
 	}
 
+	async updateProfile(userPayload: UserUpdatePayload) {
+		try {
+			const { data } = await Axios.patch("/users/profile", userPayload);
+			return data;
+		} catch (errors: any) {
+			if (errors instanceof AxiosError) {
+				return { errors: errors.response?.data.message };
+			}
+		}
+	}
+
 	async validateForgotPassowordToken(token: string) {
 		try {
 			await Axios.get(`/password-reset/${token}`);

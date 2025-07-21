@@ -87,6 +87,37 @@ const useRegisterForm = () => {
     toast.success("Usuário atualizado com sucesso!");
   };
 
+  const editProfile = async () => {
+    if (!user.name) {
+      toast.error("Nome é um campo obrigatório para atualizar um usuário!");
+      return;
+    }
+    if (!user.email) {
+      toast.error("E-mail é um campo obrigatório para atualizar um usuário!");
+      return;
+    }
+
+    const updateData: UserUpdatePayload = {
+      name: user.name,
+      email: user.email,
+    };
+
+    const data = await auth.updateProfile(updateData);
+    // Se houve algum erro
+    if (data.errors) {
+      if (Array.isArray(data.errors)) {
+        data.errors.map((message: string) =>
+          toast.error(userErrorTranslation[message] || message)
+        );
+        return;
+      }
+      toast.error(data.errors);
+      return;
+    }
+    router.push("/profile");
+    toast.success("Usuário atualizado com sucesso!");
+  };
+
   const cadastroEvento = async () => {
     if (!name) {
       toast.error("Nome é um campo obrigatório para cadastrar um usuário!");
@@ -159,6 +190,7 @@ const useRegisterForm = () => {
     options,
     editUser,
     cadastroEvento,
+    editProfile,
   };
 };
 
