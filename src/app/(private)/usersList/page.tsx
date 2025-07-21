@@ -74,6 +74,8 @@ const UsersList = () => {
         const updatedData = dados.filter((user) => user.id !== id);
         setDados(updatedData);
         console.log("Usuário removido");
+		toast.success("Usuário removido com sucesso!");
+		window.location.reload();
       } catch (error) {
         console.error("Falha ao deletar usuário:", error);
       }
