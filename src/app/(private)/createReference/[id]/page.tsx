@@ -103,7 +103,7 @@ const CriarConstant = () => {
     <Layout>
       <div className={styles.createConstant}>
         <div className="form-title">
-          <h2 className="tittle-login">Cadastrar Referência</h2>
+          <h2 className="tittle-loginReg">Cadastrar Referência</h2>
           <div className="container-button-crops">
             <Link href={`/cultivars/view/${id}`}>
               <FaChevronLeft color="#000" />

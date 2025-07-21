@@ -84,11 +84,15 @@ export default function ModalEditUser({
       hasError = true;
     }
 
+    if(!user.password){
+      hasError = true;
+    }
+
     if (hasError) {
       toast.error("Corrija os erros antes de atualizar.");
       return;
     }
-
+    console.log(user.password, user.oldPassword);
     await editUser();
     handleVisible(false);
     window.location.reload();

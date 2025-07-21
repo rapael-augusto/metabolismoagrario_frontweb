@@ -7,7 +7,13 @@ import UserOpt from "./userOptions";
 import Styles from "@/styles/layout/header.module.css";
 import { useAuthContext } from "@/contexts/auth/authContext";
 
-export const Header: React.FunctionComponent = () => {
+interface HeaderProps {
+	isProfileVisible?: boolean;
+}
+
+export const Header: React.FunctionComponent<HeaderProps> = ({
+	isProfileVisible = true,
+}) => {
 	const { user } = useAuthContext();
 	return (
 		<React.Fragment>
@@ -26,11 +32,13 @@ export const Header: React.FunctionComponent = () => {
 						/>
 						<p className={Styles.logoTitle}>Metabolismo Agrário</p>
 					</Link>
-					<div className={Styles.menuWrapper}>
-						<ul className={Styles.listItem}>
-							<UserOpt />
-						</ul>
-					</div>
+					{ isProfileVisible &&
+						<div className={Styles.menuWrapper}>
+							<ul className={Styles.listItem}>
+								<UserOpt />
+							</ul>
+						</div>
+					}
 				</div>
 			</div>
 		</React.Fragment>

@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 import NavButton from "@/components/layout/navigationButton";
 import Image from "next/image";
 import Auth from "@/services/auth";
-import Table, { TableAction } from "@/components/table/table"; // Importando o componente Table
+import Table, { TableAction } from "@/components/table/table";
 import SearchForm from "@/components/forms/SearchForm";
 import { toast } from "react-toastify";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";

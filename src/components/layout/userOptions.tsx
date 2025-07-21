@@ -44,6 +44,9 @@ const UserOpt: React.FC = () => {
 					<Link className="link" href={"/home"}>
 						<li>Início</li>
 					</Link>
+					<Link className="link" href={`/profilePage/${user?.name}`}>
+						<li>Perfil</li>
+					</Link>
 					<li className="link" onClick={logout}>
 						Sair
 					</li>
