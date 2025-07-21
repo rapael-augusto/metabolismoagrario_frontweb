@@ -17,159 +17,165 @@ import { useAuthContext } from "@/contexts/auth/authContext";
 import ModalViewUser from "@/components/users/modalViewUser";
 import ModalEditUser from "@/components/users/modalEditUser";
 import ModalRegisterUser from "@/components/users/modalRegisterUser";
+import { useConfirm } from "@/contexts/confirmationModal/confirmationModalContext";
 
 interface DataUserType {
-	id: string;
-	name: string;
-	email: string;
-	role: "ADMIN" | "OPERATOR";
+  id: string;
+  name: string;
+  email: string;
+  role: "ADMIN" | "OPERATOR";
 }
 
 const UsersList = () => {
-	const [dados, setDados] = useState<DataUserType[]>([]);
-	const [filtredData, setFiltredData] = useState<DataUserType[]>([]);
-	const { user } = useAuthContext();
-	const [modalCreateVisible, setModalCreateVisible] = useState(false);
-	const [modalEditVisible, setModalEditVisible] = useState(false);
-	const [modalRegisterVisible, setModalRegisterVisible] = useState(false);
-	const [selectedUserId, setSelectedUserId] = useState("");
+  const [dados, setDados] = useState<DataUserType[]>([]);
+  const [filtredData, setFiltredData] = useState<DataUserType[]>([]);
+  const { user } = useAuthContext();
+  const [modalCreateVisible, setModalCreateVisible] = useState(false);
+  const [modalEditVisible, setModalEditVisible] = useState(false);
+  const [modalRegisterVisible, setModalRegisterVisible] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState("");
+  const confirm = useConfirm();
 
-	useEffect(() => {
-		const auth = new Auth();
+  useEffect(() => {
+    const auth = new Auth();
 
-		auth.UsersList().then((res) => {
-			setDados(res);
-			setFiltredData(res);
-		});
-	}, []);
+    auth.UsersList().then((res) => {
+      setDados(res);
+      setFiltredData(res);
+    });
+  }, []);
 
-	const handleView = (id: string) => {
-		setModalCreateVisible(true);
-		setSelectedUserId(id);
-	};
+  const handleView = (id: string) => {
+    setModalCreateVisible(true);
+    setSelectedUserId(id);
+  };
 
-	const handleEdit = (id: string) => {
-		setModalEditVisible(true);
-		setSelectedUserId(id);
-	};
+  const handleEdit = (id: string) => {
+    setModalEditVisible(true);
+    setSelectedUserId(id);
+  };
 
-	const handleRegister = () => {
-		setModalRegisterVisible(true);
-	};
+  const handleRegister = () => {
+    setModalRegisterVisible(true);
+  };
 
-	const handleDelete = useCallback(
-		async (id: string) => {
-			const token = sessionStorage.getItem("@token");
+  const handleDelete = useCallback(
+    async (id: string, targetName: string) => {
+      const confirmed = await confirm({
+        title: `Deseja deletar o usuário: ${targetName}?`,
+        message: "",
+        variant: "danger",
+		confirmText: "Deletar"
+      });
+	  const auth = new Auth();
+	  if (!confirmed) return;
+      try {
+        await auth.deleteUser(id);
+        const updatedData = dados.filter((user) => user.id !== id);
+        setDados(updatedData);
+        console.log("Usuário removido");
+      } catch (error) {
+        console.error("Falha ao deletar usuário:", error);
+      }
+    },
+    [dados]
+  );
 
-			if (token) {
-				const auth = new Auth();
+  const handleSearch = (search: string) => {
+    const filtred = dados.filter((crop: DataUserType) =>
+      crop.name.toLowerCase().includes(search.toLowerCase())
+    );
+    console.log(search);
+    setFiltredData(filtred);
+  };
 
-				try {
-					// await auth.deleteUser(id, token);
-					// const updatedData = dados.filter(user => user.id !== id);
-					// setDados(updatedData);
-					console.log("Usuário removido");
-				} catch (error) {
-					console.error("Falha ao deletar usuário:", error);
-				}
-			} else {
-			}
-		},
-		[dados]
-	);
+  const columns = [
+    { header: "Nome", accessor: "name" },
+    { header: "E-mail", accessor: "email" },
+    { header: "Tipo", accessor: "role" },
+  ];
 
-	const handleSearch = (search: string) => {
-		const filtred = dados.filter((crop: DataUserType) =>
-			crop.name.toLowerCase().includes(search.toLowerCase())
-		);
-		console.log(search);
-		setFiltredData(filtred);
-	};
+  const actions: TableAction[] = [
+    {
+      icon: FaEye,
+      title: "Visualizar",
+      onClick: (row: any) => handleView(row.id),
+    },
+    {
+      icon: FaEdit,
+      title: "Editar",
+      onClick: (row: any) => handleEdit(row.id),
+      visible: (row: any) => (user ? user.role === "ADMIN" : false),
+    },
+    {
+      icon: FaTrash,
+      title: "Deletar",
+      onClick: (row: any) => {
+        const foundUser = filtredData.find((user) => user.id === row.id);
+        handleDelete(row.id, foundUser ? foundUser.name : "");
+      },
+      visible: (row: any) => (user ? user.role === "ADMIN" : false),
+    },
+  ];
 
-	const columns = [
-		{ header: "Nome", accessor: "name" },
-		{ header: "E-mail", accessor: "email" },
-		{ header: "Tipo", accessor: "role" },
-	];
+  const handleCreateVisible = (isVisible: boolean) => {
+    setModalCreateVisible(isVisible);
+  };
 
-	const actions: TableAction[] = [
-		{
-			icon: FaEye,
-			title: "Visualizar",
-			onClick: (row: any) => handleView(row.id),
-		},
-		{
-			icon: FaEdit,
-			title: "Editar",
-			onClick: (row: any) => handleEdit(row.id),
-			visible: (row: any) => (user ? user.role === "ADMIN" : false),
-		},
-		{
-			icon: FaTrash,
-			title: "Deletar",
-			onClick: (row: any) => handleDelete(row.id),
-			visible: (row: any) => (user ? user.role === "ADMIN" : false),
-		},
-	];
+  const handleEditVisible = (isVisible: boolean) => {
+    setModalEditVisible(isVisible);
+  };
 
-	const handleCreateVisible = (isVisible: boolean) => {
-		setModalCreateVisible(isVisible);
-	};
+  const handleRegisterVisible = (isVisible: boolean) => {
+    setModalRegisterVisible(isVisible);
+  };
 
-	const handleEditVisible = (isVisible: boolean) => {
-		setModalEditVisible(isVisible);
-	};
+  return (
+    <Layout>
+      <div className="cropsPage">
+        <h2 className="titulo-crops">Lista de Usuários</h2>
 
-	const handleRegisterVisible = (isVisible: boolean) => {
-		setModalRegisterVisible(isVisible);
-	};
+        <SearchForm placeholder="Pesquisa pelo nome" onSearch={handleSearch} />
 
-	return (
-		<Layout>
-			<div className="cropsPage">
-				<h2 className="titulo-crops">Lista de Usuários</h2>
+        <div className="list-crops">
+          <div className="container-button-crops">
+            <NavButton Url="/home" text={"Voltar"} type="voltar" page="list" />
+            <button
+              className="register-button"
+              onClick={() => handleRegisterVisible(true)}
+            >
+              Cadastrar usuário
+            </button>
+          </div>
 
-				<SearchForm placeholder="Pesquisa pelo nome" onSearch={handleSearch} />
-
-				<div className="list-crops">
-					<div className="container-button-crops">
-						<NavButton Url="/home" text={"Voltar"} type="voltar" page="list" />
-						<button
-							className="register-button"
-							onClick={() => handleRegisterVisible(true)}
-						>
-							Cadastrar usuário
-						</button>
-					</div>
-
-					<Table
-						data={filtredData}
-						columns={columns}
-						actions={actions}
-						translations={{}}
-					/>
-				</div>
-			</div>
-			{selectedUserId && (
-				<>
-					<ModalViewUser
-						visible={modalCreateVisible}
-						handleVisible={handleCreateVisible}
-						userId={selectedUserId}
-					/>
-					<ModalEditUser
-						visible={modalEditVisible}
-						handleVisible={handleEditVisible}
-						userId={selectedUserId}
-					/>
-				</>
-			)}
-			<ModalRegisterUser
-				visible={modalRegisterVisible}
-				handleVisible={handleRegisterVisible}
-			/>
-		</Layout>
-	);
+          <Table
+            data={filtredData}
+            columns={columns}
+            actions={actions}
+            translations={{}}
+          />
+        </div>
+      </div>
+      {selectedUserId && (
+        <>
+          <ModalViewUser
+            visible={modalCreateVisible}
+            handleVisible={handleCreateVisible}
+            userId={selectedUserId}
+          />
+          <ModalEditUser
+            visible={modalEditVisible}
+            handleVisible={handleEditVisible}
+            userId={selectedUserId}
+          />
+        </>
+      )}
+      <ModalRegisterUser
+        visible={modalRegisterVisible}
+        handleVisible={handleRegisterVisible}
+      />
+    </Layout>
+  );
 };
 
 export default UsersList;

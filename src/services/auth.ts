@@ -48,6 +48,17 @@ class Auth {
 		}
 	}
 
+	async deleteUser(userId: string) {
+		try {
+			const { data } = await Axios.delete(`/users/${userId}`);
+			return data;
+		} catch (errors: any) {
+			if (errors instanceof AxiosError) {
+				return { errors: errors.response?.data.message };
+			}
+		}
+	}
+
 	async update(userId: string, userPayload: UserUpdatePayload) {
 		try {
 			const { data } = await Axios.patch(`/users/${userId}`, userPayload);
