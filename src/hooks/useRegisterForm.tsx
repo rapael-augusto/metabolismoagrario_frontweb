@@ -114,8 +114,9 @@ const useRegisterForm = () => {
       toast.error(data.errors);
       return;
     }
+
     router.push("/profile");
-    toast.success("Usuário atualizado com sucesso!");
+    return data;
   };
 
   const cadastroEvento = async () => {
