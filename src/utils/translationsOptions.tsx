@@ -57,6 +57,17 @@ const userErrorTranslation: any = {
   "password is not strong enough" : "A senha deve conter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas e números!",
 }
 
+const userKeyTranslation: any = {
+  name: "Nome",
+  email: "E-mail",
+  role: "Função",
+}
+
+const userTypeTranslation: any = {
+  ADMIN: "Administrador",
+  OPERATOR: "Operador",
+}
+
 export {
   typeTranslation,
   irrigationTranslation,
@@ -66,4 +77,6 @@ export {
   filterOptionsTranlation,
   filterReferenceTranslation,
   userErrorTranslation,
+  userKeyTranslation,
+  userTypeTranslation,
 };

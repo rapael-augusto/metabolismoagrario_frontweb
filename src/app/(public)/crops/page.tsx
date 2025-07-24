@@ -68,6 +68,7 @@ const Crops = ({ params }: Props) => {
           setFiltredData(updatedData);
           toast.success("Cultura removida com sucesso!");
           console.log("Cultura removida");
+          window.location.reload();
         } catch (error) {
           console.error("Falha ao deletar cultura:", error);
           toast.success("Algo deu errado ao tentar deletar!");
