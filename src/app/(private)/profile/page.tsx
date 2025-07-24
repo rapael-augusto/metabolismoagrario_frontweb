@@ -17,10 +17,11 @@ import { UserResponseType, UserRoles } from "@/types/authType";
 
 const ProfilePage = () => {
   const router = useRouter();
-  const { user, logout } = useAuthContext();
+  const { user, logout, handleSetUser } = useAuthContext();
   const [isEditMode, setIsEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [originalUserData, setOriginalUserData] = useState<UserResponseType | null>(null);
+  const [originalUserData, setOriginalUserData] =
+    useState<UserResponseType | null>(null);
 
   const { user: formUser, setUser, editProfile } = useRegisterForm();
   const [errors, setErrors] = useState({
@@ -39,13 +40,13 @@ const ProfilePage = () => {
         password: "",
         createdAt: "",
         updatedAt: "",
-      }
+      };
       setUser(userData);
       setOriginalUserData(userData);
     }
   }, [user, setUser]);
 
-  function handleCancel(){
+  function handleCancel() {
     if (originalUserData) {
       setUser(originalUserData);
     }
@@ -68,7 +69,12 @@ const ProfilePage = () => {
         return;
       }
 
-      await editProfile();
+      const ret = await editProfile();
+
+      if (ret) {
+        handleSetUser(ret);
+      }
+
       setIsEditMode(false);
       toast.success("Perfil atualizado com sucesso!");
     } catch (error) {
@@ -84,7 +90,7 @@ const ProfilePage = () => {
         <h2>Informações do Usuário</h2>
         <div className="profile-card">
           <div className="profile-picture-box">
-            <div className="profile-picture">
+            {/* <div className="profile-picture">
               <Image
                 src={"/Profile.svg"}
                 alt="icone perfil"
@@ -93,6 +99,37 @@ const ProfilePage = () => {
                 style={{ marginTop: "10px" }}
               />
               {!isEditMode && <FaEdit className="edit-icon" title="Editar" />}
+            </div> */}
+          </div>
+          <div className="profile-info-wrapper">
+            <div className="profile-info-box">
+              {formUser &&
+                (["name", "email", "role"] as Array<keyof typeof user>).map(
+                  (key) => (
+                    <InputDefault
+                      key={key}
+                      type={"text"}
+                      placeholder={""}
+                      classe={"form-input-boxReg"}
+                      label={`${userKeyTranslation[key]}:`}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        setUser((prev) => ({
+                          ...prev,
+                          [key]: e.target.value,
+                        }));
+                      }}
+                      value={
+                        key === "role"
+                          ? userTypeTranslation[formUser[key] as UserRoles] ||
+                            ""
+                          : formUser[key] || ""
+                      }
+                      disabled={
+                        key === "role" ? true : !isEditMode || isLoading
+                      }
+                    />
+                  )
+                )}
             </div>
             <button
               className="update-button"
@@ -106,32 +143,6 @@ const ProfilePage = () => {
                 ? "Atualizar"
                 : "Editar Perfil"}
             </button>
-          </div>
-          <div className="profile-info-box">
-            {formUser &&
-              (["name", "email", "role"] as Array<keyof typeof user>).map(
-                (key) => (
-                  <InputDefault
-                    key={key}
-                    type={"text"}
-                    placeholder={""}
-                    classe={"form-input-boxReg"}
-                    label={`${userKeyTranslation[key]}:`}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      setUser((prev) => ({
-                        ...prev,
-                        [key]: e.target.value,
-                      }));
-                    }}
-                    value={
-                      key === "role"
-                        ? userTypeTranslation[formUser[key] as UserRoles] || ""
-                        : formUser[key] || ""
-                    }
-                    disabled={key === "role" ? true : !isEditMode || isLoading}
-                  />
-                )
-              )}
           </div>
         </div>
         <div className="button-container">

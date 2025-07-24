@@ -222,9 +222,10 @@ export default function ModalApproveCultivar({
       </Modal.Main>
       <Modal.Footer
         cancelText="Cancelar"
-        submitText="Aprovar"
-        onCancel={() => {setJustification(""); handleModalOpen(false)}}
-        onSubmit={() => handleApprove(true, justification)}
+        onCancel={() => {
+          setJustification("");
+          handleModalOpen(false);
+        }}
       />
     </Modal>
   );

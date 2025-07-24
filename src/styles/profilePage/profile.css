@@ -32,7 +32,7 @@ button {
   flex-direction: row;
   gap: 12px;
   align-items: flex-start;
-  justify-content: flex-start;
+  justify-content: center;
   border: 1px solid rgba(0, 0, 0, 0.267);
   border-radius: 20px;
   width: 100%;
@@ -54,6 +54,11 @@ button {
 .profile-picture {
   position: relative;
   display: inline-block;
+}
+
+.profile-info-wrapper {
+  display: flex;
+  flex-direction: column;
 }
 
 .profile-info-box {
@@ -129,6 +134,7 @@ button {
 }
 
 .update-button {
+  max-width: 10rem;
   background-color: var(--primary-color);
   border: 1px solid var(--primary-color);
   color: white;
