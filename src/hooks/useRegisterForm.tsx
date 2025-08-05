@@ -100,6 +100,8 @@ const useRegisterForm = () => {
     const updateData: UserUpdatePayload = {
       name: user.name,
       email: user.email,
+      oldPassword: user.oldPassword,
+      password: user.password,
     };
 
     const data = await auth.updateProfile(updateData);

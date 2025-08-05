@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import useRegisterForm from "@/hooks/useRegisterForm";
 import { toast } from "react-toastify";
 import { UserResponseType, UserRoles } from "@/types/authType";
+import { validatePassword } from "@/utils/authUtils";
 
 const ProfilePage = () => {
   const router = useRouter();
@@ -27,7 +28,9 @@ const ProfilePage = () => {
   const [errors, setErrors] = useState({
     name: "",
     email: "",
+    oldPassword: "",
   });
+  const [passwordError, setPasswordError] = useState<string | null>(null);
 
   useEffect(() => {
     if (user) {
@@ -51,38 +54,90 @@ const ProfilePage = () => {
       setUser(originalUserData);
     }
     setIsEditMode(false);
-    setErrors({ name: "", email: "" });
+    setErrors({ name: "", email: "", oldPassword: "" });
   }
 
   async function handleSubmit() {
     setIsLoading(true);
     try {
+      console.log(formUser.password);
+      console.log(formUser.oldPassword);
+      const isUnchanged =
+        originalUserData?.name === formUser.name &&
+        originalUserData.email === formUser.email &&
+        (!formUser.password || formUser.password === "") &&
+        (!formUser.oldPassword || formUser.oldPassword === "");
+
       const newErrors = {
-        name: !formUser?.name ? "Nome é obrigatório" : "",
+        name: !formUser?.name
+          ? "Nome é obrigatório"
+          : isUnchanged
+          ? "Nenhum dado foi atualizado!"
+          : "",
         email: !formUser?.email ? "Email é obrigatório" : "",
+        oldPassword:
+          formUser.oldPassword && formUser.oldPassword === formUser.password
+            ? "As senhas não podem ser iguais!"
+            : !formUser.oldPassword && (formUser.password && formUser.password !== "")
+            ? "Informe sua senha atual para alterar os dados."
+            : "",
       };
 
       setErrors(newErrors);
 
       if (Object.values(newErrors).some((error) => error !== "")) {
-        toast.error("Corrija os erros antes de atualizar.");
+        toast.error(
+          Object.values(newErrors)
+            .filter((msg) => msg)
+            .join(" ")
+        );
         return;
       }
 
+      // if(!isUnchanged){
+      //   if (!validatePassword(formUser.password || "")) return;
+      // }
+      
       const ret = await editProfile();
 
       if (ret) {
         handleSetUser(ret);
+        toast.success("Perfil atualizado com sucesso!");
+        setIsEditMode(false);
       }
 
-      setIsEditMode(false);
-      toast.success("Perfil atualizado com sucesso!");
     } catch (error) {
       toast.error("Erro ao atualizar perfil.");
     } finally {
       setIsLoading(false);
     }
   }
+
+  const handlePasswordChange = (value: string) => {
+    setUser((prev) => ({ ...prev, password: value }));
+
+    if (value.trim() === "") {
+      setPasswordError(null);
+      setErrors((prev) => ({ ...prev, password: "" }));
+    } else {
+      const error = validatePassword(value, true) as string;
+      setPasswordError(error);
+      setErrors((prev) => ({ ...prev, password: error || "" }));
+    }
+  };
+
+  const handleOldPasswordChange = (value: string) => {
+    setUser((prev) => ({ ...prev, oldPassword: value }));
+
+    if (!value.trim()) {
+      setErrors((prev) => ({
+        ...prev,
+        oldPassword: "Informe sua senha atual para alterar os dados.",
+      }));
+    } else {
+      setErrors((prev) => ({ ...prev, oldPassword: "" }));
+    }
+  };
 
   return (
     <Layout isProfileVisible={false}>
@@ -130,6 +185,30 @@ const ProfilePage = () => {
                     />
                   )
                 )}
+              {isEditMode && (
+                <>
+                  <InputDefault
+                    type="password"
+                    placeholder="Informe sua senha atual"
+                    classe="form-input-boxReg"
+                    label="Senha Atual"
+                    onChange={(e) => handleOldPasswordChange(e.target.value)}
+                    value={formUser?.oldPassword ?? ""}
+                    errorMsg={errors.oldPassword || undefined}
+                  />
+
+                  <InputDefault
+                    type="password"
+                    placeholder="Informe sua nova senha"
+                    classe="form-input-boxReg"
+                    label="Nova Senha"
+                    onChange={(e) => handlePasswordChange(e.target.value)}
+                    value={formUser?.password ?? ""}
+                    legend="A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas e números."
+                    errorMsg={passwordError ?? undefined}
+                  />
+                </>
+              )}
             </div>
             <button
               className="update-button"
