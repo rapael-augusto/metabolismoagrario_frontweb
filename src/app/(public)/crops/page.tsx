@@ -17,11 +17,7 @@ import ModalEditCrops from "@/components/crops/modalEditCrops";
 import { useAuthContext } from "@/contexts/auth/authContext";
 import { getSession } from "@/libs/sessionLib";
 
-interface Props {
-  params: { id: string };
-}
-
-const Crops = ({ params }: Props) => {
+const Crops = () => {
   const [cropIdSelected, setCropIdSelected] = useState("");
   const [modalEditVisible, setModalEditVisible] = useState(false);
   const [modalCreateVisible, setModalCreateVisible] = useState(false);
@@ -86,8 +82,6 @@ const Crops = ({ params }: Props) => {
     console.log(search);
     setFiltredData(filtred);
   };
-
-  console.log("filtredData", filtredData);
 
   const tableActions: TableAction[] = [
     {

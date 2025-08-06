@@ -9,17 +9,17 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import InputPassword from "@/components/forms/inputPassword";
 
-interface Props {
-  params: { token: string };
-}
-
-const ResetPassword = ({ params }: Props) => {
-  const { token } = params;
+const ResetPassword = () => {
+  const router = useRouter();
+  const params =
+    typeof window !== "undefined"
+      ? require("next/navigation").useParams()
+      : { token: "" };
+  const token = params.token;
   const [screen, setScreen] = useState<"INITIAL" | "SENT">("INITIAL");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const AuthService = new Auth();
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isShow, setIsShow] = useState(false);
 

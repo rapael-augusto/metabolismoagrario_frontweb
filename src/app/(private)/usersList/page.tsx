@@ -65,17 +65,16 @@ const UsersList = () => {
         title: `Deseja deletar o usuário: ${targetName}?`,
         message: "",
         variant: "danger",
-		confirmText: "Deletar"
+        confirmText: "Deletar",
       });
-	  const auth = new Auth();
-	  if (!confirmed) return;
+      const auth = new Auth();
+      if (!confirmed) return;
       try {
         await auth.deleteUser(id);
         const updatedData = dados.filter((user) => user.id !== id);
         setDados(updatedData);
-        console.log("Usuário removido");
-		toast.success("Usuário removido com sucesso!");
-		window.location.reload();
+        toast.success("Usuário removido com sucesso!");
+        window.location.reload();
       } catch (error) {
         console.error("Falha ao deletar usuário:", error);
       }
@@ -87,7 +86,6 @@ const UsersList = () => {
     const filtred = dados.filter((crop: DataUserType) =>
       crop.name.toLowerCase().includes(search.toLowerCase())
     );
-    console.log(search);
     setFiltredData(filtred);
   };
 

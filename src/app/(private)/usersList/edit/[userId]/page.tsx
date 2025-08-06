@@ -30,7 +30,6 @@ const editUser = () => {
 		fetchUser();
 	}, [userId]);
 
-	console.log(user);
 	return (
 		<Layout>
 			<form className="formBody-login" onSubmit={editUser}>
