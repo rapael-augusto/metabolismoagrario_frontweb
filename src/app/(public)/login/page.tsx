@@ -1,7 +1,6 @@
 "use client";
 
 import Layout from "@/components/layout/layout";
-import Button from "@/components/forms/button";
 import InputDefault from "@/components/forms/inputDefault";
 import { useState } from "react";
 import Auth from "@/services/auth";
@@ -21,30 +20,39 @@ const Home = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const loginEvento = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
     if (!email) {
       toast.info("Para realizar o login você deve informar o email!");
+      setIsLoading(false);
     } else if (!password) {
       toast.info("Para realizar o login você deve informar a senha!");
+      setIsLoading(false);
     } else {
-      //requisicao
       const dadosLogin = {
         email: email,
         password: password,
       };
-      const { status, message, user } = await auth.login(dadosLogin);
-      if (status === 1) {
-        handleSetUser(user);
-        toast.success("Bem-vindo!",{
-          style: {  
-            backgroundColor: "var(--primary-color)"
-          }
-        });
-      } else {
-        toast.error("Email e/ou senha inválidos!");
+      try {
+        const { status, message, user } = await auth.login(dadosLogin);
+        setIsLoading(false);
+        if (status === 1) {
+          handleSetUser(user);
+          toast.success("Bem-vindo!", {
+            style: {
+              backgroundColor: "var(--primary-color)",
+            },
+          });
+        } else {
+          toast.error("Email e/ou senha inválidos!");
+        }
+      } catch (error) {
+        setIsLoading(false);
+        // O toast de erro padrão já é exibido pelo interceptor global
       }
     }
   };
@@ -104,11 +112,14 @@ const Home = () => {
             </div>
 
             <div className={styles.inputBox}>
-              <Button
-                texto={"Entrar"}
-                classe={"button-homeHome"}
-                onclick={loginEvento}
-              />
+              <button
+                type="submit"
+                className={`button-homeHome`}
+                onClick={loginEvento}
+                disabled={isLoading}
+              >
+                {isLoading ? "Entrando..." : "Entrar"}
+              </button>
             </div>
           </main>
         </form>
