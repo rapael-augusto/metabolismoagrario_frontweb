@@ -58,6 +58,13 @@
   margin-top: 15px;
 }
 
+.button-homeHome:disabled {
+  background-color: #b6c8b1 !important;
+  color: #f0f0f0 !important;
+  cursor: not-allowed !important;
+  opacity: 0.7 !important;
+}
+
 .button-home:hover {
   background-color: #6f9e5b;
 }
