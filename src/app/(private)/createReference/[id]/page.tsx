@@ -51,7 +51,6 @@ const CriarConstant = () => {
     handleCreateReference,
   } = useConstantForm({ id });
 
-  console.log(constantsFormData);
   const [parteAtual, setParteAtual] = useState<number>(1);
   const [allowSubmissionWithNulls, setAllowSubmissionWithNulls] = useState(false);
   const camposEnvironment: (keyof IEnvironmentData)[] = [
@@ -268,10 +267,11 @@ const CriarConstant = () => {
                     });
 
                     camposReference.forEach((campo) => {
+                      const valor = referenceFormData[campo];
                       if (
-                        referenceFormData[campo] != null &&
-                        referenceFormData[campo].length > 0 &&
-                        referenceFormData[campo].length < 3
+                        typeof valor === "string" &&
+                        valor.length > 0 &&
+                        valor.length < 3
                       ) {
                         const nomeCampo =
                           filterReferenceTranslation[campo] || campo;

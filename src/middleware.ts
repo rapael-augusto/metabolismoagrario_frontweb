@@ -24,8 +24,6 @@ export function middleware(request: NextRequest) {
     return item.path === pathName;
   });
   const token = request.cookies.get("@token");
-  console.log("token", token);
-  console.log("url", pathName);
 
   if (publicRoute && !token) {
     return NextResponse.next();
