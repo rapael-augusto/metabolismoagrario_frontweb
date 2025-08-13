@@ -1,4 +1,4 @@
-h2 {
+.profile-page-title {
   color: #80ad6b;
   text-align: center;
   justify-content: center;
@@ -7,7 +7,7 @@ h2 {
   font-weight: bold;
 }
 
-button {
+.profile-button {
   font-size: 14px;
   padding: 10px;
   border-radius: 10px;

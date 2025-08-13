@@ -1,8 +1,6 @@
 "use client";
 import "@/styles/profilePage/profile.css";
 import Layout from "@/components/layout/layout";
-import Image from "next/image";
-import { FaEdit } from "react-icons/fa";
 import { useAuthContext } from "@/contexts/auth/authContext";
 import { useRouter } from "next/navigation";
 import InputDefault from "@/components/forms/inputDefault";
@@ -87,7 +85,7 @@ const ProfilePage = () => {
   return (
     <Layout isProfileVisible={false}>
       <div className="profile-page-container">
-        <h2>Informações do Usuário</h2>
+        <h2 className="profile-page-title">Informações do Usuário</h2>
         <div className="profile-card">
           <div className="profile-picture-box">
             {/* <div className="profile-picture">
@@ -132,7 +130,7 @@ const ProfilePage = () => {
                 )}
             </div>
             <button
-              className="update-button"
+              className="profile-button update-button"
               onClick={() => {
                 isEditMode ? handleSubmit() : setIsEditMode(!isEditMode);
               }}
@@ -148,7 +146,7 @@ const ProfilePage = () => {
         <div className="button-container">
           {isEditMode ? (
             <button
-              className="leave-button"
+              className="profile-button leave-button"
               onClick={() => handleCancel()}
               disabled={isLoading}
             >
@@ -156,10 +154,10 @@ const ProfilePage = () => {
             </button>
           ) : (
             <>
-              <button className="return-button" onClick={() => router.back()}>
+              <button className="profile-button return-button" onClick={() => router.back()}>
                 Voltar
               </button>
-              <button className="leave-button" onClick={logout}>
+              <button className="profile-button leave-button" onClick={logout}>
                 Sair
               </button>
             </>
