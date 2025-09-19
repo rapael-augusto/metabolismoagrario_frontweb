@@ -11,7 +11,7 @@ import useRegisterForm from "@/hooks/useRegisterForm";
 import Modal from "../modal";
 import { filterTextInput } from "@/utils/filterTextInput";
 import { useState } from "react";
-import { validatePassword } from "@/utils/authUtils";
+import { validatePassword, validateEmail } from "@/utils/authUtils";
 
 interface Props {
   visible: boolean;
@@ -20,6 +20,7 @@ interface Props {
 
 export default function ModalRegisterUser({ visible, handleVisible }: Props) {
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
   const {
     name,
     setName,
@@ -74,10 +75,19 @@ export default function ModalRegisterUser({ visible, handleVisible }: Props) {
             placeholder={"Informe seu E-mail"}
             classe={"form-input-boxReg"}
             label={"E-mail"}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setEmail((e.target as HTMLInputElement).value)
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const value = (e.target as HTMLInputElement).value;
+              setEmail(value);
+
+              if (value.trim() === "") {
+                setEmailError("E-mail é obrigatório.");
+              } else {
+                const error = validateEmail(value, true) as string;
+                setEmailError(error || null);
+              }
+            }}
             value={email}
+            errorMsg={emailError || undefined}
           />
 
           <InputDefault

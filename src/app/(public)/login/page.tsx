@@ -10,6 +10,7 @@ import styles from "@/styles/home/login.module.css";
 import { toast } from "react-toastify";
 import InputPassword from "@/components/forms/inputPassword";
 import { useAuthContext } from "@/contexts/auth/authContext";
+import { validateEmail } from "@/utils/authUtils";
 
 //pagina de login
 
@@ -21,6 +22,7 @@ const Home = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [emailError, setEmailError] = useState<string | null>(null);
 
   const loginEvento = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,10 +87,19 @@ const Home = () => {
                 placeholder={"Informe seu E-mail"}
                 classe={"form-input-box"}
                 label={"E-mail"}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setEmail((e.target as HTMLInputElement).value)
-                }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  const value = (e.target as HTMLInputElement).value;
+                  setEmail(value);
+
+                  if (value.trim() === "") {
+                    setEmailError("E-mail é obrigatório.");
+                  } else {
+                    const error = validateEmail(value, true) as string;
+                    setEmailError(error || null);
+                  }
+                }}
                 value={email}
+                errorMsg={emailError || undefined}
               />
 
               <InputPassword

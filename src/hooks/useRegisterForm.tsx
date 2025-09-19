@@ -4,7 +4,7 @@ import { redirect, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { UserResponseType, UserRoles, UserUpdatePayload } from "@/types/authType";
 import { userErrorTranslation } from "@/utils/translationsOptions";
-import { validatePassword } from "@/utils/authUtils";
+import { validatePassword, validateEmail } from "@/utils/authUtils";
 
 const useRegisterForm = () => {
   const auth = new Auth();
@@ -50,6 +50,8 @@ const useRegisterForm = () => {
     } else if (!user.email) {
       toast.error("E-mail é um campo obrigatório para atualizar um usuário!");
       return;
+    } else if (!validateEmail(user.email)) {
+      return; // A função validateEmail já exibe o toast de erro quando silent = false
     } else if (!user.role) {
       toast.error(
         "Tipo de usuário é um campo obrigatório para atualizar um usuário!"
@@ -97,6 +99,8 @@ const useRegisterForm = () => {
       return;
     }
 
+    if (!validateEmail(user.email)) return; // A função validateEmail já exibe o toast de erro
+
     const updateData: UserUpdatePayload = {
       name: user.name,
       email: user.email,
@@ -131,6 +135,8 @@ const useRegisterForm = () => {
       toast.error("E-mail é um campo obrigatório para cadastrar um usuário!");
       return;
     }
+
+    if (!validateEmail(email)) return; // A função validateEmail já exibe o toast de erro
 
     if (!role) {
       toast.error(
