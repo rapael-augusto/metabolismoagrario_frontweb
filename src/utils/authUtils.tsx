@@ -70,3 +70,24 @@ export const validatePassword = (
 
   return silent ? '' : true;
 };
+
+export const validateEmail = (
+  email: string,
+  silent = false
+): string | boolean => {
+  if (!email || email.trim() === "") {
+    const msg = "E-mail é obrigatório.";
+    if (!silent) toast.error(msg);
+    return silent ? msg : false;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(email)) {
+    const msg = "Por favor, insira um e-mail válido.";
+    if (!silent) toast.error(msg);
+    return silent ? msg : false;
+  }
+
+  return silent ? "" : true;
+};

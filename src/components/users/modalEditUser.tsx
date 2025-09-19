@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import Auth from "@/services/auth";
 import { UserRoles } from "@/types/authType";
 import Modal from "../modal";
-import { validatePassword } from "@/utils/authUtils";
+import { validatePassword, validateEmail } from "@/utils/authUtils";
 import { toast } from "react-toastify";
 
 interface Props {
@@ -57,34 +57,48 @@ export default function ModalEditUser({
   const handleOldPasswordChange = (value: string) => {
     setUser((prev) => ({ ...prev, oldPassword: value }));
 
-    if (!value.trim()) {
-      setErrors((prev) => ({
-        ...prev,
-        oldPassword: "Informe sua senha atual para alterar os dados.",
-      }));
+    // Remove a validação automática aqui, pois ela será feita apenas no submit
+    setErrors((prev) => ({ ...prev, oldPassword: "" }));
+  };
+
+  const handleEmailChange = (value: string) => {
+    setUser((prev) => ({ ...prev, email: value }));
+
+    if (value.trim() === "") {
+      setErrors((prev) => ({ ...prev, email: "E-mail é obrigatório." }));
     } else {
-      setErrors((prev) => ({ ...prev, oldPassword: "" }));
+      const error = validateEmail(value, true) as string;
+      setErrors((prev) => ({ ...prev, email: error || "" }));
     }
   };
 
   async function handleSubmit() {
     let hasError = false;
 
-    if (!user.oldPassword || user.oldPassword.trim() === "") {
+    // Verifica se o usuário está tentando alterar a senha
+    const hasPasswordChange = user.password && user.password.trim() !== "";
+
+    // Só exige senha atual se estiver tentando alterar a senha
+    if (
+      hasPasswordChange &&
+      (!user.oldPassword || user.oldPassword.trim() === "")
+    ) {
       setErrors((prev) => ({
         ...prev,
-        oldPassword: "Informe sua senha atual para alterar os dados.",
+        oldPassword: "Informe sua senha atual para alterar a senha.",
       }));
       hasError = true;
     } else {
       setErrors((prev) => ({ ...prev, oldPassword: "" }));
     }
 
-    if (user.password && errors.password) {
+    // Só valida a nova senha se ela foi informada
+    if (hasPasswordChange && errors.password) {
       hasError = true;
     }
 
-    if(!user.password){
+    // Valida o email
+    if (errors.email) {
       hasError = true;
     }
 
@@ -134,10 +148,9 @@ export default function ModalEditUser({
             placeholder="Informe seu E-mail"
             classe="form-input-boxReg"
             label="E-mail"
-            onChange={(e) =>
-              setUser((prev) => ({ ...prev, email: e.target.value }))
-            }
+            onChange={(e) => handleEmailChange(e.target.value)}
             value={user.email}
+            errorMsg={errors.email || undefined}
           />
 
           <InputDefault
