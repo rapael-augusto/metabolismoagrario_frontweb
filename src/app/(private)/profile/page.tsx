@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import useRegisterForm from "@/hooks/useRegisterForm";
 import { toast } from "react-toastify";
 import { UserResponseType, UserRoles } from "@/types/authType";
-import { validatePassword } from "@/utils/authUtils";
+import { validatePassword, validateEmail } from "@/utils/authUtils";
 
 const ProfilePage = () => {
   const router = useRouter();
@@ -62,21 +62,24 @@ const ProfilePage = () => {
       console.log(formUser.oldPassword);
       const isUnchanged =
         originalUserData?.name === formUser.name &&
-        originalUserData.email === formUser.email &&
-        (!formUser.password || formUser.password === "") &&
-        (!formUser.oldPassword || formUser.oldPassword === "");
+        originalUserData.email === formUser.email;
+
+      const hasPasswordChange =
+        formUser.password && formUser.password.trim() !== "";
 
       const newErrors = {
         name: !formUser?.name
           ? "Nome é obrigatório"
-          : isUnchanged
-          ? "Nenhum dado foi atualizado!"
+          : isUnchanged && !hasPasswordChange
+          ? "Nenhum dados foi alterado!"
           : "",
-        email: !formUser?.email ? "Email é obrigatório" : "",
+        email: !formUser?.email
+          ? "E-mail é obrigatório"
+          : (validateEmail(formUser.email, true) as string) || "",
         oldPassword:
           formUser.oldPassword && formUser.oldPassword === formUser.password
             ? "As senhas não podem ser iguais!"
-            : !formUser.oldPassword && (formUser.password && formUser.password !== "")
+            : hasPasswordChange && !formUser.oldPassword
             ? "Informe sua senha atual para alterar os dados."
             : "",
       };
@@ -95,7 +98,7 @@ const ProfilePage = () => {
       // if(!isUnchanged){
       //   if (!validatePassword(formUser.password || "")) return;
       // }
-      
+
       const ret = await editProfile();
 
       if (ret) {
@@ -103,7 +106,6 @@ const ProfilePage = () => {
         toast.success("Perfil atualizado com sucesso!");
         setIsEditMode(false);
       }
-
     } catch (error) {
       toast.error("Erro ao atualizar perfil.");
     } finally {
@@ -127,13 +129,29 @@ const ProfilePage = () => {
   const handleOldPasswordChange = (value: string) => {
     setUser((prev) => ({ ...prev, oldPassword: value }));
 
-    if (!value.trim()) {
-      setErrors((prev) => ({
-        ...prev,
-        oldPassword: "Informe sua senha atual para alterar os dados.",
-      }));
+    // Remove a validação automática aqui, pois ela será feita apenas no submit
+    setErrors((prev) => ({ ...prev, oldPassword: "" }));
+  };
+
+  const handleEmailChange = (value: string) => {
+    setUser((prev) => ({ ...prev, email: value }));
+
+    if (value.trim() === "") {
+      setErrors((prev) => ({ ...prev, email: "E-mail é obrigatório." }));
     } else {
-      setErrors((prev) => ({ ...prev, oldPassword: "" }));
+      const error = validateEmail(value, true) as string;
+      setErrors((prev) => ({ ...prev, email: error || "" }));
+    }
+  };
+
+  const handleFieldChange = (key: string, value: string) => {
+    if (key === "email") {
+      handleEmailChange(value);
+    } else {
+      setUser((prev) => ({
+        ...prev,
+        [key]: value,
+      }));
     }
   };
 
@@ -166,10 +184,7 @@ const ProfilePage = () => {
                       classe={"form-input-boxReg"}
                       label={`${userKeyTranslation[key]}:`}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setUser((prev) => ({
-                          ...prev,
-                          [key]: e.target.value,
-                        }));
+                        handleFieldChange(key, e.target.value);
                       }}
                       value={
                         key === "role"
@@ -179,6 +194,9 @@ const ProfilePage = () => {
                       }
                       disabled={
                         key === "role" ? true : !isEditMode || isLoading
+                      }
+                      errorMsg={
+                        key === "email" ? errors.email || undefined : undefined
                       }
                     />
                   )
@@ -233,7 +251,10 @@ const ProfilePage = () => {
             </button>
           ) : (
             <>
-              <button className="profile-button return-button" onClick={() => router.back()}>
+              <button
+                className="profile-button return-button"
+                onClick={() => router.back()}
+              >
                 Voltar
               </button>
               <button className="profile-button leave-button" onClick={logout}>
