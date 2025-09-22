@@ -16,4 +16,5 @@ export default interface inputDefaultType {
   onBlur?: (e: React.FocusEvent<HTMLInputElement, Element>) => void;
   editButton?: boolean;
   required?: boolean;
+  maxWidth?: number;
 }

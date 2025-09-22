@@ -19,6 +19,7 @@ const InputDefault: React.FC<inputDefaultType> = ({
   max,
   editButton,
   required,
+  maxWidth,
 }) => {
   const [readonly, setReadonly] = useState(editButton);
 
@@ -57,6 +58,7 @@ const InputDefault: React.FC<inputDefaultType> = ({
           disabled={disabled}
           readOnly={readonly}
           required={required}
+          style={maxWidth ? { maxWidth: `${maxWidth}vw` } : undefined}
         />
         {editButton ? (
           readonly ? (

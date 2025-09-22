@@ -9,6 +9,7 @@ interface AutoCompleteTextInputProps
   label: string;
   disclaimer?: string;
   value: string;
+  required?: boolean;
   handleOnChange: (e: string) => void;
 }
 
@@ -17,6 +18,7 @@ const AutoCompleteTextInput: React.FC<AutoCompleteTextInputProps> = ({
   label,
   disclaimer,
   value,
+  required,
   handleOnChange,
   ...inputProps
 }) => {
@@ -63,7 +65,12 @@ const AutoCompleteTextInput: React.FC<AutoCompleteTextInputProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <label className={styles.label}>{label}</label>
+      <label className={styles.label}>
+        {label}
+        {required && (
+          <span style={{ color: "var(--brown)", fontSize: "1rem" }}>*</span>
+        )}
+      </label>
       <div className={styles.container} ref={containerRef}>
         <input
           type="text"

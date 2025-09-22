@@ -99,6 +99,7 @@ function validate() {
             }
             type="text"
             value={referenceSelected?.title ?? ""}
+            required
           />
           <InputDefault
             classe="form-input-boxConst"
@@ -113,6 +114,7 @@ function validate() {
             }
             type="text"
             value={referenceSelected?.comment ?? ""}
+            required
           />
         </>
       </Modal.Main>
