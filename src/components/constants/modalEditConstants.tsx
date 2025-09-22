@@ -79,7 +79,7 @@ export default function ModalEditConstants({
         <div className={Styles.constantsWrapper}>
           {Array.isArray(constantsSelected)
             ? constantsSelected.map((constant) => (
-                <div key={constant.id}>
+                <div key={constant.id} className={Styles.constantsContainer}>
                   <InputDefault
                     classe="form-input-boxConst"
                     label={typeTranslation[constant.type]}
@@ -92,6 +92,7 @@ export default function ModalEditConstants({
                     value={constant.value}
                     min={0}
                     step="0.1"
+                    maxWidth={35}
                   />
                 </div>
               ))

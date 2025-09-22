@@ -14,6 +14,12 @@
   gap: 0.5rem;
 }
 
+.constantsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .stepIndicator {
   margin: 10px auto;
   font-weight: bold;

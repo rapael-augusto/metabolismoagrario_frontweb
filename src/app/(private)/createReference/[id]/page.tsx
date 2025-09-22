@@ -140,6 +140,7 @@ const CriarConstant = () => {
                 value={referenceFormData.title ?? ""}
                 suggestions={references}
                 disclaimer="Referências já cadastradas no banco"
+                required
               />
 
               <InputDefault
@@ -155,6 +156,7 @@ const CriarConstant = () => {
                 }
                 type="text"
                 value={referenceFormData.comment ?? ""}
+                required
               />
 
               <div className="container-2-column">
@@ -297,7 +299,7 @@ const CriarConstant = () => {
                   const constantKey = constantType.value as keyof PPL_Constants;
                   const constantValue = constantsFormData[constantKey] ?? 0;
                   return (
-                    <div key={constantType.value}>
+                    <div key={constantType.value} className={styles.constantsContainer}>
                       <InputDefault
                         classe="form-input-boxConst"
                         label={constantType.label}
@@ -312,6 +314,7 @@ const CriarConstant = () => {
                         value={Number(constantValue).toString()}
                         min={0}
                         step="0.1"
+                        maxWidth={35}
                       />
                     </div>
                   );
