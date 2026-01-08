@@ -68,7 +68,7 @@ export default function InitialSlide() {
             type="number"
             label="Área (ha)"
             value={Number(area).toString()}
-            step="0.1"
+            step="0.001"
             min={0}
             onChange={handleAreaChange}
             classe={styles.inputDefault}
@@ -80,7 +80,7 @@ export default function InitialSlide() {
             label="Produção colhida (t)"
             value={Number(harvestedProduction).toString()}
             onChange={(e) => setHarvestedProduction(Number(e.target.value.toString()))}
-            step="0.1"
+            step="0.001"
             min={0}
             classe={styles.inputDefault}
             placeholder={""}

@@ -313,7 +313,7 @@ const CriarConstant = () => {
                         required
                         value={Number(constantValue).toString()}
                         min={0}
-                        step="0.1"
+                        step="0.001"
                         maxWidth={35}
                       />
                     </div>
