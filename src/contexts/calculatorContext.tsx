@@ -140,7 +140,9 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 			const dryMatterBiomass = calculator.getDryMatterBiomass();
 			const residueDryMatterBiomass = calculator.getResidueDryMatterBiomass();
 			const dryMatterBiomassTotal = calculator.getDryMatterBiomassTotal();
-			console.log(totalAerialBiomass.canNotCalculate);
+			const aerialWeedBiomass = calculator.getAerialWeedBiomass();
+			const weedBiomass = calculator.getWeedBiomass();
+			//console.log(totalAerialBiomass.canNotCalculate);
 			setCalculations({
 				productivity,
 				totalAerialBiomass,
@@ -148,6 +150,8 @@ export const CalculatorProvider = ({ children }: { children: ReactNode }) => {
 				residueDryMatterBiomass,
 				dryMatterBiomass,
 				dryMatterBiomassTotal,
+				weedBiomass,
+				aerialWeedBiomass,
 			});
 		} else {
 			toast.error("Preencha os dados corretamente!");
