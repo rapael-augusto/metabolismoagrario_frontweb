@@ -1,0 +1,70 @@
+{
+  "initial-home": {
+    "list-1": "Acessar culturas;",
+    "list-2": "Listar usuários do sistema;",
+    "list-3": "Fazer o uso da calculadora;",
+    "access-button": "Acesse o Sistema",
+    "has-account-text": "Já possui uma conta? ",
+    "has-account-link": "Clique aqui!"
+  },
+  "translation-utils": {
+    "email-placeholder": "Informe seu E-mail",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "return": "Voltar",
+    "next": "Próxima",
+    "previous": "Anterior",
+    "name": "Nome",
+    "scientific-name": "Nome Científico",
+    "actions": {
+      "visualize": "Visualizar",
+      "edit": "Editar",
+      "delete": "Deletar"
+    }
+  },
+  "login": {
+    "form-title": "Entrar",
+    "email-error": "E-mail é obrigatório.",
+    "password-placeholder": "Informe sua senha",
+    "forgot-password-link": "Esqueceu a senha?",
+    "login-button-text": "Entrar",
+    "login-button-loading": "Entrando...",
+    "toast-error-email": "Para realizar o login você deve informar o email!",
+    "toast-error-login": "Para realizar o login você deve informar a senha!",
+    "toast-success": "Bem-vindo!",
+    "toast-error-invalid": "Email e/ou senha inválidos!"
+  },
+  "auth-utils": {
+    "password-min-char-case": "A senha deve ter pelo menos 8 caracteres.",
+    "password-uppercase-case": "A senha deve conter pelo menos uma letra maiúscula.",
+    "password-lowercase-case": "A senha deve conter pelo menos uma letra minúscula.",
+    "password-number-case": "A senha deve conter pelo menos um número.",
+    "email-required-case": "E-mail é obrigatório.",
+    "email-valid-case": "Por favor, insira um e-mail válido."
+  },
+  "modulo": {
+    "crops": "Culturas",
+    "users": "Usuários",
+    "calculator": "Calculadora",
+    "reviews": "Solicitações",
+    "self-reviews": "Minhas Solicitações"
+  },
+  "forgot-password-page": {
+    "title": "Recuperar senha",
+    "sub-title": "Informe o email para receber o código.",
+    "sent-title": "E-mail enviado!",
+    "sent-subtitle": "Verifique sua caixa de entrada para recuperar sua senha."
+  },
+  "crops-module": {
+    "crops-list": "Lista de Culturas",
+    "search-placeholder": "Pesquisa por nome",
+    "register-crops": "Cadastrar Cultura",
+    "delete-success": "Cultura removida com sucesso!",
+    "delete-error": "Algo deu errado ao tentar deletar!"
+  },
+  "table": {
+    "not-informed": "Não informado",
+    "actions": "Ações",
+    "no-register": "Nenhum registro encontrado."
+  }
+}

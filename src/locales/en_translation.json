@@ -1,0 +1,70 @@
+{
+  "initial-home": {
+    "list-1": "Access crops;",
+    "list-2": "List system users;",
+    "list-3": "Use the calculator;",
+    "access-button": "Access the System",
+    "has-account-text": "Already have an account? ",
+    "has-account-link": "Click here!"
+  },
+  "translation-utils": {
+    "email-placeholder": "Enter your email",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "return": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "name": "Name",
+    "scientific-name": "Scientific Name",
+    "actions": {
+      "visualize": "View",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
+  "login": {
+    "form-title": "Log In",
+    "email-error": "Email is required.",
+    "password-placeholder": "Enter your password",
+    "forgot-password-link": "Forgot password?",
+    "login-button-text": "Log In",
+    "login-button-loading": "Logging in...",
+    "toast-error-email": "You must enter your email to log in!",
+    "toast-error-login": "You must enter your password to log in!",
+    "toast-success": "Welcome!",
+    "toast-error-invalid": "Invalid email and/or password!"
+  },
+  "auth-utils": {
+    "password-min-char-case": "The password must be at least 8 characters long.",
+    "password-uppercase-case": "The password must contain at least one uppercase letter.",
+    "password-lowercase-case": "The password must contain at least one lowercase letter.",
+    "password-number-case": "The password must contain at least one number.",
+    "email-required-case": "Email is required.",
+    "email-valid-case": "Please enter a valid email."
+  },
+  "modulo": {
+    "crops": "Crops",
+    "users": "Users",
+    "calculator": "Calculator",
+    "reviews": "Requests",
+    "self-reviews": "My Requests"
+  },
+  "forgot-password-page": {
+    "title": "Recover password",
+    "sub-title": "Enter your email to receive the code.",
+    "sent-title": "Email sent!",
+    "sent-subtitle": "Check your inbox to recover your password."
+  },
+  "crops-module": {
+    "crops-list": "Crops List",
+    "search-placeholder": "Search by name",
+    "register-crops": "Register Crop",
+    "delete-success": "Crop successfully removed!",
+    "delete-error": "Something went wrong while trying to delete!"
+  },
+  "table": {
+    "not-informed": "Not specified",
+    "actions": "Actions",
+    "no-register": "No records found."
+  }
+}

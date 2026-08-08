@@ -1,54 +1,128 @@
 .header {
-	position: relative;
-	top: 0px;
-	width: 100vw;
-	box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.1);
-	z-index: 1;
+  position: relative;
+  top: 0px;
+  width: 100vw;
+  box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.1);
+  z-index: 1;
 }
 
 .mainHeader {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 1rem;
-	width: 80%;
-	margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .logoWrapper {
-	text-decoration: none;
-	display: flex;
-	align-items: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 
 .logoTitle {
-	max-width: 8rem;
-	font-size: 1.125rem;
-	line-height: 1.5rem;
-	font-weight: 700;
-	color: var(--primary-color);
+  max-width: 8rem;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.menuContainer {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.languageWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.languageButton {
+  color: var(--primary-color);
+  width: 40px;
+  height: 40px;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.languageButton:hover {
+  transform: translateY(-5px);
+}
+
+.languageDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+  padding: 6px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.languageDropdown button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.5rem 0.4rem;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--primary-color);
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.languageDropdown button:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.languageDropdown button.active {
+  background-color: rgba(0, 0, 0, 0.08);
+  font-weight: 600;
 }
 
 @media (max-width: 950px) {
-	.onlyLogo {
-		justify-content: center;
-	}
-	.mainHeader {
-		width: 100%;
-	}
+  .onlyLogo {
+    justify-content: center;
+  }
+  .mainHeader {
+    width: 100%;
+  }
 }
 
 .loginButton {
-	width: 100%;
-	max-width: 24rem;
-	padding: 1rem 0.8rem;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: var(--primary-color);
-	color: var(--white);
-	border-radius: 0.4rem;
-	font-weight: bold;
-	text-decoration: none;
-	text-align: center;
+  width: 100%;
+  max-width: 24rem;
+  padding: 1rem 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border-radius: 0.4rem;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+}
+
+.menuWrapper {
+  cursor: pointer;
 }

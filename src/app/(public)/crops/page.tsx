@@ -16,6 +16,7 @@ import ModalCreateCrops from "@/components/crops/modalCreateCrops";
 import ModalEditCrops from "@/components/crops/modalEditCrops";
 import { useAuthContext } from "@/contexts/auth/authContext";
 import { getSession } from "@/libs/sessionLib";
+import { useTranslation } from "react-i18next";
 
 const Crops = () => {
   const [cropIdSelected, setCropIdSelected] = useState("");
@@ -25,10 +26,11 @@ const Crops = () => {
   const [filtredData, setFiltredData] = useState<dataCropsType[] | any>([]);
   const { user } = useAuthContext();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const columns = [
-    { header: "Nome", accessor: "name" },
-    { header: "Nome científico", accessor: "scientificName" },
+    { header: t("translation-utils.name"), accessor: "name" },
+    { header: t("translation-utils.scientific-name"), accessor: "scientificName" },
   ];
 
   useEffect(() => {
@@ -58,26 +60,26 @@ const Crops = () => {
         try {
           await crops.deleteCrop(id);
           const updatedData = dados.filter(
-            (crop: { id: string }) => crop.id !== id
+            (crop: { id: string }) => crop.id !== id,
           );
           setDados(updatedData);
           setFiltredData(updatedData);
-          toast.success("Cultura removida com sucesso!");
+          toast.success(t("crops-module.delete-success"));
           console.log("Cultura removida");
           window.location.reload();
         } catch (error) {
           console.error("Falha ao deletar cultura:", error);
-          toast.success("Algo deu errado ao tentar deletar!");
+          toast.success(t("crops-module.delete-error"));
         }
       } else {
       }
     },
-    [dados]
+    [dados],
   );
 
   const handleSearch = (search: string) => {
     const filtred = dados.filter((crop: dataCropsType) =>
-      crop.name.toLowerCase().includes(search.toLowerCase())
+      crop.name.toLowerCase().includes(search.toLowerCase()),
     );
     console.log(search);
     setFiltredData(filtred);
@@ -86,18 +88,18 @@ const Crops = () => {
   const tableActions: TableAction[] = [
     {
       icon: FaEye,
-      title: "Visualizar",
+      title: t("translation-utils.actions.visualize"),
       onClick: (row: any) => handleView(row.id),
     },
     {
       icon: FaEdit,
-      title: "Editar",
+      title: t("translation-utils.actions.edit"),
       onClick: (row: any) => handleEdit(row.id),
       visible: (row: any) => (user ? user.role === "ADMIN" : false),
     },
     {
       icon: FaTrash,
-      title: "Deletar",
+      title: t("translation-utils.actions.delete"),
       onClick: (row: any) => handleDelete(row.id),
       visible: (row: any) => (user ? user.role === "ADMIN" : false),
     },
@@ -109,17 +111,17 @@ const Crops = () => {
   return (
     <Layout>
       <div className="cropsPage">
-        <h2 className="titulo-crops">Lista de Culturas</h2>
-        <SearchForm placeholder="Pesquisa por nome" onSearch={handleSearch} />
+        <h2 className="titulo-crops">{t("crops-module.crops-list")}</h2>
+        <SearchForm placeholder={t("crops-module.search-placeholder")} onSearch={handleSearch} />
         <div className="container-button-crops">
-          <NavButton Url="/modules" text={"Voltar"} type="voltar" page="list" />
+          <NavButton Url="/modules" text={t("translation-utils.return")} type="voltar" page="list" />
           {user && user.role === "ADMIN" && (
             <div>
               <button
                 onClick={() => setModalCreateVisible(true)}
                 className="navButton-cadastrar-list"
               >
-                Cadastrar Cultura
+                {t("crops-module.register-crops")}
               </button>
             </div>
           )}

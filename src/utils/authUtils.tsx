@@ -1,5 +1,7 @@
 // src/utils/authUtils.ts
+import i18next from 'i18next';
 import { jwtDecode } from 'jwt-decode';
+import { useTranslation } from 'react-i18next';
 import { toast } from "react-toastify";
 
 interface UserTokenPayload {
@@ -45,25 +47,25 @@ export const validatePassword = (
   const hasNumber = /\d/.test(password);
 
   if (password.length < minLength) {
-    const msg = "A senha deve ter pelo menos 8 caracteres.";
+    const msg = i18next.t("auth-utils.password-min-char-case");
     if (!silent) toast.error(msg);
     return silent ? msg : false;
   }
 
   if (!hasUppercase) {
-    const msg = "A senha deve conter pelo menos uma letra maiúscula.";
+    const msg = i18next.t("auth-utils.password-uppercase-case");
     if (!silent) toast.error(msg);
     return silent ? msg : false;
   }
 
   if (!hasLowercase) {
-    const msg = "A senha deve conter pelo menos uma letra minúscula.";
+    const msg = i18next.t("auth-utils.password-lowercase-case");
     if (!silent) toast.error(msg);
     return silent ? msg : false;
   }
 
   if (!hasNumber) {
-    const msg = "A senha deve conter pelo menos um número.";
+    const msg = i18next.t("auth-utils.password-number-case");
     if (!silent) toast.error(msg);
     return silent ? msg : false;
   }
@@ -76,7 +78,7 @@ export const validateEmail = (
   silent = false
 ): string | boolean => {
   if (!email || email.trim() === "") {
-    const msg = "E-mail é obrigatório.";
+    const msg = i18next.t("auth-utils.email-required-case");
     if (!silent) toast.error(msg);
     return silent ? msg : false;
   }
@@ -84,7 +86,7 @@ export const validateEmail = (
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!emailRegex.test(email)) {
-    const msg = "Por favor, insira um e-mail válido.";
+    const msg = i18next.t("auth-utils.email-valid-case");
     if (!silent) toast.error(msg);
     return silent ? msg : false;
   }

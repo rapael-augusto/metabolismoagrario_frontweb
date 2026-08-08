@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import InputPassword from "@/components/forms/inputPassword";
 import { useAuthContext } from "@/contexts/auth/authContext";
 import { validateEmail } from "@/utils/authUtils";
+import { useTranslation } from "react-i18next";
 
 //pagina de login
 
@@ -18,6 +19,7 @@ const Home = () => {
   const { handleSetUser } = useAuthContext();
   const router = useRouter();
   const auth = new Auth();
+  const { t } = useTranslation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,10 +31,10 @@ const Home = () => {
     setIsLoading(true);
 
     if (!email) {
-      toast.info("Para realizar o login você deve informar o email!");
+      toast.info(t("login.toast-error-email"));
       setIsLoading(false);
     } else if (!password) {
-      toast.info("Para realizar o login você deve informar a senha!");
+      toast.info(t("login.toast-error-login"));
       setIsLoading(false);
     } else {
       const dadosLogin = {
@@ -44,13 +46,13 @@ const Home = () => {
         setIsLoading(false);
         if (status === 1) {
           handleSetUser(user);
-          toast.success("Bem-vindo!", {
+          toast.success(t("login.toast-success"), {
             style: {
               backgroundColor: "var(--primary-color)",
             },
           });
         } else {
-          toast.error("Email e/ou senha inválidos!");
+          toast.error(t("login.toast-error-invalid"));
         }
       } catch (error) {
         setIsLoading(false);
@@ -84,7 +86,7 @@ const Home = () => {
             <div className={styles.inputWrapper}>
               <InputDefault
                 type={"email"}
-                placeholder={"Informe seu E-mail"}
+                placeholder={t("translation-utils.email-placeholder")}
                 classe={"form-input-box"}
                 label={"E-mail"}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +94,7 @@ const Home = () => {
                   setEmail(value);
 
                   if (value.trim() === "") {
-                    setEmailError("E-mail é obrigatório.");
+                    setEmailError(t("login.email-error"));
                   } else {
                     const error = validateEmail(value, true) as string;
                     setEmailError(error || null);
@@ -104,7 +106,7 @@ const Home = () => {
 
               <InputPassword
                 type={"password"}
-                placeholder={"Informe sua senha"}
+                placeholder={t("login.password-placeholder")}
                 label={"Senha"}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setPassword((e.target as HTMLInputElement).value)
@@ -117,7 +119,7 @@ const Home = () => {
                   href="/forgotPassword"
                   className={styles.forgotPassword}
                 >
-                  Esqueceu a senha?
+                  {t("login.forgot-password-link")}
                 </Link>
               </div>
             </div>
@@ -129,7 +131,7 @@ const Home = () => {
                 onClick={loginEvento}
                 disabled={isLoading}
               >
-                {isLoading ? "Entrando..." : "Entrar"}
+                {isLoading ? t("login.login-button-loading") : t("login.login-button-text")}
               </button>
             </div>
           </main>

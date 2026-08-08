@@ -8,13 +8,15 @@ import styles from "@/styles/forgotPassword/forgotPassword.module.css";
 import { FaPaperPlane } from "react-icons/fa";
 import Auth from "@/services/auth";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const ForgotPassword = () => {
-	const [screen, setScreen] = useState<"INITIAL" | "SENT">("INITIAL");
-	const [email, setEmail] = useState("");
-	const [isLoading, setIsLoading] = useState(false);
+  const [screen, setScreen] = useState<"INITIAL" | "SENT">("INITIAL");
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation();
 
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     const authService = new Auth();
@@ -30,7 +32,7 @@ const ForgotPassword = () => {
     } catch (error) {
       setIsLoading(false);
       toast.error(
-        "Não foi possível conectar ao servidor. Tente novamente mais tarde."
+        "Não foi possível conectar ao servidor. Tente novamente mais tarde.",
       );
     }
   };
@@ -48,8 +50,8 @@ const ForgotPassword = () => {
               <img src="logo_provisoriaHeader.svg" width="80px" alt="userImg" />
             </div>
             <div className={styles.contText}>
-              <h2>Recuperar senha</h2>
-              <p>Informe o email para receber o código.</p>
+              <h2>{t("forgot-password-page.title")}</h2>
+              <p>{t("forgot-password-page.sub-title")}</p>
             </div>
             <form className={styles.contForm} onSubmit={handleSubmit}>
               <label className={styles.inputDefaultLabel}>E-mail:</label>
@@ -58,7 +60,7 @@ const ForgotPassword = () => {
                 type="text"
                 id="email"
                 name="email"
-                placeholder="Informe seu E-mail"
+                placeholder={t("translation-utils.email-placeholder")}
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -70,7 +72,7 @@ const ForgotPassword = () => {
                     type="button"
                     onClick={() => console.log("Cancelar clicado!")}
                   >
-                    Cancelar
+                    {t("translation-utils.cancel")}
                   </button>
                 </Link>
                 <button
@@ -78,7 +80,7 @@ const ForgotPassword = () => {
                   type="submit"
                   disabled={isLoading}
                 >
-                  Confirmar
+                  {t("translation-utils.confirm")}
                 </button>
               </div>
             </form>
@@ -87,15 +89,15 @@ const ForgotPassword = () => {
         {screen === "SENT" && (
           <>
             <div className={styles.textFeed}>
-              <h2>E-mail enviado!</h2>
+              <h2>{t("forgot-password-page.sent-title")}</h2>
               <div className={styles.icon}>
                 <FaPaperPlane color="#80ad6b" size="65px" />
               </div>
-              <p>Verifique sua caixa de entrada para recuperar sua senha.</p>
+              <p>{t("forgot-password-page.sent-subtitle")}</p>
             </div>
             <div className={styles.butFeed}>
               <Link href="/">
-                <button className={styles.backButton}>Voltar</button>
+                <button className={styles.backButton}>{t("translation-utils.return")}</button>
               </Link>
             </div>
           </>

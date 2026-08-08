@@ -4,6 +4,7 @@ import StatusColumn from "./columns/status";
 import { IconType } from "react-icons";
 import { ReviewStatus } from "@/types/cultivarTypes";
 import { FiInfo } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 
 interface TableProps {
   data: any[];
@@ -35,6 +36,7 @@ const Table: React.FC<TableProps> = ({
   perPage = 4,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const {t} = useTranslation();
 
   const getTranslation = (
     value: string,
@@ -42,7 +44,7 @@ const Table: React.FC<TableProps> = ({
   ): string => {
     return translationMap && translationMap[value]
       ? translationMap[value]
-      : "Não informado";
+      : t("table.not-informed");
   };
 
   const displayValue = (row: any, accessor: string): string => {
@@ -52,7 +54,7 @@ const Table: React.FC<TableProps> = ({
       value = value ? value[key] : undefined;
     }
     return value === null || value === undefined || value === ""
-      ? "Não informado"
+      ? t("table.not-informed")
       : String(value);
   };
 
@@ -83,7 +85,7 @@ const Table: React.FC<TableProps> = ({
               )}
               {actions && (
                 <th scope="col" style={{ textAlign: "center" }}>
-                  Ações
+                  {t("table.actions")}
                 </th>
               )}
             </tr>
@@ -95,7 +97,7 @@ const Table: React.FC<TableProps> = ({
                   <div className="empty-state">
                     <FiInfo className="empty-icon" />
                     <span className="empty-message">
-                      Nenhum registro encontrado.
+                      {t("table.no-register")}
                     </span>
                   </div>
                 </td>
@@ -159,7 +161,7 @@ const Table: React.FC<TableProps> = ({
             onClick={() => handlePaginate(currentPage - 1)}
             disabled={currentPage === 1}
           >
-            <p>Anterior</p>
+            <p>{t("translation-utils.previous")}</p>
           </button>
           <div className="pagesWrapper">
             {Array.from({ length: pages }, (_, index) => (
@@ -177,7 +179,7 @@ const Table: React.FC<TableProps> = ({
             onClick={() => handlePaginate(currentPage + 1)}
             disabled={currentPage === pages}
           >
-            <p>Próxima</p>
+            <p>{t("translation-utils.next")}</p>
           </button>
         </div>
       )}

@@ -1,6 +1,7 @@
 import "@/styles/layout/layout.css";
 import { Header } from "./header";
 import { Footer } from "./footer";
+import '../../services/i18n'
 
 const Layout: React.FC<any> = ({ children, isProfileVisible }) => {
   return (
